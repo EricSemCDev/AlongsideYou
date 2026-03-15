@@ -17,7 +17,6 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: WebGL
-          customImage: unityci/editor:ubuntu-6000.0.43f1-webgl-3.1
       - uses: actions/upload-artifact@v4
         with:
           name: Build
