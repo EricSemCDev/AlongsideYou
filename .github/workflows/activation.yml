@@ -31,6 +31,8 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           testMode: editMode
+          unityVersion: 6000.3.11f1
+          customImage: unityci/editor:ubuntu-6000.3.11f1-webgl-3
 
   build:
     name: Build WebGL
