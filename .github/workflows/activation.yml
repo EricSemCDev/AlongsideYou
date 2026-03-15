@@ -10,6 +10,9 @@ jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,7 +34,8 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           testMode: editMode
-          unityVersion: auto
+          # Forçamos uma imagem estável do Unity 6 que já existe no Docker Hub
+          customImage: 'unityci/editor:ubuntu-6000.0.43f1-webgl-3.1'
 
   build:
     name: Build WebGL
@@ -58,6 +62,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: WebGL
+          customImage: 'unityci/editor:ubuntu-6000.0.43f1-webgl-3.1'
 
       - name: Upload Build
         uses: actions/upload-artifact@v4
