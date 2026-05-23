@@ -10,32 +10,32 @@ Essa camada narrativa não é explicitada por texto ou cutscenes longas — ela 
 
 ## Personagens
 
-### Al — Jogador 1
+### Al — Jogador 1 (Teclado)
 
-O protagonista. Um personagem pequeno, expressivo, com medo genuíno do escuro. Controlado pelo Jogador 1 via teclado. Carrega os blocos-dado e interage com os elementos físicos do mundo.
+O protagonista. Um garoto pequeno e expressivo, cabelo amarelo, com medo genuíno do escuro. Controlado pelo Jogador 1 via teclado.
 
 **Características:**
 - Não consegue entrar em áreas com luz abaixo do limite mínimo
 - Entra em pânico progressivo quando Finn se afasta demais
 - Fica mais lento conforme a ansiedade aumenta
-- Reage visualmente ao estado emocional — animações de nervosismo, recuo, mão na cabeça
+- Animações comunicam o estado emocional — nervosismo, pânico, recuo, mão na cabeça
 
 ---
 
-### Finn — Jogador 2
+### Finn — Jogador 2 (Mouse)
 
 A luz viva criada pela mente de Al como companheiro e protetor. Controlado pelo Jogador 2 via mouse.
 
-**Design visual:** chama com rosto inspirado no abajur do quarto do Al — a representação do que Al criou para não estar sozinho no escuro.
+**Design visual:** chama kawaii com rosto sorridente, sem braços e pernas. Contrasta emocionalmente com o Al — um triste, outro feliz.
 
 > Al + Finn = **Final** — a parceria entre os dois é o que leva Al ao fim da jornada.
 
 **Características:**
-- Segue o cursor do mouse com lerp — movimento fluido com atraso orgânico
-- Voa — sem gravidade, sem necessidade de pular
+- Segue o cursor com lerp — movimento fluido com atraso orgânico
+- Voa sem gravidade
 - Não é afetado pela escuridão
-- Tem colisão física — animação de espatifar e se reconstruir ao colidir com paredes
-- Tem reserva de energia que drena enquanto ilumina
+- Colisão com paredes gera animação de espatifar e se reconstruir
+- Chama muda de cor conforme energia drena — amarelo quente → azul frio
 
 ---
 
@@ -49,7 +49,7 @@ Não é um vilão com nome — é a ansiedade personificada. Áreas escuras são
 
 | Dimensão | Direção |
 |---|---|
-| **Visual** | Pixel art simples, paleta fria com pontos quentes de luz |
+| **Visual** | Pixel art flat, vista lateral, paleta fria com pontos quentes de luz |
 | **Som** | Trilha ambiente levemente melancólica, sons de puzzle satisfatórios |
 | **Emocional** | Aconchegante e desafiador — nunca punitivo ou frustrante |
 | **Narrativo** | Sutil — a história é sentida, não explicada |
@@ -60,11 +60,11 @@ Não é um vilão com nome — é a ansiedade personificada. Áreas escuras são
 
 | Bloco | Bioma | Paleta e Atmosfera |
 |---|---|---|
-| Fases 1–5 | A Névoa | Cinza azulado, neblina suave — introdução tranquila e misteriosa |
+| Fases 1–5 | A Névoa | Ilha flutuante em dungeon fechada. Cinza azulado, neblina, luz focal pequena, plantas, elevador de madeira antigo |
 | Fases 6–10 | O Labirinto | Roxo escuro, pedra e magia — mais claustrofóbico |
 | Fases 11–15 | O Abismo | Preto profundo com neon esverdeado — tenso e desorientador |
 | Fases 16–20 | O Centro | Branco e dourado — o interior mais profundo da mente, quase etéreo |
 
 ---
 
-*← [Home](Home) | [Mecânicas](Mecanicas) →*
+*← [Pilares e Hipóteses](Pilares-e-Hipoteses) | [Mecânicas](Mecanicas) →*

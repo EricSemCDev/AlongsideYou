@@ -1,54 +1,69 @@
 # Roadmap
 
-## Cronograma Geral
+## Cronograma
 
 | Período | Marco | Entregas |
 |---|---|---|
-| **Port. I — Mar–Mai 2025** | RFC + Documentação | GDD v5 finalizado, RFC completa, validação de demanda, repositório configurado |
-| **Férias — Jun–Jul 2025** | Fundação Técnica | Projeto Unity criado na 2022.3 LTS, CI/CD configurado, protótipo de movimentação |
-| **Agosto 2025** | MVP Core | Al funcional, Finn com luz e lerp, Estação de Cálculo básica, sistema de ansiedade, regra do escuro |
-| **Setembro 2025** | 3 Fases Jogáveis | MVP completo, Bloco 1 (fases 1–5), gerador procedural, playtests iniciais |
-| **Outubro 2025** | Fases 6–15 | Bloco 2 e Bloco 3, obstáculos com condições matemáticas, templates de fase |
-| **Novembro 2025** | Polimento + Entrega | Fases 16–20, arte pixel art, som, menus, WebGL no Itch.io, playtests finais |
+| **Port. I — Mar–Mai 2026** | RFC + Documentação | GDD v7, RFC completa, validação de demanda, repositório configurado |
+| **Férias — Jun–Jul 2026** | Fundação Técnica | Unity configurado, CI/CD funcionando, protótipo de movimentação |
+| **Agosto 2026** | Alpha Core | Al e Finn funcionais, Estação de Cálculo, sistema de ansiedade |
+| **Setembro 2026** | Alpha Completo | Bloco 1 (fases 1–5), gerador procedural, playtests iniciais |
+| **Outubro 2026** | Beta | Fases 6–19, obstáculos matemáticos, playtests externos |
+| **Novembro 2026** | Gold + Entrega | Fase 20, arte final, som, menus, build Itch.io |
 
 ---
 
-## MVP — Escopo Mínimo Viável
+## Fases de Desenvolvimento
 
-Prioridade de desenvolvimento para garantir entrega funcional no prazo:
+### Alpha
+Versão funcional mas sem polimento. Foco em validar mecânicas centrais.
 
-- Movimentação do Al: andar, pular, carregar e girar blocos-dado
-- Finn seguindo mouse com lerp, luz dinâmica e colisão com animação
-- Reserva de energia do Finn com recarga em fontes do mapa
-- Regra do escuro + efeito de pânico do Al
-- Raio de distância Al-Finn com corda de luz
-- Sistema de ansiedade progressiva em estágios
-- Estação de Cálculo: A op B com faíscas-operador coletadas pelo Finn
-- Gerador de puzzle procedural básico
-- Pelo menos uma reação de mapa: acender tocha ou criar ponte
-- Fagulha de Luz como objetivo + transição de fase
-- Bloco 1 completo: 5 fases jogáveis e funcionais
-- Build WebGL publicada no Itch.io
+- Movimentação do Al e Finn funcionando
+- Estação de Cálculo básica — A op B
+- Sistema de ansiedade em estágios
+- Regra do escuro e raio de distância
+- Bloco 1 completo — 5 fases jogáveis
+- Build WebGL no Itch.io
 
-## Após MVP
+### Beta
+Feature complete. Todas as mecânicas implementadas, foco em ajustes.
 
-- Blocos-dado de 6 faces e expressões com 3 valores (A op B op C)
-- Áreas de Lamento e Memórias de Gelo com condições matemáticas
+- Blocos-dado de 6 faces e expressões A op B op C
+- Áreas de Lamento e Memórias de Gelo
 - Finn passando por aberturas estreitas
-- Fases do Bloco 2 ao Bloco 4 — até 20 fases completas
+- Fases 6 a 19 implementadas
+- Playtests com público externo
+
+### Gold
+Versão final. Polimento completo para entrega.
+
 - Arte pixel art substituindo placeholders
-- Som e trilha final com progressão por estágio de ansiedade
+- Som e trilha final com progressão por estágio
+- Fase 20 implementada
+- Menus, tela de game over e tela de conclusão
+- Build final no Itch.io
 
 ---
 
-## Fora do Escopo
+## Limitações Conhecidas
 
-- Combate complexo ou inimigos com IA avançada
-- Cálculos com fração, potenciação ou regras de prioridade de operações
-- Inventário, RPG de status, crafting ou sistemas paralelos extensos
-- Punições duras por erro além do reinício de fase
 - Multiplayer online — cooperativo local é o escopo
+- Sistema de save — cada sessão começa do início
 - Escuridão dinâmica com comportamento ativo
+- Cálculos com fração, potenciação ou prioridade de operações
+- Suporte a mais de 2 jogadores
+- Localização — desenvolvido em português
+
+---
+
+## Riscos do Projeto
+
+| Risco | Impacto | Mitigação |
+|---|---|---|
+| Arte pixel art consumir mais tempo | Alto | Placeholders durante todo o desenvolvimento, arte final nas últimas semanas |
+| Balanceamento da ansiedade difícil de calibrar | Médio | Parâmetros via ScriptableObject. Playtest frequente. |
+| Gerador procedural sem soluções com certos parâmetros | Médio | Fallback para equação hardcoded após N tentativas |
+| Cooperativo dificultar playtests solo | Baixo | Modo debug com Finn controlado por IA simples |
 
 ---
 
