@@ -6,55 +6,65 @@ Registro de decisões relevantes tomadas durante o projeto, com data e justifica
 
 ## 06/03/2026
 
-### Nome do jogo alterado para Alongside You
-Nome anterior (Don't Cry Al) era fraco para portfólio. Alongside You captura parceria e superação emocional de forma poética e memorável.
+**Nome alterado para Alongside You**
+Nome anterior (Don't Cry Al) era fraco para portfólio. Alongside You captura parceria e superação emocional de forma poética.
 
-### Personagem Bobby renomeado para Finn
-Al + Finn = **Final** — reforça narrativamente que a parceria entre os dois personagens é o que leva Al ao fim da jornada. Nome anterior não tinha identidade.
+**Bobby renomeado para Finn**
+Al + Finn = Final — a parceria é o que leva Al ao fim da jornada.
 
-### Modo luz forte removido
-A mecânica não resolvia um problema de gameplay que o botão de interação já não cobrisse. Removida para simplificar o conjunto de ações do Jogador 2 sem perda de profundidade.
+**Modo luz forte removido**
+Redundante com o botão de interação. Simplifica ações do Jogador 2.
 
-### Blocos numéricos redesenhados como blocos-dado com faces giráveis
-Valores fixos tornariam cada puzzle uma busca pela combinação correta, eliminando criatividade. Faces giráveis com intervalos de valor permitem múltiplas soluções válidas e decisão ativa durante o trajeto.
+**Blocos redesenhados como dados com faces giráveis**
+Valores fixos eliminariam criatividade. Faces giráveis permitem múltiplas soluções válidas.
 
-### Faíscas-operador adicionadas como mecânica do Finn
-Finn estava passivo — só iluminava e seguia. Coletar operadores matemáticos espalhados pelo mapa torna o Jogador 2 agente ativo do puzzle, não apenas suporte de navegação.
+**Faíscas-operador como mecânica do Finn**
+Finn estava passivo. Coletar operadores torna o J2 agente ativo do puzzle.
 
-### Escuridão definida como estática
-Escuridão dinâmica adicionaria complexidade de implementação sem ganho narrativo. A ansiedade do Al não persegue — ela ocupa espaço e espera. Escuridão estática com decaimento de luz global entrega a mesma tensão com menos risco técnico.
+**Escuridão definida como estática**
+Escuridão dinâmica sem ganho narrativo. Estática com decaimento global entrega a mesma tensão.
 
 ---
 
 ## 10/03/2026
 
-### Obstáculo 'vento' redesenhado como Áreas de Lamento
-Vento não tinha conexão narrativa com o mundo interno de Al. Áreas úmidas com goteiras representam memórias dolorosas — assuntos que Al evita. A metáfora fecha em todos os níveis: narrativo, visual e mecânico.
+**Áreas de Lamento e Memórias de Gelo criadas**
+Vento e plantas não tinham conexão narrativa. Os novos obstáculos fecham narrativa e mecânica ao mesmo tempo.
 
-### Plantas fotossensíveis redesenhadas como Memórias de Gelo
-Plantas não tinham justificativa dentro da mente de Al. Estruturas de gelo que derretem com a luz do Finn representam memórias boas que Al esqueceu. Só Al pode atravessá-las — Finn não participou dessas memórias. Reforça a assimetria dos personagens com camada narrativa.
+**Corda de luz em vez de indicador numérico**
+Número de metros quebrava imersão. Corda é diegética e legível para ambos os jogadores simultaneamente.
 
-### Raio de distância Al-Finn comunicado por corda de luz em vez de indicador numérico
-Número de metros na UI quebraria a imersão do mundo interno de Al. Corda de luz entre os personagens comunica a mesma informação de forma diegética, narrativamente coerente e legível para ambos os jogadores simultaneamente.
+**Puzzle gerado proceduralmente**
+Puzzles fixos permitiriam memorização, eliminando o raciocínio matemático em repetições.
 
-### Puzzle gerado proceduralmente a cada carregamento de fase
-Puzzles fixos permitiriam memorização da solução, eliminando o raciocínio matemático em repetições. A geração procedural garante que cada partida exige novo raciocínio.
+**Sistema de ansiedade progressiva adicionado**
+Professor apontou falta de urgência. Ansiedade cria pressão coerente com a narrativa.
 
-### Sistema de ansiedade progressiva em estágios adicionado
-Professor apontou falta de fator de urgência. Sistema de ansiedade cria pressão narrativamente coerente sem inimigos externos — a pressão vem de dentro do personagem, não de fora.
+**Obstáculos com condições > e <**
+Conecta a matemática ao mundo. Resultado tem impacto direto nos obstáculos do mapa.
 
-### Obstáculos integrados ao sistema de puzzle via condições > e <
-Conecta a matemática ao mundo do jogo. O resultado da equação agora tem impacto direto nos obstáculos do mapa, tornando cada puzzle contextualmente relevante para a navegação.
-
-### Resolver equação alivia estágio de ansiedade
-Reforça que a matemática é a ferramenta de superação — cada puzzle resolvido dá alívio narrativo e mecânico, criando um loop de recompensa coerente com a narrativa.
+**Resolver equação alivia ansiedade**
+Reforça que a matemática é a ferramenta de superação — cada puzzle resolvido dá alívio narrativo e mecânico.
 
 ---
 
 ## 15/03/2026
 
-### Migração para Unity 2022.3 LTS
-Unity 6000.3.11f1 não tinha imagem Docker disponível no game-ci, impossibilitando CI/CD. A versão 2022.3 LTS tem suporte completo, estável e imagens Docker publicadas. Para um platformer 2D, não há perda de funcionalidade relevante.
+**Migração para Unity 2022.3 LTS**
+Unity 6 sem imagem Docker no game-ci. 2022.3 LTS tem suporte completo e estável para CI/CD.
+
+---
+
+## 22/05/2026
+
+**Vista lateral flat substituindo platformer convencional**
+Mais simples de implementar em pixel art. Mantém todas as mecânicas sem alteração. Referência: South Park Stick of Truth.
+
+**Pilares de design definidos**
+Professor identificou ausência de filosofia de design explícita no documento.
+
+**Pulo removido dos controles do Al**
+Vista lateral flat não exige pulo. Simplifica controles sem perder profundidade de design.
 
 ---
 

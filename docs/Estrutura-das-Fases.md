@@ -13,24 +13,24 @@ As 20 fases são agrupadas em 4 blocos de 5, cada bloco com identidade visual pr
 | 3 | Primeira fonte de recarga de energia do Finn |
 | 4 | Decaimento de luz global + sistema de ansiedade progressiva |
 | 5 | Raio de distância Al-Finn + corda de luz |
-| 6 | Áreas de Lamento com condição matemática `< X` |
+| 6 | Áreas de Lamento com condição `< X` |
 | 7 | Checkpoints de luz |
 | 8 | Blocos-dado de 6 faces |
-| 9 | Memórias de Gelo com condição matemática `> X` |
+| 9 | Memórias de Gelo com condição `> X` |
 | 10 | Resultado alvo removido — só tochas como feedback |
 | 11 | Finn passa por aberturas estreitas |
 | 12 | Expressão com 3 valores — A op B op C |
-| 13 | Fases avançadas: obstáculos mostram só `>` ou `<` sem valor numérico |
+| 13 | Obstáculos mostram só `>` ou `<` sem valor numérico |
 | 14 | Faíscas-operador em posições de difícil acesso |
 | 15 | Todas as mecânicas do bloco ativas simultaneamente |
-| 16–19 | Sem mecânicas novas — complexidade vem da combinação e do design de fase |
+| 16–19 | Sem mecânicas novas — complexidade vem da combinação |
 | 20 | Fase final — todos os elementos, maior fase do jogo |
 
 ---
 
 ## Bloco 1 — A Névoa (Fases 1–5)
 
-*Introdução tranquila e misteriosa. Paleta cinza azulado com neblina suave.*
+*Ilha flutuante em dungeon fechada. Cinza azulado, neblina suave — introdução tranquila e misteriosa.*
 
 | # | Nome | Duração | Operações |
 |---|---|---|---|

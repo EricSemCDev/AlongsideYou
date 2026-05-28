@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\eg3ca\\OneDrive\\Documentos\\GitHub\\AlongsideYou\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\eg3ca\\OneDrive\\Documentos\\GitHub\\AlongsideYou\\Assets\\Scripts\\AlMovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\AlMovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{94CEDC6C-5448-CFB4-9AC6-EC004838F422}|Assembly-CSharp.csproj|c:\\users\\eg3ca\\onedrive\\documentos\\github\\alongsideyou\\assets\\scripts\\almovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94CEDC6C-5448-CFB4-9AC6-EC004838F422}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\almovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -24,7 +24,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\AlMovement.cs",
               "ToolTip": "C:\\Users\\eg3ca\\OneDrive\\Documentos\\GitHub\\AlongsideYou\\Assets\\Scripts\\AlMovement.cs",
               "RelativeToolTip": "Assets\\Scripts\\AlMovement.cs",
-              "ViewState": "AgIAADAAAAAAAAAAAAA3wDcAAAAoAAAAAAAAAA==",
+              "ViewState": "AgIAAEMAAAAAAAAAAAA9wHQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-03T15:18:17.47Z",
               "EditorCaption": ""

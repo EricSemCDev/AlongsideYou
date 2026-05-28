@@ -8,33 +8,36 @@
 | **Linguagem** | C# |
 | **Arte** | Aseprite — pixel art |
 | **Versionamento** | GitHub (repositório público) |
-| **Gestão** | GitHub Projects — metodologia Kanban |
+| **Gestão** | GitHub Projects — Kanban |
 | **CI/CD** | GitHub Actions + game-ci |
-| **Documentação** | Wiki do GitHub |
-| **Testes** | Unity Test Framework (TDD na lógica do jogo) |
-| **Distribuição** | Itch.io (WebGL) + executável Windows |
+| **Documentação** | Wiki do GitHub + /docs |
+| **Testes** | Unity Test Framework (TDD) |
+| **Distribuição** | Itch.io (WebGL) + Windows |
 | **Licença (código)** | MIT |
 | **Licença (assets)** | CC BY-NC-SA |
 
 ---
 
-## Arquitetura
+## Arquitetura de Software
 
 ### Princípios
 
-- **ScriptableObjects** para configuração de fases — parâmetros do puzzle, dificuldade, operadores permitidos e range de valores configuráveis no editor sem alterar código
-- **Prefabs reutilizáveis** para elementos de fase — bloco-dado, faísca-operador, tocha, checkpoint, obstáculos
-- **Separação de responsabilidades** — cada sistema tem script próprio, sem acoplamento direto
+- **GameManager central** — coordena estado do jogo, transições de fase e comunicação entre sistemas
+- **Sistemas separados por responsabilidade** — cada script tem uma função clara
+- **ScriptableObjects** para configuração de fase — parâmetros configuráveis no editor sem alterar código
+- **Prefabs reutilizáveis** — bloco-dado, faísca-operador, tocha, checkpoint, obstáculos
 
 ### Sistemas Principais
 
 | Sistema | Responsabilidade |
 |---|---|
-| `PuzzleGenerator` | Gera equações proceduralmente com base no PuzzleConfig da fase |
-| `AnxietySystem` | Controla os estágios de ansiedade do Al e aplica os efeitos |
+| `GameManager` | Estado global, transições de fase, condições de vitória e derrota |
+| `PuzzleGenerator` | Gera equações procedurais com base no PuzzleConfig da fase |
+| `AnxietySystem` | Controla os 5 estágios de ansiedade e aplica efeitos |
 | `LightSystem` | Gerencia energia do Finn, decaimento global e checkpoints |
-| `DistanceRope` | LineRenderer que conecta Al e Finn, muda de cor por distância |
-| `CalculationStation` | Valida expressão montada e dispara reações no mapa |
+| `DistanceRope` | LineRenderer com lógica de cor baseada na distância Al-Finn |
+| `CalculationStation` | Valida expressão montada, dispara reações e integra obstáculos |
+| `InputManager` | Gerencia inputs do Al (teclado) e Finn (mouse) separadamente |
 
 ---
 
@@ -42,13 +45,11 @@
 
 O pipeline roda automaticamente em todo push para `develop` e em todo PR para `main`.
 
-### Jobs
+**Jobs:**
+1. **Run Tests** — Unity Test Framework
+2. **Build WebGL** — build para distribuição no Itch.io
 
-1. **Run Tests** — executa testes unitários via Unity Test Framework
-2. **Build WebGL** — gera a build para distribuição no Itch.io
-
-### Fluxo de branches
-
+**Fluxo de branches:**
 ```
 feature/xxx → develop → main
 ```
@@ -61,12 +62,12 @@ feature/xxx → develop → main
 
 ## Testes
 
-A lógica de jogo é coberta por testes unitários escritos antes da implementação (TDD):
+Lógica de jogo coberta por testes unitários escritos antes da implementação (TDD):
 
-- Gerador de puzzles — valida que toda fase gerada tem pelo menos uma solução válida
-- Sistema de ansiedade — valida transições de estágio e efeitos aplicados
-- Avaliador de expressão — valida cálculo da esquerda para direita sem prioridade de operações
-- Validação da Estação de Cálculo — valida condições `>` e `<` dos obstáculos
+- Gerador de puzzles — valida que toda fase tem ao menos uma solução válida
+- Sistema de ansiedade — valida transições de estágio e efeitos
+- Avaliador de expressão — valida cálculo esquerda para direita sem prioridade
+- Estação de Cálculo — valida condições `>` e `<` dos obstáculos
 
 ---
 
