@@ -36,6 +36,11 @@ ExportedObj/
 *.pdb.meta
 *.mdb.meta
 
+# IDE / Editor caches
+.vs/
+.idea/
+.vscode/
+
 # OS generated
 .DS_Store
 .DS_Store?
