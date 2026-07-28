@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\eg3ca\\OneDrive\\Documentos\\GitHub\\AlongsideYou\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:2:0:{94CEDC6C-5448-CFB4-9AC6-EC004838F422}|Assembly-CSharp.csproj|c:\\users\\eg3ca\\onedrive\\documentos\\github\\alongsideyou\\assets\\scripts\\almovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:2:0:{94CEDC6C-5448-CFB4-9AC6-EC004838F422}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\almovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{94CEDC6C-5448-CFB4-9AC6-EC004838F422}|Assembly-CSharp.csproj|c:\\users\\eg3ca\\onedrive\\documentos\\github\\alongsideyou\\assets\\scripts\\finnstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94CEDC6C-5448-CFB4-9AC6-EC004838F422}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\finnstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:1:0:{94CEDC6C-5448-CFB4-9AC6-EC004838F422}|Assembly-CSharp.csproj|c:\\users\\eg3ca\\onedrive\\documentos\\github\\alongsideyou\\assets\\scripts\\almovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:1:0:{94CEDC6C-5448-CFB4-9AC6-EC004838F422}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\almovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{94CEDC6C-5448-CFB4-9AC6-EC004838F422}|Assembly-CSharp.csproj|C:\\Users\\eg3ca\\OneDrive\\Documentos\\GitHub\\AlongsideYou\\assets\\scripts\\finnmovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94CEDC6C-5448-CFB4-9AC6-EC004838F422}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\finnmovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,28 +23,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AlMovement.cs",
-              "DocumentMoniker": "C:\\Users\\eg3ca\\OneDrive\\Documentos\\GitHub\\AlongsideYou\\Assets\\Scripts\\AlMovement.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\AlMovement.cs",
-              "ToolTip": "C:\\Users\\eg3ca\\OneDrive\\Documentos\\GitHub\\AlongsideYou\\Assets\\Scripts\\AlMovement.cs",
-              "RelativeToolTip": "Assets\\Scripts\\AlMovement.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAAA==",
+              "Title": "FinnState.cs",
+              "DocumentMoniker": "C:\\Users\\eg3ca\\OneDrive\\Documentos\\GitHub\\AlongsideYou\\Assets\\Scripts\\FinnState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\FinnState.cs",
+              "ToolTip": "C:\\Users\\eg3ca\\OneDrive\\Documentos\\GitHub\\AlongsideYou\\Assets\\Scripts\\FinnState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\FinnState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T15:18:17.47Z",
+              "WhenOpened": "2026-06-06T00:53:43.757Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Assets\\Scripts\\AlMovement.cs",
-              "DocumentMoniker": "C:\\Users\\eg3ca\\OneDrive\\Documentos\\GitHub\\AlongsideYou\\Assets\\Scripts\\AlMovement.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\AlMovement.cs",
-              "ToolTip": "C:\\Users\\eg3ca\\OneDrive\\Documentos\\GitHub\\AlongsideYou\\Assets\\Scripts\\AlMovement.cs",
-              "RelativeToolTip": "Assets\\Scripts\\AlMovement.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-23T23:29:24.437Z",
-              "EditorCaption": ""
+              "Title": "FinnMovement.cs",
+              "DocumentMoniker": "C:\\Users\\eg3ca\\OneDrive\\Documentos\\GitHub\\AlongsideYou\\Assets\\Scripts\\FinnMovement.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\FinnMovement.cs",
+              "ToolTip": "C:\\Users\\eg3ca\\OneDrive\\Documentos\\GitHub\\AlongsideYou\\Assets\\Scripts\\FinnMovement.cs",
+              "RelativeToolTip": "Assets\\Scripts\\FinnMovement.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADBSURBVDhPY2AYBQwMDAwMN17c\u002BO\u002B1yv2/4ETe/9aLLf7feHH9P7L8vHNz4XxkNhxYLzb/33yo4T8DAwND06GG/16r3FEUCU7khfOR2QwMDAyMMMH3\u002BZ8ZYYK6czX/X06\u002Bzjjv3Nz/xYcLkNXDgausO8OqoDUQPeimogN8LmBC5pADsBqgO1fzPwM0wGA2Ck7kRWGHrQtBuMRzlfv/5sONkEA83PjferEF0YHIwACNRqtF5v8FJ/L\u002B91zpRno0jnAAAA95Yu0ct6ifAAAAAElFTkSuQmCC",
+              "WhenOpened": "2026-06-06T00:53:43.765Z"
             }
           ]
         }
