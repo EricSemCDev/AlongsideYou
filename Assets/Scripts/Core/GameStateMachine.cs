@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public class GameStateMachine
 {
-    private static readonly HashSet<(GameState De, GameState Para)> TransicoesValidas = new()
+    private static readonly HashSet<(GameState From, GameState To)> ValidTransitions = new()
     {
         (GameState.Menu, GameState.Playing),
         (GameState.GameOver, GameState.Playing),
@@ -16,19 +16,19 @@ public class GameStateMachine
 
     public GameState CurrentState { get; private set; }
 
-    public GameStateMachine(GameState estadoInicial = GameState.Menu)
+    public GameStateMachine(GameState initialState = GameState.Menu)
     {
-        CurrentState = estadoInicial;
+        CurrentState = initialState;
     }
 
-    public bool TryTransitionTo(GameState novoEstado)
+    public bool TryTransitionTo(GameState newState)
     {
-            if (!TransicoesValidas.Contains((CurrentState, novoEstado)))
-            {
-                return false;
-            }
+        if (!ValidTransitions.Contains((CurrentState, newState)))
+        {
+            return false;
+        }
 
-        CurrentState = novoEstado;
+        CurrentState = newState;
         return true;
     }
 }

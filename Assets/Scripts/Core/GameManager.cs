@@ -4,7 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    private GameStateMachine stateMachine;
+    private readonly GameStateMachine stateMachine = new();
 
     public GameState CurrentState => stateMachine.CurrentState;
 
@@ -18,21 +18,19 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
-        stateMachine = new GameStateMachine();
     }
 
-    public bool TryTransitionTo(GameState novoEstado)
+    public bool TryTransitionTo(GameState newState)
     {
-        bool sucesso = stateMachine.TryTransitionTo(novoEstado);
+        bool success = stateMachine.TryTransitionTo(newState);
 
-        if (!sucesso)
+        if (!success)
         {
             Debug.LogWarning(
-                $"Transição inválida: {stateMachine.CurrentState} -> {novoEstado}"
+                $"Invalid transition: {stateMachine.CurrentState} -> {newState}"
             );
         }
 
-        return sucesso;
+        return success;
     }
 }
