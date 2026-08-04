@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-using UnityEngine.InputSystem;
 
 public class FinnMovement : MonoBehaviour
 {
@@ -19,27 +15,29 @@ public class FinnMovement : MonoBehaviour
         _mainRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    private void Update()
     {
         UpdateTargetPosition();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         MoveTowardsTarget();
     }
 
     private void UpdateTargetPosition()
     {
-        // Pega posição do mouse em pixels
-        Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
+        if (InputManager.Instance == null)
+        {
+            return;
+        }
 
-        // Converte para world space mantendo o Z do Finn
+        Vector2 pointerScreenPosition = InputManager.Instance.FinnPointerScreenPosition;
+
         Vector3 worldPos = _mainCamera.ScreenToWorldPoint(
-            new Vector3(mouseScreenPos.x, mouseScreenPos.y, _mainCamera.nearClipPlane)
+            new Vector3(pointerScreenPosition.x, pointerScreenPosition.y, _mainCamera.nearClipPlane)
         );
 
-        // Trava o Z para não sair do plano 2D
         _targetPosition = new Vector3(worldPos.x, worldPos.y, transform.position.z);
     }
 
@@ -50,6 +48,5 @@ public class FinnMovement : MonoBehaviour
             _targetPosition,
             followSpeed * Time.deltaTime
         ));
-        Debug.Log("Finn pos: " + _mainRigidbody.position);
     }
 }

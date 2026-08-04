@@ -3,7 +3,7 @@
     "name": "PlayerInputActions",
     "maps": [
         {
-            "name": "Player",
+            "name": "Al",
             "id": "03aa5ea7-2486-49af-b42a-831a01dfcbec",
             "actions": [
                 {
@@ -82,6 +82,34 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "Finn",
+            "id": "23518657-9e5c-42f8-a50d-1466dd840067",
+            "actions": [
+                {
+                    "name": "Point",
+                    "type": "Value",
+                    "id": "25c6b547-7364-40fa-9403-7368582c4dba",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a3bd4e01-5bf5-4df5-bc0f-021d655ba026",
+                    "path": "<Pointer>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Point",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
