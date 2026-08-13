@@ -8,6 +8,8 @@ public class InputManager : MonoBehaviour
 
     public Vector2 AlMoveInput { get; private set; }
     public Vector2 FinnPointerScreenPosition { get; private set; }
+    public Vector2 FinnStickInput { get; private set; }
+    public bool FinnPointerHeld { get; private set; }
 
     private void Awake()
     {
@@ -41,11 +43,15 @@ public class InputManager : MonoBehaviour
         if (!shouldAcceptInput)
         {
             AlMoveInput = Vector2.zero;
+            FinnStickInput = Vector2.zero;
+            FinnPointerHeld = false;
             return;
         }
 
         AlMoveInput = inputActions.Al.Move.ReadValue<Vector2>();
         FinnPointerScreenPosition = inputActions.Finn.Point.ReadValue<Vector2>();
+        FinnStickInput = inputActions.Finn.Stick.ReadValue<Vector2>();
+        FinnPointerHeld = inputActions.Finn.Hold.IsPressed();
     }
 
     private void SetInputMapsEnabled(bool enabled)
