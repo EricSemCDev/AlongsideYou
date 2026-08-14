@@ -1,10 +1,14 @@
 # Personagens e Narrativa
 
+## Logline
+
+> *Al é uma criança solitária que lida com ansiedade intensa — filho de pais inconsistentes que raramente estão presentes. Para não estar sozinho no escuro, Al criou Finn: uma chama falante e sorridente que sempre o aquece. Em uma noite agitada, Al mergulha em seu próprio sonho e precisa atravessar as paisagens da sua mente — memórias congeladas que esqueceu, lugares de lamento que evita, e um escuro que parece não ter fim. Não para curar a ansiedade. Para entender que ela pode ser enfrentada — e que, mesmo no escuro, ele não está sozinho.*
+
+---
+
 ## Premissa
 
-Tudo o que acontece no jogo se passa dentro da mente de Al. O escuro, os puzzles, Finn — são criações do próprio Al como mecanismo de enfrentamento da ansiedade. Resolver cada puzzle matemático é, metaforicamente, Al organizando seu próprio pensamento e conquistando o medo.
-
-Essa camada narrativa não é explicitada por texto ou cutscenes longas — ela é comunicada pelo próprio gameplay, pela estética e por pequenos elementos visuais ao longo das fases.
+Tudo acontece dentro da mente de Al durante uma noite de sono agitada. O escuro, os puzzles, Finn — são criações do próprio Al como mecanismo de enfrentamento da ansiedade. A jornada termina quando Al acorda. Ele não está curado. Mas entendeu que seus medos podem ser enfrentados.
 
 ---
 
@@ -22,16 +26,16 @@ O protagonista. Um garoto pequeno e expressivo, cabelo amarelo, com medo genuín
 
 ---
 
-### Finn — Jogador 2 (Mouse)
+### Finn — Jogador 2 (Mouse ou Gamepad)
 
-A luz viva criada pela mente de Al como companheiro e protetor. Controlado pelo Jogador 2 via mouse.
+A luz viva criada pela mente de Al como companheiro e protetor. Controlado pelo Jogador 2 via mouse ou gamepad.
 
 **Design visual:** chama kawaii com rosto sorridente, sem braços e pernas. Contrasta emocionalmente com o Al — um triste, outro feliz.
 
 > Al + Finn = **Final** — a parceria entre os dois é o que leva Al ao fim da jornada.
 
 **Características:**
-- Segue o cursor com lerp — movimento fluido com atraso orgânico
+- Segue o cursor do mouse com lerp — ou o analógico direito do gamepad como alternativa
 - Voa sem gravidade
 - Não é afetado pela escuridão
 - Colisão com paredes gera animação de espatifar e se reconstruir
@@ -42,6 +46,19 @@ A luz viva criada pela mente de Al como companheiro e protetor. Controlado pelo 
 ### O Escuro
 
 Não é um vilão com nome — é a ansiedade personificada. Áreas escuras são barreiras físicas para Al. O escuro não ataca, mas bloqueia, pressiona e consome elementos do cenário se ignorado.
+
+---
+
+## Estrutura da Jornada
+
+Cada bioma representa um estágio da noite de sono de Al:
+
+| Bioma | Representação Narrativa |
+|---|---|
+| A Névoa (fases 1–4) | O início do sonho — desorientado, suave, ainda seguro |
+| O Labirinto (fases 5–8) | Os pensamentos embaralhados — memórias que Al evita |
+| O Abismo (fases 9–12) | O momento mais sombrio da noite — ansiedade no pico |
+| O Centro (fases 13–16) | O interior mais profundo — onde Al encontra clareza e acorda em paz |
 
 ---
 
@@ -60,10 +77,10 @@ Não é um vilão com nome — é a ansiedade personificada. Áreas escuras são
 
 | Bloco | Bioma | Paleta e Atmosfera |
 |---|---|---|
-| Fases 1–5 | A Névoa | Ilha flutuante em dungeon fechada. Cinza azulado, neblina, luz focal pequena, plantas, elevador de madeira antigo |
-| Fases 6–10 | O Labirinto | Roxo escuro, pedra e magia — mais claustrofóbico |
-| Fases 11–15 | O Abismo | Preto profundo com neon esverdeado — tenso e desorientador |
-| Fases 16–20 | O Centro | Branco e dourado — o interior mais profundo da mente, quase etéreo |
+| Fases 1–4 | A Névoa | Ilha flutuante em dungeon fechada. Cinza azulado, neblina, luz focal pequena |
+| Fases 5–8 | O Labirinto | Roxo escuro, pedra e magia — mais claustrofóbico |
+| Fases 9–12 | O Abismo | Preto profundo com neon esverdeado — tenso e desorientador |
+| Fases 13–16 | O Centro | Branco e dourado — o interior mais profundo da mente, quase etéreo |
 
 ---
 

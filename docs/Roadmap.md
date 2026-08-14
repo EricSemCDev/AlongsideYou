@@ -4,55 +4,47 @@
 
 | Período | Marco | Entregas |
 |---|---|---|
-| **Port. I — Mar–Mai 2026** | RFC + Documentação | GDD v7, RFC completa, validação de demanda, repositório configurado |
-| **Férias — Jun–Jul 2026** | Fundação Técnica | Unity configurado, CI/CD funcionando, protótipo de movimentação |
-| **Agosto 2026** | Alpha Core | Al e Finn funcionais, Estação de Cálculo, sistema de ansiedade |
-| **Setembro 2026** | Alpha Completo | Bloco 1 (fases 1–5), gerador procedural, playtests iniciais |
-| **Outubro 2026** | Beta | Fases 6–19, obstáculos matemáticos, playtests externos |
-| **Novembro 2026** | Gold + Entrega | Fase 20, arte final, som, menus, build Itch.io |
+| **Port. I — Mar–Mai 2026** | RFC + Documentação | GDD finalizado, RFC completa, validação de demanda, repositório configurado |
+| **Férias — Jun–Jul 2026** | Fundação Técnica | Unity configurado, CI/CD, protótipos de movimentação e Estação de Cálculo |
+| **Agosto 2026** | Alpha Core | Al e Finn funcionais, Estação de Cálculo, sistema de ansiedade com Estágio 5 |
+| **Setembro 2026** | Alpha Completo | Bloco 1 (fases 1–4), gerador procedural, sistema de estrelas, playtests iniciais |
+| **Outubro 2026** | Beta | Fases 5–15, obstáculos, fases secretas, skins, playtests externos |
+| **Novembro 2026** | Gold + Entrega | Fase 16, arte final, som, menus, build Itch.io, playtests finais |
 
 ---
 
-## Fases de Desenvolvimento
+## Escopo
 
-### Alpha
-Versão funcional mas sem polimento. Foco em validar mecânicas centrais.
+### O jogo inclui
 
-- Movimentação do Al e Finn funcionando
-- Estação de Cálculo básica — A op B
-- Sistema de ansiedade em estágios
-- Regra do escuro e raio de distância
-- Bloco 1 completo — 5 fases jogáveis
-- Build WebGL no Itch.io
+- 16 fases principais — 4 por bloco
+- 4 fases secretas — uma por bioma, desbloqueadas com 3 estrelas em todas as fases do bloco
+- Sistema de estrelas — 1 a 3 por fase baseado no tempo de conclusão
+- Skins desbloqueáveis — roupa alternativa do Al e cor da chama do Finn
+- 2 personagens com controles assimétricos — Al (teclado) e Finn (mouse ou gamepad)
+- Sistema de puzzle procedural com geração de equações únicas por sessão
+- Sistema de ansiedade progressiva em 5 estágios como dificuldade crescente
+- Build WebGL gratuita no Itch.io
 
-### Beta
-Feature complete. Todas as mecânicas implementadas, foco em ajustes.
+### O jogo não inclui
 
-- Blocos-dado de 6 faces e expressões A op B op C
-- Áreas de Lamento e Memórias de Gelo
-- Finn passando por aberturas estreitas
-- Fases 6 a 19 implementadas
-- Playtests com público externo
-
-### Gold
-Versão final. Polimento completo para entrega.
-
-- Arte pixel art substituindo placeholders
-- Som e trilha final com progressão por estágio
-- Fase 20 implementada
-- Menus, tela de game over e tela de conclusão
-- Build final no Itch.io
+- Sistema de economia interna — sem moeda, XP ou itens consumíveis. Distribuição gratuita via Itch.io. Monetização futura via doação voluntária.
+- Multiplayer online — cooperativo local é o escopo
+- Cálculos com fração, potenciação ou prioridade de operações
+- Sistema de save — cada sessão começa do início
+- Escuridão dinâmica com comportamento ativo
 
 ---
 
 ## Limitações Conhecidas
 
-- Multiplayer online — cooperativo local é o escopo
-- Sistema de save — cada sessão começa do início
+- Multiplayer online
+- Sistema de save
 - Escuridão dinâmica com comportamento ativo
 - Cálculos com fração, potenciação ou prioridade de operações
 - Suporte a mais de 2 jogadores
-- Localização — desenvolvido em português
+- Sistema de economia interna — decisão intencional de design
+- Localização — o jogo será desenvolvido em português
 
 ---
 
@@ -61,10 +53,11 @@ Versão final. Polimento completo para entrega.
 | Risco | Impacto | Mitigação |
 |---|---|---|
 | Arte pixel art consumir mais tempo | Alto | Placeholders durante todo o desenvolvimento, arte final nas últimas semanas |
-| Balanceamento da ansiedade difícil de calibrar | Médio | Parâmetros via ScriptableObject. Playtest frequente. |
-| Gerador procedural sem soluções com certos parâmetros | Médio | Fallback para equação hardcoded após N tentativas |
-| Cooperativo dificultar playtests solo | Baixo | Modo debug com Finn controlado por IA simples |
+| Ergonomia do co-op teclado+mouse | Médio | Suporte a gamepad para Finn. Playtests com diferentes configurações de assento. |
+| Balanceamento do sistema de ansiedade | Médio | Parâmetros via ScriptableObject para ajuste rápido. Playtest frequente. |
+| Tempos-alvo para estrelas difíceis de calibrar | Médio | Coletar dados de tempo nos playtests iniciais antes de definir os targets finais |
+| Cooperativo local dificultar playtests solo | Baixo | Modo debug com Finn controlado por IA simples para testes internos |
 
 ---
 
-*← [Stack Técnica](Stack-Tecnica) | [Decisões Importantes](Decisoes-Importantes) →*
+*← [Prototipagem e Testes](Prototipagem-e-Testes) | [Decisões Importantes](Decisoes-Importantes) →*
