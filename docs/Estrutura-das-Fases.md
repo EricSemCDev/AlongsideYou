@@ -1,6 +1,6 @@
 # Estrutura das Fases
 
-As 20 fases são agrupadas em 4 blocos de 5, cada bloco com identidade visual própria e complexidade crescente.
+**16 fases principais** agrupadas em 4 blocos de 4, mais **4 fases secretas** — uma por bioma.
 
 ---
 
@@ -8,79 +8,60 @@ As 20 fases são agrupadas em 4 blocos de 5, cada bloco com identidade visual pr
 
 | Fase | Mecânica Introduzida |
 |---|---|
-| 1 | Movimento do Al, Finn seguindo mouse, luz básica, Fagulha como objetivo |
+| 1 | Movimento do Al, Finn seguindo mouse/gamepad, luz básica, Fagulha como objetivo |
 | 2 | Estação de Cálculo + blocos-dado com faces giráveis + faíscas-operador |
 | 3 | Primeira fonte de recarga de energia do Finn |
 | 4 | Decaimento de luz global + sistema de ansiedade progressiva |
 | 5 | Raio de distância Al-Finn + corda de luz |
-| 6 | Áreas de Lamento com condição `< X` |
+| 6 | Área de Lamento bloqueando item, condição `< X` |
 | 7 | Checkpoints de luz |
 | 8 | Blocos-dado de 6 faces |
-| 9 | Memórias de Gelo com condição `> X` |
+| 9 | Memória de Gelo bloqueando item, condição `> X` |
 | 10 | Resultado alvo removido — só tochas como feedback |
 | 11 | Finn passa por aberturas estreitas |
 | 12 | Expressão com 3 valores — A op B op C |
 | 13 | Obstáculos mostram só `>` ou `<` sem valor numérico |
-| 14 | Faíscas-operador em posições de difícil acesso |
-| 15 | Todas as mecânicas do bloco ativas simultaneamente |
-| 16–19 | Sem mecânicas novas — complexidade vem da combinação |
-| 20 | Fase final — todos os elementos, maior fase do jogo |
+| 14–16 | Todas as mecânicas combinadas, complexidade pela combinação |
 
 ---
 
-## Bloco 1 — A Névoa (Fases 1–5)
+## Bloco 1 — A Névoa (Fases 1–4)
 
-*Ilha flutuante em dungeon fechada. Cinza azulado, neblina suave — introdução tranquila e misteriosa.*
+*Ilha flutuante em dungeon fechada. Cinza azulado, neblina suave.*
 
-| # | Nome | Duração | Operações |
-|---|---|---|---|
-| 1 | O Primeiro Passo | 1–2 min | Nenhuma |
-| 2 | Luz e Números | 2–3 min | A + B |
-| 3 | A Primeira Ponte | 2–3 min | A + B |
-| 4 | Sombra que Engole | 3–4 min | A + B / A - B |
-| 5 | A Fagulha Distante | 3–4 min | A + B / A - B |
+2–3 ilhas · 1 bloco-dado · 1 faísca · sem obstáculos · equação A + B com resultado explícito
 
 ---
 
-## Bloco 2 — O Labirinto (Fases 6–10)
+## Bloco 2 — O Labirinto (Fases 5–8)
 
 *Roxo escuro, pedra e magia — mais claustrofóbico.*
 
-| # | Nome | Duração | Operações |
-|---|---|---|---|
-| 6 | Espelhos | 3–4 min | A - B |
-| 7 | Vento Frio | 4–5 min | A + B / A - B |
-| 8 | A Torre | 4–5 min | A × B |
-| 9 | Dois Lados | 5–6 min | A × B |
-| 10 | O Eco | 5–6 min | A + B / A × B |
+3 ilhas · 2 blocos · 1–2 faíscas · Gelo bloqueando item · equação A - B ou A × B
 
 ---
 
-## Bloco 3 — O Abismo (Fases 11–15)
+## Bloco 3 — O Abismo (Fases 9–12)
 
 *Preto profundo com neon esverdeado — tenso e desorientador.*
 
-| # | Nome | Duração | Operações |
-|---|---|---|---|
-| 11 | Queda Livre | 5–6 min | A ÷ B |
-| 12 | Precipício | 5–7 min | A ÷ B |
-| 13 | Plantas Antigas | 6–7 min | A × B / A ÷ B |
-| 14 | Balanço | 6–7 min | A op B op C |
-| 15 | Tempestade | 7–8 min | A op B op C |
+4 ilhas · 2 blocos · 2 faíscas · Gelo + abertura estreita · A × B ou A ÷ B, resultado sem número visível
 
 ---
 
-## Bloco 4 — O Centro (Fases 16–20)
+## Bloco 4 — O Centro (Fases 13–16)
 
 *Branco e dourado — o interior mais profundo da mente, quase etéreo.*
 
-| # | Nome | Duração | Operações |
-|---|---|---|---|
-| 16 | Memória | 7–8 min | A op B op C |
-| 17 | Reflexo | 7–9 min | Misto |
-| 18 | O Núcleo | 8–10 min | Misto |
-| 19 | Penúltima Luz | 8–10 min | Misto |
-| 20 | Alongside You | 10–12 min | Misto |
+4–5 ilhas · 3 blocos · 2 faíscas · Gelo + Lamento sem valores · expressão A op B op C
+
+---
+
+## Fases Secretas
+
+Uma por bioma, desbloqueada ao conseguir **3 estrelas em todas as 4 fases** daquele bloco. Significativamente mais difíceis que as fases principais.
+
+**Recompensa:** skins exclusivas — roupa alternativa para Al e cor de chama diferente para Finn.
 
 ---
 

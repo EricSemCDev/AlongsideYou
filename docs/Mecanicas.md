@@ -13,13 +13,13 @@ Explorar → Posicionar Finn (luz) → Coletar blocos-dado (Al)
 ## Loops Secundários
 
 ### Loop de Energia do Finn
-Finn ilumina → energia drena → Finn busca fonte de recarga (tocha, cristal, runa) → recarrega → volta a iluminar.
+Finn ilumina → energia drena → busca fonte de recarga (tocha, cristal, runa) → recarrega → volta a iluminar.
 
 ### Loop de Recuperação de Ansiedade
 Tempo passa sem resolver puzzle → ansiedade de Al aumenta de estágio → jogadores resolvem equação → ansiedade alivia → ciclo reinicia.
 
 ### Loop de Mini Puzzle de Obstáculo
-Al e Finn encontram obstáculo com condição matemática → montam equação com valor `> X` ou `< X` → obstáculo é superado → avançam.
+Al e Finn encontram obstáculo bloqueando um item → montam equação com condição `> X` ou `< X` → obstáculo abre → item acessível → avançam.
 
 ---
 
@@ -36,15 +36,16 @@ Al e Finn encontram obstáculo com condição matemática → montam equação c
 
 ---
 
-## Finn — Jogador 2 (Mouse)
+## Finn — Jogador 2 (Mouse ou Gamepad)
 
-- Segue o cursor com lerp — movimento fluido com atraso orgânico
+- **Padrão:** segue o cursor do mouse com lerp — movimento fluido com atraso orgânico
+- **Alternativo:** segue o analógico direito do gamepad, com aceleração e desaceleração suaves
 - Colisão física com o cenário: animação de espatifar e se reconstruir
 - Voa — sem gravidade
 - Não é afetado pela escuridão
 - Ilumina o ambiente criando zona segura onde Al pode avançar
 - Reserva de energia que drena enquanto ilumina — recarrega em fontes do mapa
-- Coleta faíscas-operador (`+`, `-`, `×`, `÷`) com clique esquerdo
+- Coleta faíscas-operador (`+`, `-`, `×`, `÷`) com clique esquerdo ou botão do gamepad
 - Passa por aberturas pequenas inacessíveis para Al
 
 ---
@@ -80,13 +81,16 @@ A cada carregamento de fase, o sistema gera um puzzle único:
 - Faces de cada bloco geradas com pelo menos uma que participa de uma solução válida
 - Faíscas-operador selecionadas para garantir ao menos uma combinação que resolve
 - Parâmetros configuráveis via ScriptableObject por fase
-- Fallback para equação hardcoded se o gerador falhar após N tentativas
 
 > O jogador nunca memoriza a solução — cada repetição exige novo raciocínio matemático.
 
 ---
 
-## Sistema de Ansiedade Progressiva
+## Sistema de Ansiedade como Dificuldade Crescente
+
+A ansiedade **não é condição de derrota direta** — é dificuldade progressiva. No Estágio 5, Al paralisa por alguns segundos. Se Finn iluminar Al nesse momento, ele se recupera e volta ao Estágio 4. Só há derrota se Finn não conseguir chegar a tempo.
+
+> A parceria literalmente salva Al da ansiedade.
 
 | Estágio | Descrição | Efeito Mecânico |
 |---|---|---|
@@ -94,9 +98,19 @@ A cada carregamento de fase, o sistema gera um puzzle único:
 | 2 — Inquieto | Al começa a sentir a pressão | Animações de nervosismo, levemente mais lento |
 | 3 — Ansioso | A ansiedade se manifesta | Al mais lento, raio de Finn começa a diminuir |
 | 4 — Em Pânico | Al está no limite | Al muito lento, blocos somem mais rápido, Finn com raio mínimo |
-| 5 — Consumido | A ansiedade venceu | Derrota — reinicia a fase |
+| 5 — Paralisado | A ansiedade consumiu Al | Al imóvel. Finn pode salvar iluminando Al. Sem resgate = derrota. |
 
-> Resolver uma equação corretamente reduz o estágio atual.
+---
+
+## Sistema de Estrelas e Progressão
+
+| Estrelas | Critério |
+|---|---|
+| ⭐ | Completou a fase |
+| ⭐⭐ | Completou dentro do tempo médio |
+| ⭐⭐⭐ | Completou dentro do tempo ótimo |
+
+Ao conseguir 3 estrelas em todas as 4 fases de um bloco, a **fase secreta** daquele bioma é desbloqueada. As fases secretas são significativamente mais difíceis e recompensam com **skins exclusivas**: roupa alternativa para Al e cor de chama diferente para Finn.
 
 ---
 
@@ -119,4 +133,4 @@ A cada carregamento de fase, o sistema gera um puzzle único:
 
 ---
 
-*← [Personagens e Narrativa](Personagens-e-Narrativa) | [Controles](Controles) →*
+*← [Personagens e Narrativa](Personagens-e-Narrativa) | [Level Design](Level-Design) →*

@@ -35,11 +35,13 @@ A narrativa de ansiedade não é explicada por texto ou cutscene. É comunicada 
 | Hipótese | Como será testada |
 |---|---|
 | Jogadores entendem que devem girar o dado durante o trajeto, sem tutorial | Playtest observando uso da mecânica sem instrução direta |
-| Assimetria teclado/mouse cria cooperação natural sem frustração | Playtest com duplas sem experiência prévia, observando comunicação |
+| Assimetria teclado/mouse cria cooperação natural sem frustração ou atrito ergonômico | Playtest com duplas em diferentes configurações (mouse, gamepad) |
 | Tochas comunicam proximidade do resultado sem número na tela | Playtest nas fases avançadas verificando se jogadores entendem |
 | Corda de luz comunica risco de separação sem texto ou ícone | Observar se jogadores reagem à corda vermelha sem instrução |
-| Sistema de ansiedade cria urgência sem frustração | Playtest medindo tempo por fase e coletando feedback emocional |
-| Indicador no obstáculo é suficiente para entender condição > ou < | Playtest nas fases 6 e 9 observando conexão número/equação |
+| Sistema de ansiedade cria urgência sem sensação de punição injusta | Playtest medindo frustração no Estágio 5 — Al paralisa, Finn salva |
+| Indicador no obstáculo é suficiente para entender condição `>` ou `<` | Playtest nas fases 5 e 9 observando conexão número/equação |
+| Jogadores sem experiência em jogos completam as primeiras 2 fases | Playtest com não-jogadores identificados pelo tema de ansiedade |
+| Sistema de estrelas motiva rejogo sem criar pressão negativa | Playtest medindo se jogadores tentam novamente voluntariamente |
 
 ---
 

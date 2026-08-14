@@ -17,11 +17,19 @@ Um jogo cooperativo onde dois jogadores controlam Al e Finn para usar luz e mate
 | **Perspectiva** | Vista lateral 2D flat com profundidade de camadas |
 | **Plataforma** | PC (Windows) + WebGL (Itch.io) |
 | **Engine** | Unity 2022.3 LTS (C#) |
-| **Modo** | Cooperativo local — 2 jogadores no mesmo PC (teclado + mouse) |
-| **Fases** | 20 fases em 4 blocos |
-| **Duração** | 40 a 90 minutos |
+| **Modo** | Cooperativo local — 2 jogadores no mesmo PC (teclado + mouse ou gamepad) |
+| **Fases principais** | 16 fases em 4 blocos de 4 |
+| **Fases secretas** | 4 fases secretas — uma por bloco |
+| **Total de fases** | 20 fases |
+| **Duração** | 40 a 90 minutos (fases principais) |
 | **Licença (código)** | MIT |
 | **Licença (assets)** | CC BY-NC-SA |
+
+---
+
+## Logline
+
+*Al é uma criança solitária que lida com ansiedade intensa — filho de pais inconsistentes que raramente estão presentes. Para não estar sozinho no escuro, Al criou Finn: uma chama falante e sorridente que sempre o aquece. Em uma noite agitada, Al mergulha em seu próprio sonho e precisa atravessar as paisagens da sua mente — memórias congeladas que esqueceu, lugares de lamento que evita, e um escuro que parece não ter fim. Não para curar a ansiedade. Para entender que ela pode ser enfrentada — e que, mesmo no escuro, ele não está sozinho.*
 
 ---
 
@@ -47,7 +55,8 @@ Explorar → Posicionar Finn (luz) → Coletar blocos-dado (Al)
 
 | Item | Link |
 |---|---|
-| Repositório | [github.com/EricSemCDev/AlongsideYou](https://github.com/EricSemCDev/AlongsideYou) |
+| Repositório principal | [github.com/EricSemCDev/AlongsideYou](https://github.com/EricSemCDev/AlongsideYou) |
+| Equation Generator | [github.com/EricSemCDev/Equation-Generator](https://github.com/EricSemCDev/Equation-Generator) |
 | Build jogável | *a preencher — Itch.io / WebGL* |
 
 ---
@@ -57,13 +66,15 @@ Explorar → Posicionar Finn (luz) → Coletar blocos-dado (Al)
 | Página | Conteúdo |
 |---|---|
 | [Pilares e Hipóteses](Pilares-e-Hipoteses) | Filosofia de design e hipóteses a validar |
-| [Personagens e Narrativa](Personagens-e-Narrativa) | Al, Finn, O Escuro, tom e atmosfera |
-| [Mecânicas](Mecanicas) | Todas as mecânicas do jogo detalhadas |
-| [Controles](Controles) | Inputs de Al e Finn |
+| [Personagens e Narrativa](Personagens-e-Narrativa) | Al, Finn, O Escuro, logline e estrutura da jornada |
+| [Mecânicas](Mecanicas) | Todas as mecânicas do jogo, sistema de ansiedade e estrelas |
+| [Level Design](Level-Design) | Estrutura das fases, layouts e progressão de complexidade |
+| [Controles](Controles) | Inputs de Al e Finn, incluindo gamepad |
 | [Obstáculos e Derrota](Obstaculos-e-Derrota) | Elementos de fase e condições de derrota |
-| [Estrutura das Fases](Estrutura-das-Fases) | 20 fases, biomas e progressão de mecânicas |
+| [Estrutura das Fases](Estrutura-das-Fases) | 16 fases + 4 secretas, biomas e progressão de mecânicas |
 | [Arte e Som](Arte-e-Som) | Direção visual, animações e design de áudio |
 | [Stack Técnica](Stack-Tecnica) | Tecnologias e arquitetura de software |
+| [Prototipagem e Testes](Prototipagem-e-Testes) | Protótipos planejados e planejamento de playtests |
 | [Roadmap](Roadmap) | Cronograma, fases de desenvolvimento e riscos |
 | [Decisões Importantes](Decisoes-Importantes) | Registro de decisões e justificativas |
 
