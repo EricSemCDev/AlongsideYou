@@ -1,19 +1,24 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 public class DadoBlock : MonoBehaviour
 {
-    // Placeholder: valor fixo por enquanto. Será substituído pelo
-    // PuzzleGenerator/PuzzleConfig quando a geração procedural existir.
-    [SerializeField] private int value = 3;
-    [SerializeField] private Color highlightColor = Color.yellow;
+    [Header("Faces (placeholder até o PuzzleGenerator existir)")]
+    [SerializeField] private List<int> faces = new() { 3, 7, 1, 9 };
 
+    [Header("Visual")]
+    [SerializeField] private Color highlightColor = Color.yellow;
+    [SerializeField] private TextMeshPro valueLabel;
+
+    private int _currentFaceIndex;
     private Collider2D _collider;
     private SpriteRenderer _spriteRenderer;
     private Color _originalColor;
 
-    public int Value => value;
+    public int Value => faces[_currentFaceIndex];
     public bool IsHeld { get; private set; }
 
     private void Awake()
@@ -21,6 +26,31 @@ public class DadoBlock : MonoBehaviour
         _collider = GetComponent<Collider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _originalColor = _spriteRenderer.color;
+    }
+
+    private void Start()
+    {
+        UpdateValueLabel();
+    }
+
+    public void RotateFaceLeft()
+    {
+        _currentFaceIndex = (_currentFaceIndex - 1 + faces.Count) % faces.Count;
+        UpdateValueLabel();
+    }
+
+    public void RotateFaceRight()
+    {
+        _currentFaceIndex = (_currentFaceIndex + 1) % faces.Count;
+        UpdateValueLabel();
+    }
+
+    private void UpdateValueLabel()
+    {
+        if (valueLabel != null)
+        {
+            valueLabel.text = Value.ToString();
+        }
     }
 
     public void SetHighlighted(bool highlighted)
