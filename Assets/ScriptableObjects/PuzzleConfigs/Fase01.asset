@@ -16,6 +16,6 @@ MonoBehaviour:
   facesPerBlock: 4
   slotCount: 2
   operatorSlots: 1
-  compositeSlots: 
+  compositeSlots: 0100
   operatorCount: 1
-  difficulty: 1
+  difficulty: 10
