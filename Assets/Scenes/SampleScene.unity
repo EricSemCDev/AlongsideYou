@@ -909,6 +909,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 607247760353379259, guid: 9b9b561c66552734aa179484b59dc0db, type: 3}
+      propertyPath: mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3149807472841388682, guid: 9b9b561c66552734aa179484b59dc0db, type: 3}
       propertyPath: m_Name
       value: InputManager
