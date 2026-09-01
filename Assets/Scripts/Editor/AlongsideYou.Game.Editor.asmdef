@@ -1,0 +1,18 @@
+{
+    "name": "AlongsideYou.Game.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5acf7ed2361b0fd4b9760ebfd8ac8827"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

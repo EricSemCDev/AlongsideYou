@@ -37,6 +37,10 @@ public class AlBlockCarrier : MonoBehaviour
         {
             UpdateHighlight();
         }
+        else
+        {
+            TryRotateHeldBlock();
+        }
 
         if (InputManager.Instance == null || !InputManager.Instance.AlInteractPressed)
         {
@@ -50,6 +54,23 @@ public class AlBlockCarrier : MonoBehaviour
         else if (_highlightedBlock != null)
         {
             PickupHighlightedBlock();
+        }
+    }
+
+    private void TryRotateHeldBlock()
+    {
+        if (InputManager.Instance == null)
+        {
+            return;
+        }
+
+        if (InputManager.Instance.AlRotateFaceLeftPressed)
+        {
+            _heldBlock.RotateFaceLeft();
+        }
+        else if (InputManager.Instance.AlRotateFaceRightPressed)
+        {
+            _heldBlock.RotateFaceRight();
         }
     }
 
