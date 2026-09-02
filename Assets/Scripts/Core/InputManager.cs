@@ -8,6 +8,8 @@ public class InputManager : MonoBehaviour
 
     public Vector2 AlMoveInput { get; private set; }
     public bool AlInteractPressed { get; private set; }
+    public bool AlRotateFaceLeftPressed { get; private set; }
+    public bool AlRotateFaceRightPressed { get; private set; }
     public Vector2 FinnPointerScreenPosition { get; private set; }
     public Vector2 FinnStickInput { get; private set; }
     public bool FinnPointerHeld { get; private set; }
@@ -45,6 +47,8 @@ public class InputManager : MonoBehaviour
         {
             AlMoveInput = Vector2.zero;
             AlInteractPressed = false;
+            AlRotateFaceLeftPressed = false;
+            AlRotateFaceRightPressed = false;
             FinnStickInput = Vector2.zero;
             FinnPointerHeld = false;
             return;
@@ -52,11 +56,11 @@ public class InputManager : MonoBehaviour
 
         AlMoveInput = inputActions.Al.Move.ReadValue<Vector2>();
         AlInteractPressed = inputActions.Al.Interact.WasPressedThisFrame();
+        AlRotateFaceLeftPressed = inputActions.Al.RotateFaceLeft.WasPressedThisFrame();
+        AlRotateFaceRightPressed = inputActions.Al.RotateFaceRight.WasPressedThisFrame();
         FinnPointerScreenPosition = inputActions.Finn.Point.ReadValue<Vector2>();
         FinnStickInput = inputActions.Finn.Stick.ReadValue<Vector2>();
         FinnPointerHeld = inputActions.Finn.Hold.IsPressed();
-
-        Debug.Log($"AlMoveInput={AlMoveInput}, Al.Move.enabled={inputActions.Al.Move.enabled}");
     }
 
     private void SetInputMapsEnabled(bool enabled)

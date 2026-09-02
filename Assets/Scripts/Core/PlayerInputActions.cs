@@ -109,6 +109,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateFaceLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""06dd1467-602b-4065-8011-40641c3801b8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateFaceRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""98f4f62a-c213-486c-a982-e7d1826cc8f4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -243,6 +261,61 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b77960f-732e-40a3-9c47-78596c6ef5bd"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc918b58-5e29-403e-a446-8c6102011172"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateFaceLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92a7d45f-2347-4b82-aafd-c67aee34fbf3"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateFaceLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""13ccc55e-5a2d-4d86-964d-a32d03f6d2f6"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateFaceRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6cdbabb6-5a62-4175-a1d0-b9f194d974d8"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateFaceRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -321,6 +394,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Al = asset.FindActionMap("Al", throwIfNotFound: true);
         m_Al_Move = m_Al.FindAction("Move", throwIfNotFound: true);
         m_Al_Interact = m_Al.FindAction("Interact", throwIfNotFound: true);
+        m_Al_RotateFaceLeft = m_Al.FindAction("RotateFaceLeft", throwIfNotFound: true);
+        m_Al_RotateFaceRight = m_Al.FindAction("RotateFaceRight", throwIfNotFound: true);
         // Finn
         m_Finn = asset.FindActionMap("Finn", throwIfNotFound: true);
         m_Finn_Point = m_Finn.FindAction("Point", throwIfNotFound: true);
@@ -409,6 +484,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private List<IAlActions> m_AlActionsCallbackInterfaces = new List<IAlActions>();
     private readonly InputAction m_Al_Move;
     private readonly InputAction m_Al_Interact;
+    private readonly InputAction m_Al_RotateFaceLeft;
+    private readonly InputAction m_Al_RotateFaceRight;
     /// <summary>
     /// Provides access to input actions defined in input action map "Al".
     /// </summary>
@@ -428,6 +505,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Al/Interact".
         /// </summary>
         public InputAction @Interact => m_Wrapper.m_Al_Interact;
+        /// <summary>
+        /// Provides access to the underlying input action "Al/RotateFaceLeft".
+        /// </summary>
+        public InputAction @RotateFaceLeft => m_Wrapper.m_Al_RotateFaceLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "Al/RotateFaceRight".
+        /// </summary>
+        public InputAction @RotateFaceRight => m_Wrapper.m_Al_RotateFaceRight;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -460,6 +545,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @RotateFaceLeft.started += instance.OnRotateFaceLeft;
+            @RotateFaceLeft.performed += instance.OnRotateFaceLeft;
+            @RotateFaceLeft.canceled += instance.OnRotateFaceLeft;
+            @RotateFaceRight.started += instance.OnRotateFaceRight;
+            @RotateFaceRight.performed += instance.OnRotateFaceRight;
+            @RotateFaceRight.canceled += instance.OnRotateFaceRight;
         }
 
         /// <summary>
@@ -477,6 +568,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @RotateFaceLeft.started -= instance.OnRotateFaceLeft;
+            @RotateFaceLeft.performed -= instance.OnRotateFaceLeft;
+            @RotateFaceLeft.canceled -= instance.OnRotateFaceLeft;
+            @RotateFaceRight.started -= instance.OnRotateFaceRight;
+            @RotateFaceRight.performed -= instance.OnRotateFaceRight;
+            @RotateFaceRight.canceled -= instance.OnRotateFaceRight;
         }
 
         /// <summary>
@@ -649,6 +746,20 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteract(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateFaceLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateFaceLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateFaceRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateFaceRight(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Finn" which allows adding and removing callbacks.
