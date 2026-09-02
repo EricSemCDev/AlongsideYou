@@ -33,6 +33,8 @@ public class InputManager : MonoBehaviour
     public Vector2 FinnPointerScreenPosition { get; private set; }
     public Vector2 FinnStickInput { get; private set; }
     public bool FinnPointerHeld { get; private set; }
+    public bool FinnSelectOperatorPressed { get; private set; }
+    public bool FinnSelectOperatorReleased { get; private set; }
 
     public GamepadActiveCharacter ActiveCharacter => activeCharacter;
     public InputMode CurrentMode => mode;
@@ -120,6 +122,8 @@ public class InputManager : MonoBehaviour
 
         FinnPointerScreenPosition = inputActions.Finn.Point.ReadValue<Vector2>();
         FinnPointerHeld = inputActions.Finn.Hold.IsPressed();
+        FinnSelectOperatorPressed = inputActions.Finn.SelectOperator.WasPressedThisFrame();
+        FinnSelectOperatorReleased = inputActions.Finn.SelectOperator.WasReleasedThisFrame();
 
         // Zerado aqui e preenchido depois, conforme o modo (Solo ou
         // TwoPlayers), em ReadGamepadInputsIntoActiveCharacter ou
@@ -184,6 +188,8 @@ public class InputManager : MonoBehaviour
         AlRotateFaceRightPressed = false;
         FinnStickInput = Vector2.zero;
         FinnPointerHeld = false;
+        FinnSelectOperatorPressed = false;
+        FinnSelectOperatorReleased = false;
     }
 
     private void SetInputMapsEnabled(bool enabled)

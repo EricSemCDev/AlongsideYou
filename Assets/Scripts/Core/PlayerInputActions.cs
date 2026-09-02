@@ -296,6 +296,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectOperator"",
+                    ""type"": ""Button"",
+                    ""id"": ""3d90929b-03f5-44b4-af68-ada37328f61d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -318,6 +327,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Hold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""431d4de8-1e96-4ab9-b992-fb9ed5462c0c"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectOperator"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -444,6 +464,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Finn = asset.FindActionMap("Finn", throwIfNotFound: true);
         m_Finn_Point = m_Finn.FindAction("Point", throwIfNotFound: true);
         m_Finn_Hold = m_Finn.FindAction("Hold", throwIfNotFound: true);
+        m_Finn_SelectOperator = m_Finn.FindAction("SelectOperator", throwIfNotFound: true);
         // Gamepad
         m_Gamepad = asset.FindActionMap("Gamepad", throwIfNotFound: true);
         m_Gamepad_Move = m_Gamepad.FindAction("Move", throwIfNotFound: true);
@@ -664,6 +685,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private List<IFinnActions> m_FinnActionsCallbackInterfaces = new List<IFinnActions>();
     private readonly InputAction m_Finn_Point;
     private readonly InputAction m_Finn_Hold;
+    private readonly InputAction m_Finn_SelectOperator;
     /// <summary>
     /// Provides access to input actions defined in input action map "Finn".
     /// </summary>
@@ -683,6 +705,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Finn/Hold".
         /// </summary>
         public InputAction @Hold => m_Wrapper.m_Finn_Hold;
+        /// <summary>
+        /// Provides access to the underlying input action "Finn/SelectOperator".
+        /// </summary>
+        public InputAction @SelectOperator => m_Wrapper.m_Finn_SelectOperator;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -715,6 +741,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Hold.started += instance.OnHold;
             @Hold.performed += instance.OnHold;
             @Hold.canceled += instance.OnHold;
+            @SelectOperator.started += instance.OnSelectOperator;
+            @SelectOperator.performed += instance.OnSelectOperator;
+            @SelectOperator.canceled += instance.OnSelectOperator;
         }
 
         /// <summary>
@@ -732,6 +761,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Hold.started -= instance.OnHold;
             @Hold.performed -= instance.OnHold;
             @Hold.canceled -= instance.OnHold;
+            @SelectOperator.started -= instance.OnSelectOperator;
+            @SelectOperator.performed -= instance.OnSelectOperator;
+            @SelectOperator.canceled -= instance.OnSelectOperator;
         }
 
         /// <summary>
@@ -962,6 +994,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHold(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectOperator" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectOperator(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Gamepad" which allows adding and removing callbacks.
