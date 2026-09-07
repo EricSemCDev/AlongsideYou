@@ -63,7 +63,7 @@ public class DadoBlock : MonoBehaviour
     {
         if (CurrentSlot != null)
         {
-            CurrentSlot.NotifyBlockRemoved();
+            CurrentSlot.NotifyBlockRemoved(this);
             CurrentSlot = null;
         }
 

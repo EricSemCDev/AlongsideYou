@@ -15,6 +15,7 @@ public class FinnOperatorCollector : MonoBehaviour
     };
 
     private readonly HashSet<OperatorSlotMarker> _nearbyTorches = new();
+    private OperatorSlotMarker _highlightedTorch;
 
     public int GetCount(char symbol)
     {
@@ -52,6 +53,8 @@ public class FinnOperatorCollector : MonoBehaviour
             return; // já tem um menu aberto, não abre outro por cima
         }
 
+        UpdateTorchHighlight();
+
         if (!InputManager.Instance.FinnSelectOperatorPressed)
         {
             return;
@@ -61,8 +64,24 @@ public class FinnOperatorCollector : MonoBehaviour
 
         if (closestTorch != null)
         {
+            closestTorch.SetHighlighted(false);
+            _highlightedTorch = null;
             OperatorMenuController.Instance.Show(closestTorch.transform.position, closestTorch, this);
         }
+    }
+
+    private void UpdateTorchHighlight()
+    {
+        OperatorSlotMarker closest = FindClosestTorch();
+
+        if (closest == _highlightedTorch)
+        {
+            return;
+        }
+
+        _highlightedTorch?.SetHighlighted(false);
+        _highlightedTorch = closest;
+        _highlightedTorch?.SetHighlighted(true);
     }
 
     private OperatorSlotMarker FindClosestTorch()
@@ -107,6 +126,12 @@ public class FinnOperatorCollector : MonoBehaviour
         if (other.TryGetComponent(out OperatorSlotMarker torch))
         {
             _nearbyTorches.Remove(torch);
+
+            if (torch == _highlightedTorch)
+            {
+                torch.SetHighlighted(false);
+                _highlightedTorch = null;
+            }
         }
     }
 }

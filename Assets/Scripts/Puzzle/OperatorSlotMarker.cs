@@ -6,18 +6,31 @@ using UnityEngine;
 public class OperatorSlotMarker : MonoBehaviour
 {
     [SerializeField] private Color litColor = Color.yellow;
+    [SerializeField] private Color highlightColor = new Color(0.6f, 0.9f, 1f); // azul claro
     [SerializeField] private TextMeshPro symbolLabel;
+    [SerializeField] private int position; // posição na sequência da equação (1º, 2º, 3º...)
+
+    public int Position => position;
 
     private SpriteRenderer _spriteRenderer;
     private Color _unlitColor;
+    private bool _isHighlighted;
 
     public bool IsLit { get; private set; }
     public char CurrentSymbol { get; private set; }
+
+    private Color CurrentBaseColor => IsLit ? litColor : _unlitColor;
 
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _unlitColor = _spriteRenderer.color;
+    }
+
+    public void SetHighlighted(bool highlighted)
+    {
+        _isHighlighted = highlighted;
+        _spriteRenderer.color = highlighted ? highlightColor : CurrentBaseColor;
     }
 
     // Acende com o símbolo dado. Se já estiver aceso com outro símbolo,
@@ -28,7 +41,7 @@ public class OperatorSlotMarker : MonoBehaviour
         IsLit = true;
         CurrentSymbol = symbol;
 
-        _spriteRenderer.color = litColor;
+        _spriteRenderer.color = _isHighlighted ? highlightColor : CurrentBaseColor;
 
         if (symbolLabel != null)
         {
@@ -40,7 +53,7 @@ public class OperatorSlotMarker : MonoBehaviour
     {
         IsLit = false;
 
-        _spriteRenderer.color = _unlitColor;
+        _spriteRenderer.color = _isHighlighted ? highlightColor : CurrentBaseColor;
 
         if (symbolLabel != null)
         {

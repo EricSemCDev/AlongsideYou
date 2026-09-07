@@ -1,21 +1,46 @@
 using UnityEngine;
 
-// Local de encaixe numérico na Estação de Cálculo. Al insere um
-// DadoBlock aqui (issue #19); o valor mostrado é o valor atual do
-// próprio bloco, sem duplicar estado.
+// Local de encaixe numérico na Estação de Cálculo. Quando isComposite,
+// aceita 2 blocos (dezena + unidade), formando um valor de 2 dígitos.
+// Visual ainda é placeholder: os 2 blocos ficam ancorados na mesma
+// posição por enquanto — melhorar quando a arte estiver pronta.
 [RequireComponent(typeof(SpriteRenderer))]
 public class NumericSlot : MonoBehaviour
 {
     [SerializeField] private bool isComposite;
+    [SerializeField] private int position; // posição na sequência da equação (1º, 2º, 3º...)
     [SerializeField] private Color highlightColor = Color.yellow;
 
-    private DadoBlock _insertedBlock;
+    private DadoBlock _tensBlock;  // único bloco, se não for composto
+    private DadoBlock _unitsBlock; // só usado se isComposite
+
     private SpriteRenderer _spriteRenderer;
     private Color _originalColor;
 
     public bool IsComposite => isComposite;
-    public bool IsFilled => _insertedBlock != null;
-    public int CurrentValue => _insertedBlock != null ? _insertedBlock.Value : 0;
+    public int Position => position;
+
+    public bool IsFilled => isComposite
+        ? (_tensBlock != null && _unitsBlock != null)
+        : (_tensBlock != null);
+
+    public int CurrentValue
+    {
+        get
+        {
+            if (!isComposite)
+            {
+                return _tensBlock != null ? _tensBlock.Value : 0;
+            }
+
+            if (_tensBlock == null || _unitsBlock == null)
+            {
+                return 0; // incompleto
+            }
+
+            return (_tensBlock.Value * 10) + _unitsBlock.Value;
+        }
+    }
 
     private void Awake()
     {
@@ -30,20 +55,46 @@ public class NumericSlot : MonoBehaviour
 
     public bool TryInsertBlock(DadoBlock block)
     {
-        if (IsFilled)
+        if (!isComposite)
         {
-            return false;
+            if (_tensBlock != null)
+            {
+                return false;
+            }
+
+            _tensBlock = block;
+            block.PlaceInSlot(transform, this);
+            return true;
         }
 
-        _insertedBlock = block;
-        block.PlaceInSlot(transform, this);
-        return true;
+        if (_tensBlock == null)
+        {
+            _tensBlock = block;
+            block.PlaceInSlot(transform, this);
+            return true;
+        }
+
+        if (_unitsBlock == null)
+        {
+            _unitsBlock = block;
+            block.PlaceInSlot(transform, this);
+            return true;
+        }
+
+        return false; // os dois já preenchidos
     }
 
-    // Chamado pelo próprio DadoBlock quando o Al pega ele de volta,
-    // avisando o slot que voltou a ficar vazio.
-    public void NotifyBlockRemoved()
+    // Chamado pelo próprio DadoBlock quando o Al pega ele de volta.
+    // Precisa saber QUAL bloco (dezena ou unidade) foi retirado.
+    public void NotifyBlockRemoved(DadoBlock block)
     {
-        _insertedBlock = null;
+        if (_tensBlock == block)
+        {
+            _tensBlock = null;
+        }
+        else if (_unitsBlock == block)
+        {
+            _unitsBlock = null;
+        }
     }
 }
