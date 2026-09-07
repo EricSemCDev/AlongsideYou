@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  minMagnitudeForFacing: 0.2
 --- !u!114 &3766667416397035343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   holdPoint: {fileID: 2820336523447444652}
   alMovement: {fileID: 0}
-  dropDistance: 1.1
+  dropDistance: 1.3
   dropCheckRadius: 0.4
   dropObstacleMask:
     serializedVersion: 2
