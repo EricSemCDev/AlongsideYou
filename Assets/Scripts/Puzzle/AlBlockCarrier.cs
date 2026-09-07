@@ -18,8 +18,10 @@ public class AlBlockCarrier : MonoBehaviour
 
     private readonly HashSet<DadoBlock> _nearbyBlocks = new();
     private readonly HashSet<NumericSlot> _nearbySlots = new();
+    private readonly HashSet<ConfirmationLever> _nearbyLevers = new();
     private DadoBlock _highlightedBlock;
     private NumericSlot _highlightedSlot;
+    private ConfirmationLever _highlightedLever;
     private DadoBlock _heldBlock;
     private AudioSource _audioSource;
 
@@ -58,6 +60,35 @@ public class AlBlockCarrier : MonoBehaviour
         {
             PickupHighlightedBlock();
         }
+        else
+        {
+            TryConfirmNearbyLever();
+        }
+    }
+
+    private void TryConfirmNearbyLever()
+    {
+        ConfirmationLever lever = FindClosestLever();
+        lever?.Confirm();
+    }
+
+    private ConfirmationLever FindClosestLever()
+    {
+        ConfirmationLever closest = null;
+        float closestDistance = float.MaxValue;
+
+        foreach (ConfirmationLever lever in _nearbyLevers)
+        {
+            float distance = Vector2.Distance(transform.position, lever.transform.position);
+
+            if (distance < closestDistance)
+            {
+                closest = lever;
+                closestDistance = distance;
+            }
+        }
+
+        return closest;
     }
 
     private void HandleInteractWhileHolding()
@@ -157,16 +188,41 @@ public class AlBlockCarrier : MonoBehaviour
 
     private void UpdateHighlight()
     {
-        DadoBlock closest = FindClosestBlock();
+        DadoBlock closestBlock = FindClosestBlock();
 
-        if (closest == _highlightedBlock)
+        if (closestBlock != null)
+        {
+            SetBlockHighlight(closestBlock);
+            SetLeverHighlight(null); // bloco tem prioridade; nunca destaca os dois ao mesmo tempo
+            return;
+        }
+
+        SetBlockHighlight(null);
+        SetLeverHighlight(FindClosestLever());
+    }
+
+    private void SetBlockHighlight(DadoBlock block)
+    {
+        if (block == _highlightedBlock)
         {
             return;
         }
 
         _highlightedBlock?.SetHighlighted(false);
-        _highlightedBlock = closest;
+        _highlightedBlock = block;
         _highlightedBlock?.SetHighlighted(true);
+    }
+
+    private void SetLeverHighlight(ConfirmationLever lever)
+    {
+        if (lever == _highlightedLever)
+        {
+            return;
+        }
+
+        _highlightedLever?.SetHighlighted(false);
+        _highlightedLever = lever;
+        _highlightedLever?.SetHighlighted(true);
     }
 
     private DadoBlock FindClosestBlock()
@@ -194,6 +250,9 @@ public class AlBlockCarrier : MonoBehaviour
 
         _nearbyBlocks.Remove(block);
         _highlightedBlock = null;
+
+        _highlightedLever?.SetHighlighted(false);
+        _highlightedLever = null;
 
         _heldBlock = block;
         _heldBlock.Pickup(holdPoint);
@@ -239,6 +298,11 @@ public class AlBlockCarrier : MonoBehaviour
         {
             _nearbySlots.Add(slot);
         }
+
+        if (other.TryGetComponent(out ConfirmationLever lever))
+        {
+            _nearbyLevers.Add(lever);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -262,6 +326,17 @@ public class AlBlockCarrier : MonoBehaviour
             {
                 slot.SetHighlighted(false);
                 _highlightedSlot = null;
+            }
+        }
+
+        if (other.TryGetComponent(out ConfirmationLever lever))
+        {
+            _nearbyLevers.Remove(lever);
+
+            if (lever == _highlightedLever)
+            {
+                lever.SetHighlighted(false);
+                _highlightedLever = null;
             }
         }
     }

@@ -11,9 +11,20 @@ public class CalculationStationDisplay : MonoBehaviour
 {
     [SerializeField] private TextMeshPro resultLabel;
     [SerializeField] private string incompleteText = "–";
+    [SerializeField] private PuzzleConfig puzzleConfig;
+    [SerializeField] private Color correctColor = Color.green;
+    [SerializeField] private Color incorrectColor = Color.red;
+
+    private const double ComparisonTolerance = 0.0001;
 
     private NumericSlot[] _slots;
     private OperatorSlotMarker[] _torches;
+    private Color _defaultLabelColor;
+
+    // Disparado quando o Al confirma uma tentativa na alavanca,
+    // com true se o resultado bateu com o alvo da fase. Sistemas
+    // futuros (abrir passagem, derreter gelo, etc.) assinam isso.
+    public event System.Action<bool> OnEquationValidated;
 
     private void Awake()
     {
@@ -24,6 +35,11 @@ public class CalculationStationDisplay : MonoBehaviour
         _torches = GetComponentsInChildren<OperatorSlotMarker>()
             .OrderBy(torch => torch.Position)
             .ToArray();
+
+        if (resultLabel != null)
+        {
+            _defaultLabelColor = resultLabel.color;
+        }
     }
 
     private void Update()
@@ -36,6 +52,29 @@ public class CalculationStationDisplay : MonoBehaviour
 
         double result = EvaluateCurrentEquation();
         ShowResult(result);
+    }
+
+    public void ConfirmAttempt()
+    {
+        if (!AllFilled())
+        {
+            return; // nada para confirmar ainda
+        }
+
+        double result = EvaluateCurrentEquation();
+        bool isCorrect = puzzleConfig != null
+            && System.Math.Abs(result - puzzleConfig.targetResult) < ComparisonTolerance;
+
+        OnEquationValidated?.Invoke(isCorrect);
+        ShowValidationFeedback(isCorrect);
+    }
+
+    private void ShowValidationFeedback(bool isCorrect)
+    {
+        if (resultLabel != null)
+        {
+            resultLabel.color = isCorrect ? correctColor : incorrectColor;
+        }
     }
 
     private bool AllFilled()
@@ -85,6 +124,7 @@ public class CalculationStationDisplay : MonoBehaviour
         if (resultLabel != null)
         {
             resultLabel.text = incompleteText;
+            resultLabel.color = _defaultLabelColor;
         }
     }
 }
