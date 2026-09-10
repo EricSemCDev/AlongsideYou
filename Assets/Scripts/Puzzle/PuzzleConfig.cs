@@ -19,6 +19,9 @@ public class PuzzleConfig : ScriptableObject
     [Header("Dificuldade (D) — decisão manual da fase")]
     [Range(1f, 10f)] public float difficulty = 1f;
 
+    [Header("Resultado-alvo — decisão manual, até o PuzzleGenerator existir")]
+    public int targetResult;
+
     private void OnValidate()
     {
         Validate();

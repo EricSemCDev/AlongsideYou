@@ -131,17 +131,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": """",
-                    ""id"": ""462ff145-efea-448c-9fe1-0e9feff3999a"",
-                    ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""2D Vector"",
                     ""id"": ""4d8b96bb-2069-4bbd-b891-68f7bdbd3337"",
                     ""path"": ""2DVector"",
@@ -264,17 +253,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""7b77960f-732e-40a3-9c47-78596c6ef5bd"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Interact"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""fc918b58-5e29-403e-a446-8c6102011172"",
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
@@ -286,30 +264,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""92a7d45f-2347-4b82-aafd-c67aee34fbf3"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""RotateFaceLeft"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""13ccc55e-5a2d-4d86-964d-a32d03f6d2f6"",
                     ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""RotateFaceRight"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6cdbabb6-5a62-4175-a1d0-b9f194d974d8"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -333,18 +289,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Stick"",
-                    ""type"": ""Value"",
-                    ""id"": ""685af5ab-9ffa-4ef8-94fe-ce88ccf9e615"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Hold"",
                     ""type"": ""Button"",
                     ""id"": ""4cb5b319-7dfa-4432-8244-c536e7097a86"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectOperator"",
+                    ""type"": ""Button"",
+                    ""id"": ""3d90929b-03f5-44b4-af68-ada37328f61d"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -365,23 +321,131 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""57fe7661-e10f-4b48-9c32-8f7c05caeedc"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Stick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""2aa6c23c-86e7-4560-b051-79c1193866f7"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Hold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""431d4de8-1e96-4ab9-b992-fb9ed5462c0c"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectOperator"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Gamepad"",
+            ""id"": ""4e1fbe72-1fdf-4583-a141-6793f99bd4c1"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""ab6fafae-77cc-4615-bc7d-d767b48f4b67"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""3da9a363-25cc-4961-8dc9-0976207a87da"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ButtonShoulderLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""3f9fcb5c-aa8c-430d-b547-5b50d6d4038c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ButtonShoulderRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""ec575ed2-99bd-47fe-aada-29583f598b68"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwapCharacter"",
+                    ""type"": ""Button"",
+                    ""id"": ""87424865-73e4-441b-b0c8-34f58ab17e3d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f23f4dc2-d232-414b-a4e1-f95e374a168a"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b06c0b85-8612-4c04-bb5d-2da49fd6ecd3"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""32aa71d1-ed9a-4106-ad16-b93314ed4e69"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ButtonShoulderLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2c76674a-e916-45b7-9d8c-f37caf8651ab"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ButtonShoulderRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b0dcb24a-17c8-4e93-ba72-8b2ecbf7244a"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapCharacter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -399,14 +463,22 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Finn
         m_Finn = asset.FindActionMap("Finn", throwIfNotFound: true);
         m_Finn_Point = m_Finn.FindAction("Point", throwIfNotFound: true);
-        m_Finn_Stick = m_Finn.FindAction("Stick", throwIfNotFound: true);
         m_Finn_Hold = m_Finn.FindAction("Hold", throwIfNotFound: true);
+        m_Finn_SelectOperator = m_Finn.FindAction("SelectOperator", throwIfNotFound: true);
+        // Gamepad
+        m_Gamepad = asset.FindActionMap("Gamepad", throwIfNotFound: true);
+        m_Gamepad_Move = m_Gamepad.FindAction("Move", throwIfNotFound: true);
+        m_Gamepad_Interact = m_Gamepad.FindAction("Interact", throwIfNotFound: true);
+        m_Gamepad_ButtonShoulderLeft = m_Gamepad.FindAction("ButtonShoulderLeft", throwIfNotFound: true);
+        m_Gamepad_ButtonShoulderRight = m_Gamepad.FindAction("ButtonShoulderRight", throwIfNotFound: true);
+        m_Gamepad_SwapCharacter = m_Gamepad.FindAction("SwapCharacter", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
     {
         UnityEngine.Debug.Assert(!m_Al.enabled, "This will cause a leak and performance issues, PlayerInputActions.Al.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Finn.enabled, "This will cause a leak and performance issues, PlayerInputActions.Finn.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Gamepad.enabled, "This will cause a leak and performance issues, PlayerInputActions.Gamepad.Disable() has not been called.");
     }
 
     /// <summary>
@@ -612,8 +684,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Finn;
     private List<IFinnActions> m_FinnActionsCallbackInterfaces = new List<IFinnActions>();
     private readonly InputAction m_Finn_Point;
-    private readonly InputAction m_Finn_Stick;
     private readonly InputAction m_Finn_Hold;
+    private readonly InputAction m_Finn_SelectOperator;
     /// <summary>
     /// Provides access to input actions defined in input action map "Finn".
     /// </summary>
@@ -630,13 +702,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Point => m_Wrapper.m_Finn_Point;
         /// <summary>
-        /// Provides access to the underlying input action "Finn/Stick".
-        /// </summary>
-        public InputAction @Stick => m_Wrapper.m_Finn_Stick;
-        /// <summary>
         /// Provides access to the underlying input action "Finn/Hold".
         /// </summary>
         public InputAction @Hold => m_Wrapper.m_Finn_Hold;
+        /// <summary>
+        /// Provides access to the underlying input action "Finn/SelectOperator".
+        /// </summary>
+        public InputAction @SelectOperator => m_Wrapper.m_Finn_SelectOperator;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -666,12 +738,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Point.started += instance.OnPoint;
             @Point.performed += instance.OnPoint;
             @Point.canceled += instance.OnPoint;
-            @Stick.started += instance.OnStick;
-            @Stick.performed += instance.OnStick;
-            @Stick.canceled += instance.OnStick;
             @Hold.started += instance.OnHold;
             @Hold.performed += instance.OnHold;
             @Hold.canceled += instance.OnHold;
+            @SelectOperator.started += instance.OnSelectOperator;
+            @SelectOperator.performed += instance.OnSelectOperator;
+            @SelectOperator.canceled += instance.OnSelectOperator;
         }
 
         /// <summary>
@@ -686,12 +758,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Point.started -= instance.OnPoint;
             @Point.performed -= instance.OnPoint;
             @Point.canceled -= instance.OnPoint;
-            @Stick.started -= instance.OnStick;
-            @Stick.performed -= instance.OnStick;
-            @Stick.canceled -= instance.OnStick;
             @Hold.started -= instance.OnHold;
             @Hold.performed -= instance.OnHold;
             @Hold.canceled -= instance.OnHold;
+            @SelectOperator.started -= instance.OnSelectOperator;
+            @SelectOperator.performed -= instance.OnSelectOperator;
+            @SelectOperator.canceled -= instance.OnSelectOperator;
         }
 
         /// <summary>
@@ -725,6 +797,146 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="FinnActions" /> instance referencing this action map.
     /// </summary>
     public FinnActions @Finn => new FinnActions(this);
+
+    // Gamepad
+    private readonly InputActionMap m_Gamepad;
+    private List<IGamepadActions> m_GamepadActionsCallbackInterfaces = new List<IGamepadActions>();
+    private readonly InputAction m_Gamepad_Move;
+    private readonly InputAction m_Gamepad_Interact;
+    private readonly InputAction m_Gamepad_ButtonShoulderLeft;
+    private readonly InputAction m_Gamepad_ButtonShoulderRight;
+    private readonly InputAction m_Gamepad_SwapCharacter;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Gamepad".
+    /// </summary>
+    public struct GamepadActions
+    {
+        private @PlayerInputActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public GamepadActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Gamepad/Move".
+        /// </summary>
+        public InputAction @Move => m_Wrapper.m_Gamepad_Move;
+        /// <summary>
+        /// Provides access to the underlying input action "Gamepad/Interact".
+        /// </summary>
+        public InputAction @Interact => m_Wrapper.m_Gamepad_Interact;
+        /// <summary>
+        /// Provides access to the underlying input action "Gamepad/ButtonShoulderLeft".
+        /// </summary>
+        public InputAction @ButtonShoulderLeft => m_Wrapper.m_Gamepad_ButtonShoulderLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "Gamepad/ButtonShoulderRight".
+        /// </summary>
+        public InputAction @ButtonShoulderRight => m_Wrapper.m_Gamepad_ButtonShoulderRight;
+        /// <summary>
+        /// Provides access to the underlying input action "Gamepad/SwapCharacter".
+        /// </summary>
+        public InputAction @SwapCharacter => m_Wrapper.m_Gamepad_SwapCharacter;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Gamepad; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="GamepadActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(GamepadActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="GamepadActions" />
+        public void AddCallbacks(IGamepadActions instance)
+        {
+            if (instance == null || m_Wrapper.m_GamepadActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GamepadActionsCallbackInterfaces.Add(instance);
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
+            @ButtonShoulderLeft.started += instance.OnButtonShoulderLeft;
+            @ButtonShoulderLeft.performed += instance.OnButtonShoulderLeft;
+            @ButtonShoulderLeft.canceled += instance.OnButtonShoulderLeft;
+            @ButtonShoulderRight.started += instance.OnButtonShoulderRight;
+            @ButtonShoulderRight.performed += instance.OnButtonShoulderRight;
+            @ButtonShoulderRight.canceled += instance.OnButtonShoulderRight;
+            @SwapCharacter.started += instance.OnSwapCharacter;
+            @SwapCharacter.performed += instance.OnSwapCharacter;
+            @SwapCharacter.canceled += instance.OnSwapCharacter;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="GamepadActions" />
+        private void UnregisterCallbacks(IGamepadActions instance)
+        {
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
+            @ButtonShoulderLeft.started -= instance.OnButtonShoulderLeft;
+            @ButtonShoulderLeft.performed -= instance.OnButtonShoulderLeft;
+            @ButtonShoulderLeft.canceled -= instance.OnButtonShoulderLeft;
+            @ButtonShoulderRight.started -= instance.OnButtonShoulderRight;
+            @ButtonShoulderRight.performed -= instance.OnButtonShoulderRight;
+            @ButtonShoulderRight.canceled -= instance.OnButtonShoulderRight;
+            @SwapCharacter.started -= instance.OnSwapCharacter;
+            @SwapCharacter.performed -= instance.OnSwapCharacter;
+            @SwapCharacter.canceled -= instance.OnSwapCharacter;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GamepadActions.UnregisterCallbacks(IGamepadActions)" />.
+        /// </summary>
+        /// <seealso cref="GamepadActions.UnregisterCallbacks(IGamepadActions)" />
+        public void RemoveCallbacks(IGamepadActions instance)
+        {
+            if (m_Wrapper.m_GamepadActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="GamepadActions.AddCallbacks(IGamepadActions)" />
+        /// <seealso cref="GamepadActions.RemoveCallbacks(IGamepadActions)" />
+        /// <seealso cref="GamepadActions.UnregisterCallbacks(IGamepadActions)" />
+        public void SetCallbacks(IGamepadActions instance)
+        {
+            foreach (var item in m_Wrapper.m_GamepadActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_GamepadActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="GamepadActions" /> instance referencing this action map.
+    /// </summary>
+    public GamepadActions @Gamepad => new GamepadActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Al" which allows adding and removing callbacks.
     /// </summary>
@@ -776,18 +988,61 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPoint(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Stick" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnStick(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Hold" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHold(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectOperator" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectOperator(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Gamepad" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="GamepadActions.AddCallbacks(IGamepadActions)" />
+    /// <seealso cref="GamepadActions.RemoveCallbacks(IGamepadActions)" />
+    public interface IGamepadActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Move" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMove(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Interact" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInteract(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ButtonShoulderLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnButtonShoulderLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ButtonShoulderRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnButtonShoulderRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SwapCharacter" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwapCharacter(InputAction.CallbackContext context);
     }
 }

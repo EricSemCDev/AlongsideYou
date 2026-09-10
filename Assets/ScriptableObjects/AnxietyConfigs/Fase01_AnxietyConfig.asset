@@ -9,14 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dfa12f951f03ff4db229f104fbd568b, type: 3}
-  m_Name: Fase01
+  m_Script: {fileID: 11500000, guid: ee61604631c03b447aa5ff14fc18864c, type: 3}
+  m_Name: Fase01_AnxietyConfig
   m_EditorClassIdentifier: 
-  blockCount: 3
-  facesPerBlock: 4
-  slotCount: 2
-  operatorSlots: 1
-  compositeSlots: 0000
-  operatorCount: 3
-  difficulty: 10
-  targetResult: 10
+  stage1Duration: 3
+  stage2Duration: 3
+  stage3Duration: 3
+  stage4Duration: 3
