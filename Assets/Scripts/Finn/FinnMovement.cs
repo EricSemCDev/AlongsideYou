@@ -22,20 +22,44 @@ public class FinnMovement : MonoBehaviour
     private Rigidbody2D _mainRigidbody;
     private Vector2 _targetOffset;
 
+    // Referência estática simples (não é singleton completo, só existe
+    // um Finn na cena) para outros scripts (ex: ProximityVisibility)
+    // encontrarem a posição dele sem precisar arrastar manualmente em
+    // cada objeto da fase.
+    public static Transform FinnTransform { get; private set; }
+
     private void Awake()
     {
+        FinnTransform = transform;
         _mainCamera = Camera.main;
         _mainRigidbody = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
+        if (IsOperatorMenuBlockingMovement())
+        {
+            return;
+        }
+
         UpdateTargetOffset();
     }
 
     private void FixedUpdate()
     {
+        if (IsOperatorMenuBlockingMovement())
+        {
+            return;
+        }
+
         MoveTowardsTarget();
+    }
+
+    // Enquanto o menu de operador está aberto, o Finn fica parado —
+    // isso não afeta o Al, que continua jogando normalmente.
+    private bool IsOperatorMenuBlockingMovement()
+    {
+        return OperatorMenuController.Instance != null && OperatorMenuController.Instance.IsOpen;
     }
 
     private void UpdateTargetOffset()

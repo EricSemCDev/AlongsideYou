@@ -2,7 +2,8 @@
     "name": "AlongsideYou.Game.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:5acf7ed2361b0fd4b9760ebfd8ac8827"
+        "GUID:5acf7ed2361b0fd4b9760ebfd8ac8827",
+        "GUID:15fc0a57446b3144c949da3e2b9737a9"
     ],
     "includePlatforms": [
         "Editor"
