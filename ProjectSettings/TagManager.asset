@@ -41,3 +41,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 2647869217
+    locked: 0
+  - name: Midground
+    uniqueID: 1151022389
+    locked: 0
+  - name: Interactables
+    uniqueID: 1385042345
+    locked: 0
+  - name: Players
+    uniqueID: 2162581267
+    locked: 0
+  - name: Effects
+    uniqueID: 1842928443
+    locked: 0
+  - name: Foreground
+    uniqueID: 858086571
+    locked: 0
