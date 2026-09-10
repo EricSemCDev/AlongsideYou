@@ -1,9 +1,17 @@
 using UnityEngine;
 
-// Marca uma faísca-operador coletável na fase (mecânica de coleta ainda
-// não implementada — issue "Faísca-operador: coleta pelo Finn").
-// Por enquanto serve só para o PuzzleConfig contar o pool de operadores
-// disponíveis na fase (operatorCount).
+// Faísca-operador coletável na fase. O símbolo é um placeholder editável
+// no Inspector por enquanto; o PuzzleGenerator (issue futura) vai
+// sobrescrever via SetSymbol() com base na equação gerada para a fase.
+[RequireComponent(typeof(Collider2D))]
 public class OperatorSpark : MonoBehaviour
 {
+    [SerializeField] private char symbol = '+';
+
+    public char Symbol => symbol;
+
+    public void SetSymbol(char newSymbol)
+    {
+        symbol = newSymbol;
+    }
 }
