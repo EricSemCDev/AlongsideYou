@@ -8,5 +8,11 @@ public class AnxietyConfig : ScriptableObject
     public float stage2Duration = 20f;
     public float stage3Duration = 20f;
     public float stage4Duration = 20f;
-    // Estágio 5 é o final: sem avanço automático, sem duração configurável.
+
+    [Header("Multiplicador de velocidade do Al por estágio (1 = normal)")]
+    public float stage1SpeedMultiplier = 1f;
+    public float stage2SpeedMultiplier = 0.85f;
+    public float stage3SpeedMultiplier = 0.65f;
+    public float stage4SpeedMultiplier = 0.4f;
+    public float stage5SpeedMultiplier = 0f;
 }

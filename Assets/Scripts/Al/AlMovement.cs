@@ -10,6 +10,9 @@ public class AlMovement : MonoBehaviour
 
     public Vector2 FacingDirection { get; private set; } = Vector2.down;
 
+    public float SpeedMultiplier { get; set; } = 1f;
+    public bool MovementDisabled { get; set; }
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -17,24 +20,18 @@ public class AlMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 input = InputManager.Instance != null
+        Vector2 input = InputManager.Instance != null && !MovementDisabled
             ? InputManager.Instance.AlMoveInput
             : Vector2.zero;
 
-        // Limita a 1 sem forçar magnitude cheia: preserva input analógico
-        // parcial do gamepad e ainda corrige diagonais de WASD (que somam
-        // até ~1.41 sem isso).
         Vector2 direction = Vector2.ClampMagnitude(input, 1f);
 
-        // Só atualiza a direção "olhada" com input intencional o
-        // suficiente. Sem isso, resíduo de analógico (que nunca volta
-        // exatamente a zero) sobrescreve a última direção real com ruído.
         if (direction.magnitude > minMagnitudeForFacing)
         {
             FacingDirection = direction.normalized;
         }
 
-        Vector2 newPosition = _rigidbody.position + direction * speed * Time.fixedDeltaTime;
+        Vector2 newPosition = _rigidbody.position + direction * speed * SpeedMultiplier * Time.fixedDeltaTime;
         _rigidbody.MovePosition(newPosition);
     }
 }
