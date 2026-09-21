@@ -9,6 +9,7 @@ using UnityEngine;
 public class PuzzleGenerator : MonoBehaviour
 {
     [SerializeField] private PuzzleConfig config;
+    [SerializeField] private int maxGenerationAttempts = 1000;
 
     private readonly System.Random _random = new();
 
@@ -27,7 +28,21 @@ public class PuzzleGenerator : MonoBehaviour
 
         List<char> pool = GenerateOperatorPool(config);
         List<char> selectedOperators = SelectOperators(config, pool);
-        (List<List<int>> blockFaces, int result) = GenerateBlocks(config, selectedOperators);
+
+        bool success = TryGenerateBlocks(config, selectedOperators, out List<List<int>> blockFaces, out int result);
+
+        if (!success)
+        {
+            Debug.LogWarning(
+                $"PuzzleGenerator: não encontrou solução em {maxGenerationAttempts} tentativas " +
+                "com os parâmetros atuais da fase. Usando equação fixa de segurança " +
+                "(mitigação do risco de balanceamento, seção 15). Considere ajustar o PuzzleConfig."
+            );
+
+            pool = GenerateFallbackOperatorPool(config);
+            selectedOperators = GenerateFallbackOperators(config);
+            (blockFaces, result) = GenerateFallbackBlocks(config);
+        }
 
         ApplyToScene(blockFaces, pool, result);
     }
@@ -122,12 +137,16 @@ public class PuzzleGenerator : MonoBehaviour
 
     // --- Blocos e equação ---
 
-    private (List<List<int>> blockFaces, int result) GenerateBlocks(PuzzleConfig cfg, List<char> operators)
+    private bool TryGenerateBlocks(
+        PuzzleConfig cfg,
+        List<char> operators,
+        out List<List<int>> blockFaces,
+        out int result)
     {
         int rMax = GetRmax(cfg.difficulty);
         bool canBeNegative = CanBeNegative(cfg.difficulty);
 
-        while (true)
+        for (int attempt = 0; attempt < maxGenerationAttempts; attempt++)
         {
             List<int> slotValues = new();
             List<int> slotDigits = new(); // dígitos individuais para plantar nos blocos
@@ -205,40 +224,132 @@ public class PuzzleGenerator : MonoBehaviour
             }
 
             // Planta 1 dígito por bloco
-            List<List<int>> blockFaces = new();
+            List<List<int>> faces = new();
 
             for (int i = 0; i < cfg.blockCount; i++)
             {
-                blockFaces.Add(new List<int>());
+                faces.Add(new List<int>());
             }
 
             for (int i = 0; i < slotDigits.Count; i++)
             {
-                blockFaces[i].Add(slotDigits[i]);
+                faces[i].Add(slotDigits[i]);
             }
 
-            // Preenche faces restantes sem repetir, depois embaralha
-            foreach (List<int> faces in blockFaces)
-            {
-                while (faces.Count < cfg.facesPerBlock)
-                {
-                    int randomFace = _random.Next(0, 10);
+            FillAndShuffleFaces(faces, cfg.facesPerBlock);
 
-                    if (!faces.Contains(randomFace))
-                    {
-                        faces.Add(randomFace);
-                    }
-                }
-
-                for (int i = faces.Count - 1; i > 0; i--)
-                {
-                    int j = _random.Next(0, i + 1);
-                    (faces[i], faces[j]) = (faces[j], faces[i]);
-                }
-            }
-
-            return (blockFaces, r);
+            blockFaces = faces;
+            result = r;
+            return true;
         }
+
+        blockFaces = null;
+        result = 0;
+        return false;
+    }
+
+    private void FillAndShuffleFaces(List<List<int>> blockFaces, int facesPerBlock)
+    {
+        foreach (List<int> faces in blockFaces)
+        {
+            while (faces.Count < facesPerBlock)
+            {
+                int randomFace = _random.Next(0, 10);
+
+                if (!faces.Contains(randomFace))
+                {
+                    faces.Add(randomFace);
+                }
+            }
+
+            for (int i = faces.Count - 1; i > 0; i--)
+            {
+                int j = _random.Next(0, i + 1);
+                (faces[i], faces[j]) = (faces[j], faces[i]);
+            }
+        }
+    }
+
+    // --- Fallback determinístico (mitigação de risco, seção 15) ---
+    //
+    // Se o gerador não encontrar solução válida dentro do limite de
+    // tentativas, cai numa equação fixa e simples: todos os slots com
+    // valor mínimo, todos os operadores '+'. Soma de valores pequenos
+    // nunca é negativa e nunca estoura nenhum Rmax realista, então
+    // sempre é uma solução válida, sem precisar repetir as checagens
+    // de dificuldade que já provaram ser impossíveis de satisfazer.
+
+    private List<char> GenerateFallbackOperatorPool(PuzzleConfig cfg)
+    {
+        List<char> safeOps = new() { '+', '-' };
+        List<char> pool = new();
+        int opIndex = 0;
+
+        while (pool.Count < cfg.operatorCount)
+        {
+            char op = safeOps[opIndex % safeOps.Count];
+            int currentCount = pool.Count(o => o == op);
+
+            if (currentCount < cfg.operatorSlots)
+            {
+                pool.Add(op);
+            }
+
+            opIndex++;
+        }
+
+        return pool;
+    }
+
+    private List<char> GenerateFallbackOperators(PuzzleConfig cfg)
+    {
+        List<char> operators = new();
+
+        for (int i = 0; i < cfg.operatorSlots; i++)
+        {
+            operators.Add('+');
+        }
+
+        return operators;
+    }
+
+    private (List<List<int>> blockFaces, int result) GenerateFallbackBlocks(PuzzleConfig cfg)
+    {
+        List<int> slotValues = new();
+        List<int> slotDigits = new();
+
+        for (int i = 0; i < cfg.slotCount; i++)
+        {
+            if (cfg.compositeSlots[i])
+            {
+                slotValues.Add(10);
+                slotDigits.Add(1);
+                slotDigits.Add(0);
+            }
+            else
+            {
+                slotValues.Add(1);
+                slotDigits.Add(1);
+            }
+        }
+
+        int result = slotValues.Sum(); // todos '+' — soma direta
+
+        List<List<int>> blockFaces = new();
+
+        for (int i = 0; i < cfg.blockCount; i++)
+        {
+            blockFaces.Add(new List<int>());
+        }
+
+        for (int i = 0; i < slotDigits.Count; i++)
+        {
+            blockFaces[i].Add(slotDigits[i]);
+        }
+
+        FillAndShuffleFaces(blockFaces, cfg.facesPerBlock);
+
+        return (blockFaces, result);
     }
 
     // --- Aplicação na cena ---
