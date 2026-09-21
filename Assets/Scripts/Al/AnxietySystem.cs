@@ -1,44 +1,65 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
+// Estágio de ansiedade do Al, agora dirigido por proximidade de luz:
+// sobe conforme fica na escuridão, desce conforme fica perto de uma
+// fonte de luz "de segurança" (Finn, tochas). A luz pessoal do próprio
+// Al é ignorada nessa checagem — é só acessória visual.
 public class AnxietySystem : MonoBehaviour
 {
     [SerializeField] private AnxietyConfig config;
-    [SerializeField] private List<CalculationStationDisplay> stations = new();
+    [SerializeField] private List<Light2D> safetyLights = new();
 
-    private float _elapsed;
+    private float _elapsedInCurrentZone;
+    private bool _wasInLightLastFrame;
 
     public int CurrentStage { get; private set; } = 1;
 
-    // Disparado sempre que o estágio muda (subindo por tempo ou
-    // descendo ao acertar uma equação). Sistemas futuros (LightSystem,
-    // animações, GameManager) assinam isso — nenhuma reação concreta
-    // implementada ainda além de expor o estado.
+    // Disparado sempre que o estágio muda. Sistemas futuros (visual,
+    // velocidade, derrota) assinam isso — nenhuma reação concreta mora
+    // aqui dentro.
     public event System.Action<int> OnStageChanged;
+
+    private void Awake()
+    {
+        if (safetyLights.Count == 0)
+        {
+            AutoFindSafetyLights();
+        }
+    }
+
+    // Encontra sozinho todas as luzes Point da cena, exceto qualquer
+    // uma anexada ao próprio Al (a luz pessoal dele não conta como
+    // "segurança" — só ajuda o jogador a não perdê-lo de vista).
+    private void AutoFindSafetyLights()
+    {
+        Light2D[] allLights = FindObjectsByType<Light2D>(FindObjectsSortMode.None);
+
+        foreach (Light2D light in allLights)
+        {
+            if (light.lightType != Light2D.LightType.Point)
+            {
+                continue;
+            }
+
+            if (light.transform == transform || light.transform.IsChildOf(transform))
+            {
+                continue;
+            }
+
+            safetyLights.Add(light);
+        }
+    }
 
     private void OnEnable()
     {
-
-        foreach (CalculationStationDisplay station in stations)
-        {
-            if (station != null)
-            {
-                station.OnEquationValidated += HandleEquationValidated;
-            }
-        }
+        OnStageChanged += LogStageChanged; // DEBUG TEMPORÁRIO — remover depois de confirmar
     }
 
     private void OnDisable()
     {
         OnStageChanged -= LogStageChanged; // DEBUG TEMPORÁRIO
-
-        foreach (CalculationStationDisplay station in stations)
-        {
-            if (station != null)
-            {
-                station.OnEquationValidated -= HandleEquationValidated;
-            }
-        }
     }
 
     private void LogStageChanged(int newStage) // DEBUG TEMPORÁRIO
@@ -51,54 +72,75 @@ public class AnxietySystem : MonoBehaviour
         if (GameManager.Instance == null
             || !InputAccessPolicy.CanAcceptInput(GameManager.Instance.CurrentState))
         {
-            return; // pausado/menu — o timer não avança
+            return; // pausado/menu — não avança nem recupera
         }
 
-        if (CurrentStage >= 5)
+        bool isInLight = IsNearAnySafetyLight();
+
+        if (isInLight != _wasInLightLastFrame)
         {
-            return; // estágio final, sem avanço automático
+            _elapsedInCurrentZone = 0f; // trocou de zona, recomeça a contagem
         }
 
-        _elapsed += Time.deltaTime;
+        _wasInLightLastFrame = isInLight;
+        _elapsedInCurrentZone += Time.deltaTime;
 
-        if (_elapsed >= GetDurationForStage(CurrentStage))
+        if (isInLight)
         {
-            _elapsed = 0f;
-            SetStage(CurrentStage + 1);
+            HandleRecovery();
+        }
+        else
+        {
+            HandleEscalation();
         }
     }
 
-    private float GetDurationForStage(int stage)
+    private bool IsNearAnySafetyLight()
     {
-        if (config == null)
+        foreach (Light2D light in safetyLights)
         {
-            return float.MaxValue; // sem config atribuída, nunca avança — seguro por padrão
+            if (light == null)
+            {
+                continue;
+            }
+
+            float distance = Vector2.Distance(transform.position, light.transform.position);
+
+            if (distance <= light.pointLightOuterRadius)
+            {
+                return true;
+            }
         }
 
-        switch (stage)
-        {
-            case 1:
-                return config.stage1Duration;
-            case 2:
-                return config.stage2Duration;
-            case 3:
-                return config.stage3Duration;
-            case 4:
-                return config.stage4Duration;
-            default:
-                return float.MaxValue;
-        }
+        return false;
     }
 
-    private void HandleEquationValidated(bool isCorrect)
+    private void HandleEscalation()
     {
-        if (!isCorrect)
+        if (CurrentStage >= 5 || config == null)
         {
             return;
         }
 
-        _elapsed = 0f;
-        SetStage(CurrentStage - 1);
+        if (_elapsedInCurrentZone >= config.timeInDarknessToEscalate)
+        {
+            _elapsedInCurrentZone = 0f;
+            SetStage(CurrentStage + 1);
+        }
+    }
+
+    private void HandleRecovery()
+    {
+        if (CurrentStage <= 1 || config == null)
+        {
+            return;
+        }
+
+        if (_elapsedInCurrentZone >= config.timeInLightToRecover)
+        {
+            _elapsedInCurrentZone = 0f;
+            SetStage(CurrentStage - 1);
+        }
     }
 
     private void SetStage(int newStage)

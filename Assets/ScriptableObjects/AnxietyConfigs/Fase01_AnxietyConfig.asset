@@ -16,3 +16,8 @@ MonoBehaviour:
   stage2Duration: 3
   stage3Duration: 3
   stage4Duration: 3
+  stage1SpeedMultiplier: 1
+  stage2SpeedMultiplier: 1
+  stage3SpeedMultiplier: 1
+  stage4SpeedMultiplier: 1
+  stage5SpeedMultiplier: 1
