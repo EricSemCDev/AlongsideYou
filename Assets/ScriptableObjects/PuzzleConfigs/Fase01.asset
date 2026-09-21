@@ -18,5 +18,5 @@ MonoBehaviour:
   operatorSlots: 1
   compositeSlots: 0000
   operatorCount: 3
-  difficulty: 1
-  targetResult: 9
+  difficulty: 10
+  targetResult: 8
