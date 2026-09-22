@@ -26,6 +26,13 @@ public class CalculationStationDisplay : MonoBehaviour
     // futuros (abrir passagem, derreter gelo, etc.) assinam isso.
     public event System.Action<bool> OnEquationValidated;
 
+    // Expostos para os obstáculos (ResultThresholdGate, ParityGate,
+    // SignGate) lerem o resultado ao vivo, sem precisar reavaliar a
+    // equação por conta própria.
+    public bool HasValidResult { get; private set; }
+    public double CurrentResultValue { get; private set; }
+    public PuzzleConfig Config => puzzleConfig;
+
     private void Awake()
     {
         _slots = GetComponentsInChildren<NumericSlot>()
@@ -46,11 +53,14 @@ public class CalculationStationDisplay : MonoBehaviour
     {
         if (!AllFilled())
         {
+            HasValidResult = false;
             ShowIncomplete();
             return;
         }
 
         double result = EvaluateCurrentEquation();
+        HasValidResult = true;
+        CurrentResultValue = result;
         ShowResult(result);
     }
 
