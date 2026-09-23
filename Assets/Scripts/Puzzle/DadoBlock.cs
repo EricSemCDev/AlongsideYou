@@ -20,6 +20,7 @@ public class DadoBlock : MonoBehaviour
 
     public int Value => faces[_currentFaceIndex];
     public bool IsHeld { get; private set; }
+    public NumericSlot CurrentSlot { get; private set; }
 
     private void Awake()
     {
@@ -60,6 +61,12 @@ public class DadoBlock : MonoBehaviour
 
     public void Pickup(Transform holdPoint)
     {
+        if (CurrentSlot != null)
+        {
+            CurrentSlot.NotifyBlockRemoved(this);
+            CurrentSlot = null;
+        }
+
         IsHeld = true;
         _collider.enabled = false;
         SetHighlighted(false);
@@ -75,5 +82,18 @@ public class DadoBlock : MonoBehaviour
 
         transform.SetParent(null);
         transform.position = worldPosition;
+    }
+
+    // Ancora o bloco visualmente no slot, mantendo o Collider2D ativo —
+    // isso permite que o Al detecte e pegue o bloco de volta depois,
+    // reaproveitando a mesma zona de detecção usada para blocos no chão.
+    public void PlaceInSlot(Transform slotAnchor, NumericSlot slot)
+    {
+        IsHeld = false;
+        CurrentSlot = slot;
+        _collider.enabled = true;
+
+        transform.SetParent(slotAnchor);
+        transform.localPosition = Vector3.zero;
     }
 }

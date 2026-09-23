@@ -30,12 +30,29 @@ public class FinnMovement : MonoBehaviour
 
     private void Update()
     {
+        if (IsOperatorMenuBlockingMovement())
+        {
+            return;
+        }
+
         UpdateTargetOffset();
     }
 
     private void FixedUpdate()
     {
+        if (IsOperatorMenuBlockingMovement())
+        {
+            return;
+        }
+
         MoveTowardsTarget();
+    }
+
+    // Enquanto o menu de operador está aberto, o Finn fica parado —
+    // isso não afeta o Al, que continua jogando normalmente.
+    private bool IsOperatorMenuBlockingMovement()
+    {
+        return OperatorMenuController.Instance != null && OperatorMenuController.Instance.IsOpen;
     }
 
     private void UpdateTargetOffset()
