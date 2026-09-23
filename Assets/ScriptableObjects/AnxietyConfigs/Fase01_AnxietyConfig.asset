@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee61604631c03b447aa5ff14fc18864c, type: 3}
   m_Name: Fase01_AnxietyConfig
   m_EditorClassIdentifier: 
-  stage1Duration: 3
-  stage2Duration: 3
-  stage3Duration: 3
-  stage4Duration: 3
+  timeInDarknessToEscalate: 5
+  timeInLightToRecover: 1
   stage1SpeedMultiplier: 1
   stage2SpeedMultiplier: 1
   stage3SpeedMultiplier: 1
