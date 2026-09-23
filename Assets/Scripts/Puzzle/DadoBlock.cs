@@ -59,6 +59,15 @@ public class DadoBlock : MonoBehaviour
         _spriteRenderer.color = highlighted ? highlightColor : _originalColor;
     }
 
+    // Chamado pelo PuzzleGenerator para sobrescrever as faces placeholder
+    // com valores gerados de verdade, no início da fase.
+    public void SetFaces(List<int> newFaces)
+    {
+        faces = newFaces;
+        _currentFaceIndex = 0;
+        UpdateValueLabel();
+    }
+
     public void Pickup(Transform holdPoint)
     {
         if (CurrentSlot != null)
@@ -87,13 +96,15 @@ public class DadoBlock : MonoBehaviour
     // Ancora o bloco visualmente no slot, mantendo o Collider2D ativo —
     // isso permite que o Al detecte e pegue o bloco de volta depois,
     // reaproveitando a mesma zona de detecção usada para blocos no chão.
-    public void PlaceInSlot(Transform slotAnchor, NumericSlot slot)
+    // localOffset permite posicionar 2 blocos lado a lado num slot
+    // composto, em vez de sobrepostos.
+    public void PlaceInSlot(Transform slotAnchor, NumericSlot slot, Vector3 localOffset = default)
     {
         IsHeld = false;
         CurrentSlot = slot;
         _collider.enabled = true;
 
         transform.SetParent(slotAnchor);
-        transform.localPosition = Vector3.zero;
+        transform.localPosition = localOffset;
     }
 }
