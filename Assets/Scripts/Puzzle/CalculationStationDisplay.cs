@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // Painel diegético (parte do mundo, não HUD) que mostra o resultado
 // da equação assim que todos os slots numéricos e tochas de operador
@@ -15,21 +17,44 @@ public class CalculationStationDisplay : MonoBehaviour
     [SerializeField] private Color correctColor = Color.green;
     [SerializeField] private Color incorrectColor = Color.red;
 
+    [Header("Confirmacao")]
+    [Tooltip("Confirma sozinho assim que todos os slots e tochas estao preenchidos, uma vez por arranjo. Desligado, so a alavanca confirma.")]
+    [SerializeField] private bool autoConfirm = true;
+
+    [Header("Tentativas")]
+    [Tooltip("Liga o limite de erros. Ao errar Max Attempts arranjos diferentes, o jogador perde e a fase reinicia. Desligado, pode tentar a vontade.")]
+    [SerializeField] private bool limitAttempts;
+    [SerializeField] private int maxAttempts = 3;
+    [Tooltip("Segundos mostrando o ultimo erro (vermelho) antes de reiniciar a fase.")]
+    [SerializeField] private float defeatDelay = 1.5f;
+
     private const double ComparisonTolerance = 0.0001;
 
     private NumericSlot[] _slots;
     private OperatorSlotMarker[] _torches;
     private Color _defaultLabelColor;
+    private string _lastConfirmedKey;
 
     // Disparado quando o Al confirma uma tentativa na alavanca,
     // com true se o resultado bateu com o alvo da fase. Sistemas
     // futuros (abrir passagem, derreter gelo, etc.) assinam isso.
     public event System.Action<bool> OnEquationValidated;
 
+    // Disparado a cada erro contado, com (erros ate agora, maximo). So com
+    // Limit Attempts ligado.
+    public event System.Action<int, int> OnFailedAttemptsChanged;
+
+    // Disparado quando os erros chegam ao maximo, antes de reiniciar a fase.
+    public event System.Action OnAttemptsExhausted;
+
     // Expostos para os obstáculos (ResultThresholdGate, ParityGate,
     // SignGate) lerem o resultado ao vivo, sem precisar reavaliar a
     // equação por conta própria.
     public bool HasValidResult { get; private set; }
+    public int FailedAttempts { get; private set; }
+    public int MaxAttempts => maxAttempts;
+    public int AttemptsRemaining => Mathf.Max(0, maxAttempts - FailedAttempts);
+    public bool IsSolved { get; private set; }
     public double CurrentResultValue { get; private set; }
     public PuzzleConfig Config => puzzleConfig;
 
@@ -54,6 +79,7 @@ public class CalculationStationDisplay : MonoBehaviour
         if (!AllFilled())
         {
             HasValidResult = false;
+            _lastConfirmedKey = null; // incompleto: o proximo arranjo completo conta como novo
             ShowIncomplete();
             return;
         }
@@ -62,6 +88,33 @@ public class CalculationStationDisplay : MonoBehaviour
         HasValidResult = true;
         CurrentResultValue = result;
         ShowResult(result);
+
+        if (autoConfirm)
+        {
+            ConfirmIfNewArrangement();
+        }
+    }
+
+    // Confirma uma unica vez para cada combinacao completa de blocos e operadores.
+    // Mexer em qualquer coisa muda a chave e a proxima combinacao completa e avaliada.
+    private void ConfirmIfNewArrangement()
+    {
+        string key = BuildArrangementKey();
+
+        if (key == _lastConfirmedKey)
+        {
+            return;
+        }
+
+        // ConfirmAttempt grava a chave do arranjo (e decide se conta como erro).
+        ConfirmAttempt();
+    }
+
+    private string BuildArrangementKey()
+    {
+        string values = string.Join(",", _slots.Select(slot => slot.CurrentValue));
+        string operators = new string(_torches.Select(torch => torch.CurrentSymbol).ToArray());
+        return values + "|" + operators;
     }
 
     public void ConfirmAttempt()
@@ -71,12 +124,63 @@ public class CalculationStationDisplay : MonoBehaviour
             return; // nada para confirmar ainda
         }
 
+        // Cada combinacao conta uma vez: apertar a alavanca de novo no mesmo
+        // arranjo nao conta como outra tentativa.
+        string key = BuildArrangementKey();
+        bool isNewArrangement = key != _lastConfirmedKey;
+        _lastConfirmedKey = key;
+
         double result = EvaluateCurrentEquation();
         bool isCorrect = puzzleConfig != null
             && System.Math.Abs(result - puzzleConfig.targetResult) < ComparisonTolerance;
 
         OnEquationValidated?.Invoke(isCorrect);
         ShowValidationFeedback(isCorrect);
+
+        if (isCorrect)
+        {
+            IsSolved = true; // depois de resolver, errar nao custa mais nada
+        }
+        else if (isNewArrangement)
+        {
+            RegisterFailedAttempt();
+        }
+    }
+
+    private void RegisterFailedAttempt()
+    {
+        if (!limitAttempts || IsSolved || FailedAttempts >= maxAttempts)
+        {
+            return;
+        }
+
+        FailedAttempts++;
+        OnFailedAttemptsChanged?.Invoke(FailedAttempts, maxAttempts);
+
+        if (FailedAttempts >= maxAttempts)
+        {
+            OnAttemptsExhausted?.Invoke();
+            StartCoroutine(DefeatRoutine());
+        }
+    }
+
+    // Derrota por tentativas: GameOver, uma pausa para o jogador ver o erro,
+    // e a fase recomeca do zero (com o fade, se houver PhaseProgressionManager).
+    private IEnumerator DefeatRoutine()
+    {
+        GameManager.Instance?.TryTransitionTo(GameState.GameOver);
+
+        yield return new WaitForSecondsRealtime(defeatDelay);
+
+        if (PhaseProgressionManager.Instance != null && PhaseProgressionManager.Instance.CurrentPhaseIndex >= 0)
+        {
+            PhaseProgressionManager.Instance.RestartCurrentPhase();
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            GameManager.Instance?.TryTransitionTo(GameState.Playing);
+        }
     }
 
     private void ShowValidationFeedback(bool isCorrect)

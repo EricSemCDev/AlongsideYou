@@ -12,6 +12,7 @@ public class GameStateMachine
         (GameState.Playing, GameState.Complete),
         (GameState.Playing, GameState.GameOver),
         (GameState.Paused, GameState.Menu),
+        (GameState.Complete, GameState.Menu),
     };
 
     public GameState CurrentState { get; private set; }

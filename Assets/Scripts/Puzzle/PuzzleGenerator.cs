@@ -10,6 +10,8 @@ public class PuzzleGenerator : MonoBehaviour
 {
     [SerializeField] private PuzzleConfig config;
     [SerializeField] private int maxGenerationAttempts = 1000;
+    [Tooltip("Quantas vezes sortear OUTROS operadores se os atuais nao tiverem solucao (ex: subtracao com slot composto a direita sempre da negativo).")]
+    [SerializeField] private int maxOperatorRetries = 30;
 
     private readonly System.Random _random = new();
 
@@ -26,10 +28,22 @@ public class PuzzleGenerator : MonoBehaviour
             return;
         }
 
-        List<char> pool = GenerateOperatorPool(config);
-        List<char> selectedOperators = SelectOperators(config, pool);
+        List<char> pool = null;
+        List<char> selectedOperators = null;
+        List<List<int>> blockFaces = null;
+        int result = 0;
+        bool success = false;
 
-        bool success = TryGenerateBlocks(config, selectedOperators, out List<List<int>> blockFaces, out int result);
+        // O operador da equacao e sorteado ANTES dos numeros. Alguns operadores nao
+        // tem solucao em certas configuracoes (ex: subtracao com slot composto a
+        // direita da sempre negativo), e as tentativas de numeros nunca resolveriam.
+        // Por isso sorteia outros operadores antes de desistir e usar o fallback.
+        for (int operatorTry = 0; operatorTry < maxOperatorRetries && !success; operatorTry++)
+        {
+            pool = GenerateOperatorPool(config);
+            selectedOperators = SelectOperators(config, pool);
+            success = TryGenerateBlocks(config, selectedOperators, out blockFaces, out result);
+        }
 
         if (!success)
         {
@@ -189,15 +203,24 @@ public class PuzzleGenerator : MonoBehaviour
                         resultado *= slotValues[i + 1];
                         break;
                     case '/':
-                        if (slotValues[i + 1] == 0)
+                    {
+                        // So aceita divisao EXATA e com resultado diferente de zero.
+                        // O jogo calcula a conta sem arredondar (EquationEvaluator), entao
+                        // uma divisao arredondada aqui nunca bateria com o que o jogador
+                        // monta; e resultados como 3 / 47 = 0 sao feios e nada intuitivos.
+                        int divisor = slotValues[i + 1];
+
+                        if (divisor == 0 || resultado == 0f || resultado % divisor != 0f)
                         {
                             invalid = true;
                         }
                         else
                         {
-                            resultado = (float)Math.Round(resultado / slotValues[i + 1]);
+                            resultado /= divisor;
                         }
+
                         break;
+                    }
                 }
 
                 if (invalid)
