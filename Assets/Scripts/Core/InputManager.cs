@@ -36,6 +36,18 @@ public class InputManager : MonoBehaviour
     public bool FinnSelectOperatorPressed { get; private set; }
     public bool FinnSelectOperatorReleased { get; private set; }
 
+    // Verdadeiro no frame em que a roda de operadores foi pedida pelo botao do
+    // controle (e nao pelo mouse). A roda usa isso para escolher pelo analogico.
+    public bool FinnSelectOperatorFromGamepad { get; private set; }
+
+    // Esc / Start. Fica sempre ativo (mapa Game), inclusive com o jogo pausado,
+    // senao nao daria para despausar.
+    public bool PausePressed { get; private set; }
+
+    // Ligado pelo tutorial (dialogo): o jogo ignora os controles de Al e Finn
+    // enquanto o jogador le. Pausa continua funcionando.
+    public bool GameplayInputSuspended { get; set; }
+
     public GamepadActiveCharacter ActiveCharacter => activeCharacter;
     public InputMode CurrentMode => mode;
 
@@ -63,6 +75,7 @@ public class InputManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         inputActions = new PlayerInputActions();
+        inputActions.Game.Enable();
     }
 
     private void OnDestroy()
@@ -75,7 +88,10 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        bool shouldAcceptInput = GameManager.Instance != null
+        PausePressed = inputActions.Game.Pause.WasPressedThisFrame();
+
+        bool shouldAcceptInput = !GameplayInputSuspended
+            && GameManager.Instance != null
             && InputAccessPolicy.CanAcceptInput(GameManager.Instance.CurrentState);
 
         SetInputMapsEnabled(shouldAcceptInput);
@@ -124,6 +140,7 @@ public class InputManager : MonoBehaviour
         FinnPointerHeld = inputActions.Finn.Hold.IsPressed();
         FinnSelectOperatorPressed = inputActions.Finn.SelectOperator.WasPressedThisFrame();
         FinnSelectOperatorReleased = inputActions.Finn.SelectOperator.WasReleasedThisFrame();
+        FinnSelectOperatorFromGamepad = false;
 
         // Zerado aqui e preenchido depois, conforme o modo (Solo ou
         // TwoPlayers), em ReadGamepadInputsIntoActiveCharacter ou
@@ -135,6 +152,7 @@ public class InputManager : MonoBehaviour
     {
         Vector2 gamepadMove = inputActions.Gamepad.Move.ReadValue<Vector2>();
         bool gamepadInteract = inputActions.Gamepad.Interact.WasPressedThisFrame();
+        bool gamepadInteractReleased = inputActions.Gamepad.Interact.WasReleasedThisFrame();
         bool gamepadShoulderLeft = inputActions.Gamepad.ButtonShoulderLeft.WasPressedThisFrame();
         bool gamepadShoulderRight = inputActions.Gamepad.ButtonShoulderRight.WasPressedThisFrame();
 
@@ -148,6 +166,12 @@ public class InputManager : MonoBehaviour
         else
         {
             FinnStickInput = gamepadMove;
+
+            // Botao de acao (A no Xbox, X no PlayStation) = roda de operadores do
+            // Finn: segura para abrir, analogico escolhe, solta para confirmar.
+            FinnSelectOperatorPressed |= gamepadInteract;
+            FinnSelectOperatorReleased |= gamepadInteractReleased;
+            FinnSelectOperatorFromGamepad |= gamepadInteract;
             // Interact/ShoulderLeft/ShoulderRight não têm equivalente no
             // Finn ainda — quando existirem, tratamos aqui.
         }
@@ -176,6 +200,11 @@ public class InputManager : MonoBehaviour
         if (gamepadForFinn != null)
         {
             FinnStickInput = gamepadForFinn.leftStick.ReadValue();
+
+            // Botao de acao do controle do Finn = roda de operadores (ver acima).
+            FinnSelectOperatorPressed |= gamepadForFinn.buttonSouth.wasPressedThisFrame;
+            FinnSelectOperatorReleased |= gamepadForFinn.buttonSouth.wasReleasedThisFrame;
+            FinnSelectOperatorFromGamepad |= gamepadForFinn.buttonSouth.wasPressedThisFrame;
             // Botões do Finn (quando existirem) entram aqui.
         }
     }
@@ -190,6 +219,7 @@ public class InputManager : MonoBehaviour
         FinnPointerHeld = false;
         FinnSelectOperatorPressed = false;
         FinnSelectOperatorReleased = false;
+        FinnSelectOperatorFromGamepad = false;
     }
 
     private void SetInputMapsEnabled(bool enabled)
