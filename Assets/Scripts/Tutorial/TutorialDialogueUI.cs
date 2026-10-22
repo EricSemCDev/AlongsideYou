@@ -19,6 +19,23 @@ public class TutorialDialogueUI : MonoBehaviour
     [SerializeField] private Color textColor = new Color(1f, 0.95f, 0.85f, 1f);
     [SerializeField] private Color nameColor = new Color(1f, 0.72f, 0.3f, 1f);
 
+    public enum HintCorner
+    {
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight
+    }
+
+    [Header("Dica de pular")]
+    [Tooltip("Em que canto da caixa fica a dica \"Segure TAB para pular\".")]
+    [SerializeField] private HintCorner skipHintCorner = HintCorner.BottomLeft;
+    [Tooltip("Distancia da dica ate o canto, para DENTRO da caixa (X = para o lado, Y = para cima nos cantos de baixo / para baixo nos de cima). Padrao: alinhada com o texto.")]
+    [SerializeField] private Vector2 skipHintOffset = new Vector2(84f, 6f);
+    [Tooltip("Tamanho da letra da dica (em unidades do canvas). Menor = mais discreta.")]
+    [SerializeField] private float skipHintSize = 6f;
+    [SerializeField] private Color skipHintColor = new Color(0.72f, 0.62f, 0.55f, 1f);
+
     [Header("Icones de botao")]
     [Tooltip("Tamanho dos icones dentro do texto (100 = natural). Aumente se ficarem pequenos.")]
     [SerializeField] private int iconSizePercent = 100;
@@ -51,6 +68,8 @@ public class TutorialDialogueUI : MonoBehaviour
     private TMP_Text _nameLabel;
     private TMP_Text _textLabel;
     private RectTransform _indicator;
+    private TMP_Text _skipLabel;
+    private RectTransform _skipBar;
     private AudioSource _audio;
     private Texture2D _indicatorTexture;
     private Sprite _indicatorSprite;
@@ -76,6 +95,8 @@ public class TutorialDialogueUI : MonoBehaviour
         {
             _textLabel.lineSpacing = lineSpacing;
         }
+
+        ApplySkipHintLayout();
     }
 
     private void OnEnable()
@@ -220,6 +241,38 @@ public class TutorialDialogueUI : MonoBehaviour
         StopCoroutine(_typing);
         _typing = null;
         _textLabel.maxVisibleCharacters = int.MaxValue;
+    }
+
+    // Dica de "pular" no canto de cima da caixa, com uma barrinha que enche enquanto o
+    // jogador segura o botao. text vazio/null esconde tudo.
+    public void SetSkipHint(string text, float progress)
+    {
+        if (_skipLabel == null)
+        {
+            return;
+        }
+
+        bool show = !string.IsNullOrEmpty(text);
+        _skipLabel.gameObject.SetActive(show);
+
+        if (!show)
+        {
+            _skipBar.gameObject.SetActive(false);
+            return;
+        }
+
+        if (_skipLabel.text != text)
+        {
+            _skipLabel.text = text;
+        }
+
+        float fill = Mathf.Clamp01(progress);
+        _skipBar.gameObject.SetActive(fill > 0.01f);
+
+        if (fill > 0.01f)
+        {
+            _skipBar.sizeDelta = new Vector2(Mathf.Round(_skipLabel.preferredWidth * fill), 1f);
+        }
     }
 
     public void SetContinueVisible(bool visible)
@@ -379,8 +432,57 @@ public class TutorialDialogueUI : MonoBehaviour
         _indicator = indicatorRect;
         _indicator.gameObject.SetActive(false);
 
+        // Dica de pular e barrinha de progresso (posicao e tamanho: ver ApplySkipHintLayout).
+        _skipLabel = NewLabel("Skip", _panel, usedFont, skipHintSize, skipHintColor);
+        _skipLabel.enableWordWrapping = false;
+        _skipLabel.gameObject.SetActive(false);
+
+        _skipBar = NewRect("SkipBar", _panel);
+        var barImage = _skipBar.gameObject.AddComponent<Image>();
+        barImage.color = borderColor;
+        barImage.raycastTarget = false;
+        _skipBar.gameObject.SetActive(false);
+
+        ApplySkipHintLayout();
         // Sem retrato definido o quadro fica escondido (senao aparece um quadrado branco).
         _portraitFrame.SetActive(false);
+    }
+
+    // Posiciona a dica de pular no canto escolhido, com o tamanho e a cor dos campos.
+    // Roda ao montar a caixa e a cada mudanca no Inspector (vale ao vivo em Play Mode).
+    private void ApplySkipHintLayout()
+    {
+        if (_skipLabel == null || _skipBar == null)
+        {
+            return;
+        }
+
+        bool right = skipHintCorner == HintCorner.TopRight || skipHintCorner == HintCorner.BottomRight;
+        bool top = skipHintCorner == HintCorner.TopLeft || skipHintCorner == HintCorner.TopRight;
+
+        var corner = new Vector2(right ? 1f : 0f, top ? 1f : 0f);
+        float xSign = right ? -1f : 1f;
+        float ySign = top ? -1f : 1f;
+        float height = skipHintSize + 2f;
+
+        _skipLabel.fontSize = skipHintSize;
+        _skipLabel.color = skipHintColor;
+        _skipLabel.alignment = right ? TextAlignmentOptions.BottomRight : TextAlignmentOptions.BottomLeft;
+
+        RectTransform labelRect = _skipLabel.rectTransform;
+        labelRect.anchorMin = labelRect.anchorMax = corner;
+        labelRect.pivot = corner;
+        labelRect.sizeDelta = new Vector2(220f, height);
+        labelRect.anchoredPosition = new Vector2(skipHintOffset.x * xSign, skipHintOffset.y * ySign);
+
+        // A barrinha fica logo abaixo do texto (nos cantos de cima, 1 px abaixo da dica; nos de baixo, 2 px abaixo da base).
+        _skipBar.anchorMin = _skipBar.anchorMax = corner;
+        _skipBar.pivot = corner;
+        float barY = top
+            ? -(skipHintOffset.y + height + 1f)
+            : skipHintOffset.y - 2f;
+        _skipBar.anchoredPosition = new Vector2(skipHintOffset.x * xSign, barY);
+        _skipBar.sizeDelta = new Vector2(_skipBar.sizeDelta.x, 1f);
     }
 
     private static RectTransform NewRect(string objectName, Transform parent)

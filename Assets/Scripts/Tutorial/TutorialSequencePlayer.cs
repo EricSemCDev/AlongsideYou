@@ -29,9 +29,9 @@ public class TutorialSequencePlayer : MonoBehaviour
     [SerializeField] private bool playOnStart = true;
     [Tooltip("Espera apos o fade de entrada da fase antes de comecar.")]
     [SerializeField] private float startDelay = 0.6f;
-    [Tooltip("Ligado: so toca uma vez por sessao do jogo (nao repete ao reiniciar a fase).")]
-    [SerializeField] private bool onlyOncePerSession = true;
-    [Tooltip("Identificador para o 'uma vez por sessao'. Vazio = nome do objeto.")]
+    [Tooltip("Desligado (padrao): o tutorial toca TODA vez que a fase comeca (inclusive ao voltar do menu ou reiniciar). Ligado: so toca uma vez por sessao do jogo.")]
+    [SerializeField] private bool playOnlyOnce = false;
+    [Tooltip("Identificador para o 'so uma vez'. Vazio = nome do objeto.")]
     [SerializeField] private string sequenceId = "";
 
     [Header("Camera")]
@@ -46,6 +46,12 @@ public class TutorialSequencePlayer : MonoBehaviour
     [Tooltip("Evita que o mesmo toque que avancou uma fala pule a proxima.")]
     [SerializeField] private float inputLockAfterLine = 0.25f;
 
+    [Header("Pular")]
+    [Tooltip("Permite pular o tutorial segurando TAB (teclado) ou SELECT (controle). Aparece uma dica na caixa de dialogo.")]
+    [SerializeField] private bool canSkip = true;
+    [Tooltip("Quanto tempo segurar o botao para pular (evita pular sem querer).")]
+    [SerializeField] private float skipHoldSeconds = 0.8f;
+
     [Header("Eventos")]
     [SerializeField] private UnityEvent onStarted;
     [SerializeField] private UnityEvent onFinished;
@@ -55,6 +61,7 @@ public class TutorialSequencePlayer : MonoBehaviour
 
     private Coroutine _routine;
     private TutorialCameraFocus _camera;
+    private float _skipHold;
 
     public static bool IsAnyPlaying => _activePlayers > 0;
     public bool IsPlaying => _routine != null;
@@ -87,7 +94,7 @@ public class TutorialSequencePlayer : MonoBehaviour
             return;
         }
 
-        if (onlyOncePerSession && PlayedThisSession.Contains(Id))
+        if (playOnlyOnce && PlayedThisSession.Contains(Id))
         {
             return;
         }
@@ -141,6 +148,11 @@ public class TutorialSequencePlayer : MonoBehaviour
             // Deixa a camera chegar (quase) la antes do texto aparecer.
             while (_camera != null && _camera.IsMoving && _camera.Progress < textStartsAtMove)
             {
+                if (CheckSkip())
+                {
+                    goto Finish;
+                }
+
                 yield return null;
             }
 
@@ -161,6 +173,11 @@ public class TutorialSequencePlayer : MonoBehaviour
             // Digitando: apertar completa a fala.
             while (dialogue.IsTyping)
             {
+                if (CheckSkip())
+                {
+                    goto Finish;
+                }
+
                 if (Time.unscaledTime >= lockUntil && AdvancePressed())
                 {
                     dialogue.CompleteNow();
@@ -175,6 +192,11 @@ public class TutorialSequencePlayer : MonoBehaviour
             // Esperando o jogador querer continuar.
             while (true)
             {
+                if (CheckSkip())
+                {
+                    goto Finish;
+                }
+
                 if (Time.unscaledTime >= lockUntil && AdvancePressed())
                 {
                     break;
@@ -186,7 +208,11 @@ public class TutorialSequencePlayer : MonoBehaviour
             dialogue.SetContinueVisible(false);
         }
 
-        // Fim: caixa desce e a camera volta para a visao geral.
+        // Fim (ou tutorial pulado): caixa desce e a camera volta para a visao geral.
+        Finish:
+        dialogue.SetSkipHint(null, 0f);
+        _skipHold = 0f;
+
         if (_camera != null)
         {
             _camera.ReturnHome(cameraMoveSeconds);
@@ -202,6 +228,50 @@ public class TutorialSequencePlayer : MonoBehaviour
         Release();
         _routine = null;
         onFinished?.Invoke();
+    }
+
+    // --- Pular ---------------------------------------------------------------
+
+    // Chamado a cada quadro durante o tutorial. Segurar TAB (teclado) ou SELECT
+    // (controle) enche uma barrinha na caixa; ao completar, o tutorial acaba.
+    private bool CheckSkip()
+    {
+        if (!canSkip)
+        {
+            return false;
+        }
+
+        bool paused = GameManager.Instance != null && GameManager.Instance.CurrentState == GameState.Paused;
+        bool held = !paused && SkipHeldNow();
+
+        _skipHold = held
+            ? _skipHold + Time.unscaledDeltaTime
+            : Mathf.Max(0f, _skipHold - (Time.unscaledDeltaTime * 2f));
+
+        string hint = InputPromptResolver.IsGamepad ? "Segure SELECT para pular" : "Segure TAB para pular";
+        dialogue.SetSkipHint(hint, skipHoldSeconds <= 0f ? 1f : _skipHold / skipHoldSeconds);
+
+        return _skipHold >= skipHoldSeconds;
+    }
+
+    private static bool SkipHeldNow()
+    {
+        Keyboard keyboard = Keyboard.current;
+
+        if (keyboard != null && keyboard.tabKey.isPressed)
+        {
+            return true;
+        }
+
+        foreach (Gamepad gamepad in Gamepad.all)
+        {
+            if (gamepad.selectButton.isPressed)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void ApplyCamera(TutorialStep step)

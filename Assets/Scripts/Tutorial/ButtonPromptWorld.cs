@@ -176,7 +176,8 @@ public class ButtonPromptWorld : MonoBehaviour
 
         if (showWhen == ShowWhen.BlockIsHeld)
         {
-            return block != null && block.IsHeld;
+            // So faz sentido avisar de girar se o bloco tem mais de uma face.
+            return block != null && block.IsHeld && block.FaceCount > 1;
         }
 
         if (_carrier == null)

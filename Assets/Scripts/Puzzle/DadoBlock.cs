@@ -59,6 +59,9 @@ public class DadoBlock : MonoBehaviour
     private int _labelBaseOrder;
 
     public int Value => faces[_currentFaceIndex];
+
+    // Quantas faces o bloco tem (1 = nao ha o que girar).
+    public int FaceCount => faces.Count;
     public bool IsHeld { get; private set; }
     public NumericSlot CurrentSlot { get; private set; }
 

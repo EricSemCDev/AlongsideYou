@@ -140,7 +140,7 @@ public static class TutorialSetupMenu
         FinishPrompts(added);
     }
 
-    [MenuItem("Alongside You/Tutorial/Adicionar aviso de girar nos blocos (fase 2)")]
+    [MenuItem("Alongside You/Tutorial/Adicionar aviso de girar nos blocos")]
     private static void AddRotatePrompts()
     {
         int added = 0;
