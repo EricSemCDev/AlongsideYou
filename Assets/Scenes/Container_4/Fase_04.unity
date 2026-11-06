@@ -4481,6 +4481,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1097893625}
     m_Modifications:
+    - target: {fileID: 1020657025223526741, guid: 8b24640a001b47f4b972036a5735f1c7, type: 3}
+      propertyPath: m_Intensity
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 1815199154247222604, guid: 8b24640a001b47f4b972036a5735f1c7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.46
@@ -4527,6 +4531,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7579077953664510240, guid: 8b24640a001b47f4b972036a5735f1c7, type: 3}
       propertyPath: position
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7579077953664510240, guid: 8b24640a001b47f4b972036a5735f1c7, type: 3}
+      propertyPath: highlightColor.b
+      value: 0.21226418
+      objectReference: {fileID: 0}
+    - target: {fileID: 7579077953664510240, guid: 8b24640a001b47f4b972036a5735f1c7, type: 3}
+      propertyPath: highlightColor.g
+      value: 0.9570042
+      objectReference: {fileID: 0}
+    - target: {fileID: 7579077953664510240, guid: 8b24640a001b47f4b972036a5735f1c7, type: 3}
+      propertyPath: highlightColor.r
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

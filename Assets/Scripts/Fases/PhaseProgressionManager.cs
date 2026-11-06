@@ -18,6 +18,12 @@ public class PhaseProgressionManager : MonoBehaviour
     // -1 significa "nenhuma fase em andamento" (ex: ainda no menu)
     public int CurrentPhaseIndex { get; private set; } = -1;
 
+    // Fase secreta em andamento (fica fora da sequencia linear, entao nao tem indice).
+    private string _secretSceneName;
+
+    public bool IsSecretPhase => !string.IsNullOrEmpty(_secretSceneName);
+    public bool CanRestartCurrentPhase => CurrentPhaseIndex >= 0 || IsSecretPhase;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -45,9 +51,13 @@ public class PhaseProgressionManager : MonoBehaviour
             return;
         }
 
+        if (!LoadSceneWithTransition(phaseSequence.phaseSceneNames[index], GameState.Playing))
+        {
+            return; // ja trocando de cena: ignora, sem mexer no indice
+        }
+
         CurrentPhaseIndex = index;
-        LoadSceneWithTransition(phaseSequence.phaseSceneNames[index]);
-        GameManager.Instance?.TryTransitionTo(GameState.Playing);
+        _secretSceneName = null;
     }
 
     // Fases secretas não fazem parte da sequência linear — não usam
@@ -60,31 +70,45 @@ public class PhaseProgressionManager : MonoBehaviour
             return;
         }
 
+        if (!LoadSceneWithTransition(config.secretSceneName, GameState.Playing))
+        {
+            return;
+        }
+
         CurrentPhaseIndex = -1; // fora da sequência linear
-        LoadSceneWithTransition(config.secretSceneName);
-        GameManager.Instance?.TryTransitionTo(GameState.Playing);
+        _secretSceneName = config.secretSceneName;
     }
 
-    // Centraliza o carregamento de cena — se o SceneTransitionManager
-    // não existir ainda (ex: esquecido de configurar), cai para o
+    // Centraliza o carregamento de cena (com fade). O estado do jogo so muda quando a
+    // cena nova termina de carregar: durante o fade a fase antiga continua no estado em
+    // que estava (Complete, Paused...), entao ninguem anda nem pausa nela. Se o
+    // SceneTransitionManager nao existir (esquecido de configurar), cai para o
     // carregamento direto, sem fade, em vez de travar o jogo.
-    private void LoadSceneWithTransition(string sceneName)
+    // Devolve false se ja ha uma troca de cena em andamento (o pedido e ignorado).
+    private bool LoadSceneWithTransition(string sceneName, GameState stateAfterLoad)
     {
         if (SceneTransitionManager.Instance != null)
         {
-            SceneTransitionManager.Instance.LoadScene(sceneName);
+            return SceneTransitionManager.Instance.LoadScene(
+                sceneName,
+                () => GameManager.Instance?.TryTransitionTo(stateAfterLoad));
         }
-        else
-        {
-            SceneManager.LoadScene(sceneName);
-        }
-    }
 
+        SceneManager.LoadScene(sceneName);
+        GameManager.Instance?.TryTransitionTo(stateAfterLoad);
+        return true;
+    }
     // Chamado pelo PhaseCompletionManager ao concluir a fase atual:
     // registra o tempo, checa se algum bloco foi completado dentro
     // do limite (desbloqueando fase secreta), e avança.
     public void CompleteCurrentPhase(float elapsedTime)
     {
+        if (IsSecretPhase)
+        {
+            GoToMainMenu(); // fase secreta nao tem proxima: volta ao menu
+            return;
+        }
+
         if (CurrentPhaseIndex >= 0)
         {
             PhaseProgressSave.RecordPhaseCompletion(CurrentPhaseIndex, elapsedTime);
@@ -137,6 +161,12 @@ public class PhaseProgressionManager : MonoBehaviour
 
     public void GoToNextPhase()
     {
+        if (IsSecretPhase)
+        {
+            GoToMainMenu(); // sem isso o indice -1 mandaria o jogador de volta ao Prologo
+            return;
+        }
+
         int nextIndex = CurrentPhaseIndex + 1;
 
         if (phaseSequence == null || nextIndex >= phaseSequence.phaseSceneNames.Count)
@@ -151,6 +181,12 @@ public class PhaseProgressionManager : MonoBehaviour
 
     public void RestartCurrentPhase()
     {
+        if (IsSecretPhase)
+        {
+            LoadSceneWithTransition(_secretSceneName, GameState.Playing);
+            return;
+        }
+
         if (CurrentPhaseIndex < 0)
         {
             return;
@@ -161,8 +197,12 @@ public class PhaseProgressionManager : MonoBehaviour
 
     public void GoToMainMenu()
     {
+        if (!LoadSceneWithTransition(mainMenuSceneName, GameState.Menu))
+        {
+            return;
+        }
+
         CurrentPhaseIndex = -1;
-        LoadSceneWithTransition(mainMenuSceneName);
-        GameManager.Instance?.TryTransitionTo(GameState.Menu);
+        _secretSceneName = null;
     }
 }

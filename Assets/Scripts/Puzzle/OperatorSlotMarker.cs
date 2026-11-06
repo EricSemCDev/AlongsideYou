@@ -90,6 +90,8 @@ public class OperatorSlotMarker : MonoBehaviour
         {
             symbolLabel.text = OperatorSymbolDisplay.ToDisplayChar(symbol).ToString();
         }
+
+        GameJuice.TorchLit(transform.position);
     }
 
     public void Extinguish()

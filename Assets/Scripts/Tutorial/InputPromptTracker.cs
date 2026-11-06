@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
-using UnityEngine.InputSystem.DualShock;
-using UnityEngine.InputSystem.Switch;
 
 // Descobre qual dispositivo o jogador usou por ultimo (teclado/mouse ou controle,
 // e de que tipo) e avisa o InputPromptResolver. Se cria sozinho ao abrir o jogo,
@@ -80,14 +78,19 @@ public class InputPromptTracker : MonoBehaviour
         return false;
     }
 
+    // Identifica o tipo do controle pelo nome do layout e do produto, em vez de pelas
+    // classes DualShockGamepad / SwitchProControllerHID: elas so existem em algumas
+    // plataformas (editor, Windows, macOS) e quebram a compilacao do WebGL.
     private static InputPromptResolver.Device TypeOf(Gamepad gamepad)
     {
-        if (gamepad is DualShockGamepad)
+        string name = (gamepad.layout + " " + gamepad.description.product).ToLowerInvariant();
+
+        if (name.Contains("dualshock") || name.Contains("dualsense") || name.Contains("wireless controller") || name.Contains("playstation"))
         {
             return InputPromptResolver.Device.PlayStation;
         }
 
-        if (gamepad is SwitchProControllerHID)
+        if (name.Contains("switch") || name.Contains("pro controller") || name.Contains("nintendo"))
         {
             return InputPromptResolver.Device.Switch;
         }

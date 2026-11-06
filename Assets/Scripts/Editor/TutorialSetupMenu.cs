@@ -143,6 +143,64 @@ public static class TutorialSetupMenu
     [MenuItem("Alongside You/Tutorial/Adicionar aviso de girar nos blocos")]
     private static void AddRotatePrompts()
     {
+        FinishPrompts(AddRotatePromptsToOpenScene());
+    }
+
+    // Faz o mesmo em todas as cenas das fases (Prologo, Fase_01, ...), abrindo e salvando cada uma.
+    // Blocos que ja tem o aviso sao ignorados, entao pode rodar mais de uma vez.
+    [MenuItem("Alongside You/Tutorial/Adicionar aviso de girar em TODAS as fases")]
+    private static void AddRotatePromptsEverywhere()
+    {
+        if (!EditorUtility.DisplayDialog(
+                "Aviso de girar em todas as fases",
+                "Vai abrir cada cena de fase (Assets/Scenes, menos MainMenu e SampleScene), adicionar o aviso de girar nos blocos e SALVAR a cena.\n\nContinuar?",
+                "Continuar",
+                "Cancelar"))
+        {
+            return;
+        }
+
+        if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+        {
+            return;
+        }
+
+        string startScene = EditorSceneManager.GetActiveScene().path;
+        int totalAdded = 0;
+        var report = new System.Text.StringBuilder();
+
+        foreach (string guid in AssetDatabase.FindAssets("t:Scene", new[] { "Assets/Scenes" }))
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+
+            if (path.EndsWith("MainMenu.unity") || path.EndsWith("SampleScene.unity"))
+            {
+                continue;
+            }
+
+            UnityEngine.SceneManagement.Scene scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+            int added = AddRotatePromptsToOpenScene();
+
+            if (added > 0)
+            {
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+            }
+
+            totalAdded += added;
+            report.AppendLine(System.IO.Path.GetFileNameWithoutExtension(path) + ": " + added);
+        }
+
+        if (!string.IsNullOrEmpty(startScene))
+        {
+            EditorSceneManager.OpenScene(startScene, OpenSceneMode.Single);
+        }
+
+        EditorUtility.DisplayDialog("Aviso de girar em todas as fases", "Avisos adicionados (por cena):\n" + report + "\nTotal: " + totalAdded, "OK");
+    }
+
+    private static int AddRotatePromptsToOpenScene()
+    {
         int added = 0;
 
         foreach (DadoBlock block in FindAll<DadoBlock>())
@@ -156,7 +214,7 @@ public static class TutorialSetupMenu
             added++;
         }
 
-        FinishPrompts(added);
+        return added;
     }
 
     // --- Ajudantes ---------------------------------------------------------

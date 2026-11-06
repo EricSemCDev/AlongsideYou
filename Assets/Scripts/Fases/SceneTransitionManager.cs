@@ -16,8 +16,16 @@ public class SceneTransitionManager : MonoBehaviour
     [SerializeField] private float maxFrameTime = 0.04f;
 
     private bool _isTransitioning;
+    private bool _isLoading;
 
     public bool IsTransitioning => _isTransitioning;
+
+    // Verdadeiro do comeco do fade-out ate a cena nova terminar de carregar (nao inclui o
+    // fade-in). Os menus usam isso para sumir assim que o jogador clica, sem esperar a cena.
+    public bool IsLoading => _isLoading;
+
+    // Atalho que ja trata a ausencia do gerente (nenhuma troca em andamento).
+    public static bool IsLoadingScene => Instance != null && Instance.IsLoading;
 
     private void Awake()
     {
@@ -40,21 +48,26 @@ public class SceneTransitionManager : MonoBehaviour
         }
     }
 
-    public void LoadScene(string sceneName)
+    // onSceneLoaded roda assim que a cena nova termina de carregar (ou se a cena nao existir),
+    // ainda sob a tela preta: e o lugar certo para trocar o estado do jogo.
+    // Devolve false se ja ha uma troca em andamento (o pedido e ignorado e o callback nao roda).
+    public bool LoadScene(string sceneName, System.Action onSceneLoaded = null)
     {
         // Ignora pedidos enquanto ja esta trocando de cena (duplo clique, dois
         // eventos de fim de fase...), senao duas corrotinas brigam pelo fade.
         if (_isTransitioning)
         {
-            return;
+            return false;
         }
 
-        StartCoroutine(FadeAndLoad(sceneName));
+        StartCoroutine(FadeAndLoad(sceneName, onSceneLoaded));
+        return true;
     }
 
-    private IEnumerator FadeAndLoad(string sceneName)
+    private IEnumerator FadeAndLoad(string sceneName, System.Action onSceneLoaded)
     {
         _isTransitioning = true;
+        _isLoading = true;
 
         yield return Fade(0f, 1f); // escurece
 
@@ -63,6 +76,8 @@ public class SceneTransitionManager : MonoBehaviour
         if (loadOperation == null)
         {
             Debug.LogWarning($"SceneTransitionManager: cena '{sceneName}' nao encontrada (confira o Build Settings).");
+            _isLoading = false;
+            onSceneLoaded?.Invoke(); // sem cena nova, segue na atual (nao trava no estado antigo)
             yield return Fade(1f, 0f);
             _isTransitioning = false;
             yield break;
@@ -72,6 +87,9 @@ public class SceneTransitionManager : MonoBehaviour
         {
             yield return null; // espera o carregamento pesado terminar de verdade
         }
+
+        _isLoading = false;
+        onSceneLoaded?.Invoke();
 
         // O Awake/Start da cena nova (e as particulas com prewarm) rodam agora e
         // causam um engasgo. Segura o preto ate estabilizar, para o fade-in comecar

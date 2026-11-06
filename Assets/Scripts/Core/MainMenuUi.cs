@@ -16,8 +16,11 @@ public class MainMenuUI : MonoBehaviour
     {
         HandleCancel();
 
+        // Some assim que o jogador clica em Jogar (a cena ainda esta carregando), em vez de
+        // ficar visivel durante o fade.
         bool shouldShowMenu = GameManager.Instance != null
-            && GameManager.Instance.CurrentState == GameState.Menu;
+            && GameManager.Instance.CurrentState == GameState.Menu
+            && !SceneTransitionManager.IsLoadingScene;
 
         if (rootCanvas != null && rootCanvas.activeSelf != shouldShowMenu)
         {

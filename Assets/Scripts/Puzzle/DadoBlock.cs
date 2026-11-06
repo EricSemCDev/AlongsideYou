@@ -210,6 +210,7 @@ public class DadoBlock : MonoBehaviour
         transform.localPosition = localOffset;
 
         RestoreSorting();
+        GameJuice.BlockSnapped(transform);
     }
 
     // Carregado: desenha na frente do Al. Acompanha a ordem dele todo frame

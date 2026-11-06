@@ -53,6 +53,14 @@ public class CalculationStationDisplay : MonoBehaviour
     public bool HasValidResult { get; private set; }
     public int FailedAttempts { get; private set; }
     public int MaxAttempts => maxAttempts;
+    public TextMeshPro ResultLabel => resultLabel;
+
+    // O PuzzleGenerator troca a configuracao do asset por uma copia em memoria, para o
+    // resultado sorteado nao ser gravado dentro do asset.
+    public void UseConfig(PuzzleConfig config)
+    {
+        puzzleConfig = config;
+    }
     public int AttemptsRemaining => Mathf.Max(0, maxAttempts - FailedAttempts);
     public bool IsSolved { get; private set; }
     public double CurrentResultValue { get; private set; }
@@ -172,7 +180,7 @@ public class CalculationStationDisplay : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(defeatDelay);
 
-        if (PhaseProgressionManager.Instance != null && PhaseProgressionManager.Instance.CurrentPhaseIndex >= 0)
+        if (PhaseProgressionManager.Instance != null && PhaseProgressionManager.Instance.CanRestartCurrentPhase)
         {
             PhaseProgressionManager.Instance.RestartCurrentPhase();
         }
@@ -193,6 +201,13 @@ public class CalculationStationDisplay : MonoBehaviour
 
     private bool AllFilled()
     {
+        // Sem nenhum slot (estacao mal montada) nao ha equacao: sem isso o Update avaliava uma
+        // lista vazia a cada quadro e gerava um erro por quadro, o que pesa no jogo.
+        if (_slots.Length == 0)
+        {
+            return false;
+        }
+
         foreach (NumericSlot slot in _slots)
         {
             if (!slot.IsFilled)

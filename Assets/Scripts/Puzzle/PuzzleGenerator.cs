@@ -15,6 +15,9 @@ public class PuzzleGenerator : MonoBehaviour
 
     private readonly System.Random _random = new();
 
+    // Copia em memoria do config: o resultado sorteado fica nela e nunca e gravado no asset.
+    private PuzzleConfig _runtimeConfig;
+
     private void Awake()
     {
         Generate();
@@ -28,6 +31,8 @@ public class PuzzleGenerator : MonoBehaviour
             return;
         }
 
+        PuzzleConfig cfg = CreateRuntimeConfig();
+
         List<char> pool = null;
         List<char> selectedOperators = null;
         List<List<int>> blockFaces = null;
@@ -40,9 +45,9 @@ public class PuzzleGenerator : MonoBehaviour
         // Por isso sorteia outros operadores antes de desistir e usar o fallback.
         for (int operatorTry = 0; operatorTry < maxOperatorRetries && !success; operatorTry++)
         {
-            pool = GenerateOperatorPool(config);
-            selectedOperators = SelectOperators(config, pool);
-            success = TryGenerateBlocks(config, selectedOperators, out blockFaces, out result);
+            pool = GenerateOperatorPool(cfg);
+            selectedOperators = SelectOperators(cfg, pool);
+            success = TryGenerateBlocks(cfg, selectedOperators, out blockFaces, out result);
         }
 
         if (!success)
@@ -53,12 +58,12 @@ public class PuzzleGenerator : MonoBehaviour
                 "(mitigação do risco de balanceamento, seção 15). Considere ajustar o PuzzleConfig."
             );
 
-            pool = GenerateFallbackOperatorPool(config);
-            selectedOperators = GenerateFallbackOperators(config);
-            (blockFaces, result) = GenerateFallbackBlocks(config);
+            pool = GenerateFallbackOperatorPool(cfg);
+            selectedOperators = GenerateFallbackOperators(cfg);
+            (blockFaces, result) = GenerateFallbackBlocks(cfg);
         }
 
-        ApplyToScene(blockFaces, pool, result);
+        ApplyToScene(cfg, blockFaces, pool, result);
     }
 
     // --- Faixas por dificuldade (fiel ao Forge) ---
@@ -377,7 +382,7 @@ public class PuzzleGenerator : MonoBehaviour
 
     // --- Aplicação na cena ---
 
-    private void ApplyToScene(List<List<int>> blockFaces, List<char> operatorPool, int result)
+    private void ApplyToScene(PuzzleConfig cfg, List<List<int>> blockFaces, List<char> operatorPool, int result)
     {
         DadoBlock[] sceneBlocks = FindObjectsByType<DadoBlock>(FindObjectsSortMode.None);
         OperatorSpark[] sceneSparks = FindObjectsByType<OperatorSpark>(FindObjectsSortMode.None);
@@ -410,6 +415,37 @@ public class PuzzleGenerator : MonoBehaviour
             sceneSparks[i].SetSymbol(operatorPool[i]);
         }
 
-        config.targetResult = result;
+        cfg.targetResult = result;
+
+        // As estacoes que apontavam para o asset passam a usar a copia (com o resultado sorteado).
+        foreach (CalculationStationDisplay station in FindObjectsByType<CalculationStationDisplay>(FindObjectsSortMode.None))
+        {
+            if (station.Config == config || station.Config == cfg)
+            {
+                station.UseConfig(cfg);
+            }
+        }
+    }
+
+    // Gera sobre uma copia em memoria (o asset fica como configuracao pura, sem o resultado
+    // sorteado, e o Play no Editor deixa de sujar o git).
+    private PuzzleConfig CreateRuntimeConfig()
+    {
+        if (_runtimeConfig != null)
+        {
+            Destroy(_runtimeConfig);
+        }
+
+        _runtimeConfig = Instantiate(config);
+        _runtimeConfig.name = config.name + " (em jogo)";
+        return _runtimeConfig;
+    }
+
+    private void OnDestroy()
+    {
+        if (_runtimeConfig != null)
+        {
+            Destroy(_runtimeConfig);
+        }
     }
 }

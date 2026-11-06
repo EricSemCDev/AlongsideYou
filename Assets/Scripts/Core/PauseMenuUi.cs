@@ -56,8 +56,10 @@ public class PauseMenuUI : MonoBehaviour
         HandlePauseInput();
         HandleCancelInput();
 
+        // Some assim que o jogador escolhe Reiniciar / Voltar ao Menu (a cena esta carregando).
         bool shouldShow = GameManager.Instance != null
-            && GameManager.Instance.CurrentState == GameState.Paused;
+            && GameManager.Instance.CurrentState == GameState.Paused
+            && !SceneTransitionManager.IsLoadingScene;
 
         if (rootCanvas != null && rootCanvas.activeSelf != shouldShow)
         {
