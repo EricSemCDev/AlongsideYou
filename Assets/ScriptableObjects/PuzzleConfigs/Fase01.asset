@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dfa12f951f03ff4db229f104fbd568b, type: 3}
   m_Name: Fase01
   m_EditorClassIdentifier: 
-  blockCount: 3
-  facesPerBlock: 4
+  blockCount: 2
+  facesPerBlock: 1
   slotCount: 2
   operatorSlots: 1
   compositeSlots: 0000
-  operatorCount: 3
-  difficulty: 10
-  targetResult: 8
+  operatorCount: 1
+  difficulty: 1
+  targetResult: 6

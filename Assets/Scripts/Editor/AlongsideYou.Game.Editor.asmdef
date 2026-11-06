@@ -3,7 +3,9 @@
     "rootNamespace": "",
     "references": [
         "GUID:5acf7ed2361b0fd4b9760ebfd8ac8827",
-        "GUID:15fc0a57446b3144c949da3e2b9737a9"
+        "GUID:15fc0a57446b3144c949da3e2b9737a9",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "Unity.2D.Sprite.Editor"
     ],
     "includePlatforms": [
         "Editor"

@@ -6,7 +6,7 @@ public static class FinnTargetOffsetCalculator
         Vector2 currentOffset,
         ref Vector2 currentVelocity,
         Vector2 stickInput,
-        Vector2 directionToPointer,
+        Vector2 pointerOffset,
         bool pointerHeld,
         float maxRadius,
         float smoothTime,
@@ -21,9 +21,11 @@ public static class FinnTargetOffsetCalculator
             float clampedMagnitude = Mathf.Clamp01(stickInput.magnitude);
             desiredOffset = stickInput.normalized * clampedMagnitude * maxRadius;
         }
-        else if (pointerHeld && directionToPointer != Vector2.zero)
+        else if (pointerHeld && pointerOffset != Vector2.zero)
         {
-            desiredOffset = directionToPointer.normalized * maxRadius;
+            // Vai ate o ponteiro e para nele: o alvo nunca passa da distancia do mouse,
+            // entao o Finn nao fica orbitando quando o mouse esta perto.
+            desiredOffset = Vector2.ClampMagnitude(pointerOffset, maxRadius);
         }
 
         float velocityX = currentVelocity.x;

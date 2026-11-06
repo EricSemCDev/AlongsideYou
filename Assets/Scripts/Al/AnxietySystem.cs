@@ -70,7 +70,8 @@ public class AnxietySystem : MonoBehaviour
     private void Update()
     {
         if (GameManager.Instance == null
-            || !InputAccessPolicy.CanAcceptInput(GameManager.Instance.CurrentState))
+            || !InputAccessPolicy.CanAcceptInput(GameManager.Instance.CurrentState)
+            || TutorialSequencePlayer.IsAnyPlaying)
         {
             return; // pausado/menu — não avança nem recupera
         }

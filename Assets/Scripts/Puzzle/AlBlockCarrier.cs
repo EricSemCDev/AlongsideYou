@@ -25,6 +25,9 @@ public class AlBlockCarrier : MonoBehaviour
     private DadoBlock _heldBlock;
     private AudioSource _audioSource;
 
+    // O bloco que o Al esta segurando agora (null se nenhum).
+    public DadoBlock HeldBlock => _heldBlock;
+
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();

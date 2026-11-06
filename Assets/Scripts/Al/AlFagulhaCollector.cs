@@ -7,6 +7,7 @@ public class AlFagulhaCollector : MonoBehaviour
     {
         if (other.TryGetComponent(out FagulhaDeLuz fagulha))
         {
+            GameJuice.Victory(fagulha.transform.position);
             PhaseCompletionManager.Instance?.CompletePhase();
             Destroy(fagulha.gameObject);
         }

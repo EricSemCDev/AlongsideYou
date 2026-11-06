@@ -10,6 +10,8 @@ public class AlAnxietyLightEffect : MonoBehaviour
     [SerializeField] private AnxietySystem anxietySystem;
     [SerializeField] private Light2D personalLight;
     [SerializeField] private float stage1Radius = 1.5f;
+    [Tooltip("Fracao do raio externo usada no raio interno (0 = sem miolo, 0.5 = comportamento antigo).")]
+    [SerializeField] private float innerRadiusRatio = 0f;
     [SerializeField] private float stage5Radius = 0.1f; // quase zero, nunca exatamente 0
 
     private void Awake()
@@ -48,6 +50,6 @@ public class AlAnxietyLightEffect : MonoBehaviour
         float radius = Mathf.Lerp(stage1Radius, stage5Radius, t);
 
         personalLight.pointLightOuterRadius = radius;
-        personalLight.pointLightInnerRadius = radius * 0.5f;
+        personalLight.pointLightInnerRadius = radius * innerRadiusRatio;
     }
 }

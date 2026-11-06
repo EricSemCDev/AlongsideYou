@@ -66,7 +66,11 @@ public class FinnOperatorCollector : MonoBehaviour
         {
             closestTorch.SetHighlighted(false);
             _highlightedTorch = null;
-            OperatorMenuController.Instance.Show(closestTorch.transform.position, closestTorch, this);
+            OperatorMenuController.Instance.Show(
+                closestTorch.transform.position,
+                closestTorch,
+                this,
+                InputManager.Instance.FinnSelectOperatorFromGamepad);
         }
     }
 

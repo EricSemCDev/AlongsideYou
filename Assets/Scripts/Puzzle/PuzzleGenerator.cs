@@ -10,8 +10,13 @@ public class PuzzleGenerator : MonoBehaviour
 {
     [SerializeField] private PuzzleConfig config;
     [SerializeField] private int maxGenerationAttempts = 1000;
+    [Tooltip("Quantas vezes sortear OUTROS operadores se os atuais nao tiverem solucao (ex: subtracao com slot composto a direita sempre da negativo).")]
+    [SerializeField] private int maxOperatorRetries = 30;
 
     private readonly System.Random _random = new();
+
+    // Copia em memoria do config: o resultado sorteado fica nela e nunca e gravado no asset.
+    private PuzzleConfig _runtimeConfig;
 
     private void Awake()
     {
@@ -26,10 +31,24 @@ public class PuzzleGenerator : MonoBehaviour
             return;
         }
 
-        List<char> pool = GenerateOperatorPool(config);
-        List<char> selectedOperators = SelectOperators(config, pool);
+        PuzzleConfig cfg = CreateRuntimeConfig();
 
-        bool success = TryGenerateBlocks(config, selectedOperators, out List<List<int>> blockFaces, out int result);
+        List<char> pool = null;
+        List<char> selectedOperators = null;
+        List<List<int>> blockFaces = null;
+        int result = 0;
+        bool success = false;
+
+        // O operador da equacao e sorteado ANTES dos numeros. Alguns operadores nao
+        // tem solucao em certas configuracoes (ex: subtracao com slot composto a
+        // direita da sempre negativo), e as tentativas de numeros nunca resolveriam.
+        // Por isso sorteia outros operadores antes de desistir e usar o fallback.
+        for (int operatorTry = 0; operatorTry < maxOperatorRetries && !success; operatorTry++)
+        {
+            pool = GenerateOperatorPool(cfg);
+            selectedOperators = SelectOperators(cfg, pool);
+            success = TryGenerateBlocks(cfg, selectedOperators, out blockFaces, out result);
+        }
 
         if (!success)
         {
@@ -39,12 +58,12 @@ public class PuzzleGenerator : MonoBehaviour
                 "(mitigação do risco de balanceamento, seção 15). Considere ajustar o PuzzleConfig."
             );
 
-            pool = GenerateFallbackOperatorPool(config);
-            selectedOperators = GenerateFallbackOperators(config);
-            (blockFaces, result) = GenerateFallbackBlocks(config);
+            pool = GenerateFallbackOperatorPool(cfg);
+            selectedOperators = GenerateFallbackOperators(cfg);
+            (blockFaces, result) = GenerateFallbackBlocks(cfg);
         }
 
-        ApplyToScene(blockFaces, pool, result);
+        ApplyToScene(cfg, blockFaces, pool, result);
     }
 
     // --- Faixas por dificuldade (fiel ao Forge) ---
@@ -189,15 +208,24 @@ public class PuzzleGenerator : MonoBehaviour
                         resultado *= slotValues[i + 1];
                         break;
                     case '/':
-                        if (slotValues[i + 1] == 0)
+                    {
+                        // So aceita divisao EXATA e com resultado diferente de zero.
+                        // O jogo calcula a conta sem arredondar (EquationEvaluator), entao
+                        // uma divisao arredondada aqui nunca bateria com o que o jogador
+                        // monta; e resultados como 3 / 47 = 0 sao feios e nada intuitivos.
+                        int divisor = slotValues[i + 1];
+
+                        if (divisor == 0 || resultado == 0f || resultado % divisor != 0f)
                         {
                             invalid = true;
                         }
                         else
                         {
-                            resultado = (float)Math.Round(resultado / slotValues[i + 1]);
+                            resultado /= divisor;
                         }
+
                         break;
+                    }
                 }
 
                 if (invalid)
@@ -354,7 +382,7 @@ public class PuzzleGenerator : MonoBehaviour
 
     // --- Aplicação na cena ---
 
-    private void ApplyToScene(List<List<int>> blockFaces, List<char> operatorPool, int result)
+    private void ApplyToScene(PuzzleConfig cfg, List<List<int>> blockFaces, List<char> operatorPool, int result)
     {
         DadoBlock[] sceneBlocks = FindObjectsByType<DadoBlock>(FindObjectsSortMode.None);
         OperatorSpark[] sceneSparks = FindObjectsByType<OperatorSpark>(FindObjectsSortMode.None);
@@ -387,6 +415,37 @@ public class PuzzleGenerator : MonoBehaviour
             sceneSparks[i].SetSymbol(operatorPool[i]);
         }
 
-        config.targetResult = result;
+        cfg.targetResult = result;
+
+        // As estacoes que apontavam para o asset passam a usar a copia (com o resultado sorteado).
+        foreach (CalculationStationDisplay station in FindObjectsByType<CalculationStationDisplay>(FindObjectsSortMode.None))
+        {
+            if (station.Config == config || station.Config == cfg)
+            {
+                station.UseConfig(cfg);
+            }
+        }
+    }
+
+    // Gera sobre uma copia em memoria (o asset fica como configuracao pura, sem o resultado
+    // sorteado, e o Play no Editor deixa de sujar o git).
+    private PuzzleConfig CreateRuntimeConfig()
+    {
+        if (_runtimeConfig != null)
+        {
+            Destroy(_runtimeConfig);
+        }
+
+        _runtimeConfig = Instantiate(config);
+        _runtimeConfig.name = config.name + " (em jogo)";
+        return _runtimeConfig;
+    }
+
+    private void OnDestroy()
+    {
+        if (_runtimeConfig != null)
+        {
+            Destroy(_runtimeConfig);
+        }
     }
 }
