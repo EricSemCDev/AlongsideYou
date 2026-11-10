@@ -52,7 +52,6 @@ public class CalculationStationDisplay : MonoBehaviour
     // equação por conta própria.
     public bool HasValidResult { get; private set; }
     public int FailedAttempts { get; private set; }
-    public int MaxAttempts => maxAttempts;
     public TextMeshPro ResultLabel => resultLabel;
 
     // O PuzzleGenerator troca a configuracao do asset por uma copia em memoria, para o
@@ -61,7 +60,7 @@ public class CalculationStationDisplay : MonoBehaviour
     {
         puzzleConfig = config;
     }
-    public int AttemptsRemaining => Mathf.Max(0, maxAttempts - FailedAttempts);
+
     public bool IsSolved { get; private set; }
     public double CurrentResultValue { get; private set; }
     public PuzzleConfig Config => puzzleConfig;

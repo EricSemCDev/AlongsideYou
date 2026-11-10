@@ -31,9 +31,7 @@ public class PhaseCompletionManager : MonoBehaviour
             return;
         }
 
-        if (GameManager.Instance == null
-            || !InputAccessPolicy.CanAcceptInput(GameManager.Instance.CurrentState)
-            || TutorialSequencePlayer.IsAnyPlaying)
+        if (!GameManager.IsPlaying || TutorialSequencePlayer.IsAnyPlaying)
         {
             return; // pausado/menu — o tempo não corre
         }
@@ -49,10 +47,6 @@ public class PhaseCompletionManager : MonoBehaviour
         }
 
         IsCompleted = true;
-
-        int phaseIndex = PhaseProgressionManager.Instance != null
-            ? PhaseProgressionManager.Instance.CurrentPhaseIndex
-            : -1;
 
         GameManager.Instance?.TryTransitionTo(GameState.Complete);
         OnPhaseCompleted?.Invoke(CurrentElapsedTime);

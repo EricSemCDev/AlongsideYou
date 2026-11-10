@@ -180,6 +180,7 @@ public class TutorialSequencePlayer : MonoBehaviour
 
                 if (Time.unscaledTime >= lockUntil && AdvancePressed())
                 {
+                    FeedbackAudio.Play(FeedbackSounds.Cue.DialogueAdvance);
                     dialogue.CompleteNow();
                 }
 
@@ -199,6 +200,7 @@ public class TutorialSequencePlayer : MonoBehaviour
 
                 if (Time.unscaledTime >= lockUntil && AdvancePressed())
                 {
+                    FeedbackAudio.Play(FeedbackSounds.Cue.DialogueAdvance);
                     break;
                 }
 
@@ -251,7 +253,13 @@ public class TutorialSequencePlayer : MonoBehaviour
         string hint = InputPromptResolver.IsGamepad ? "Segure SELECT para pular" : "Segure TAB para pular";
         dialogue.SetSkipHint(hint, skipHoldSeconds <= 0f ? 1f : _skipHold / skipHoldSeconds);
 
-        return _skipHold >= skipHoldSeconds;
+        if (_skipHold >= skipHoldSeconds)
+        {
+            FeedbackAudio.Play(FeedbackSounds.Cue.TutorialSkip);
+            return true;
+        }
+
+        return false;
     }
 
     private static bool SkipHeldNow()

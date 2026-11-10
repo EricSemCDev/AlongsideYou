@@ -116,6 +116,7 @@ public class FinnOperatorCollector : MonoBehaviour
                 _operatorCounts[spark.Symbol]++;
             }
 
+            FeedbackAudio.Play(FeedbackSounds.Cue.OperatorCollect);
             Destroy(spark.gameObject);
         }
 

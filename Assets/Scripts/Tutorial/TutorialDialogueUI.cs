@@ -45,9 +45,6 @@ public class TutorialDialogueUI : MonoBehaviour
     [SerializeField] private float charactersPerSecond = 38f;
     [Tooltip("Pausa extra apos , . ! ? (segundos).")]
     [SerializeField] private float punctuationPause = 0.14f;
-    [Tooltip("Som opcional tocado a cada poucas letras.")]
-    [SerializeField] private AudioClip typeSound;
-    [Range(0f, 1f)] [SerializeField] private float typeSoundVolume = 0.35f;
 
     [Header("Caixa (em unidades do canvas 480x270)")]
     [SerializeField] private float portraitSize = 64f;
@@ -70,7 +67,6 @@ public class TutorialDialogueUI : MonoBehaviour
     private RectTransform _indicator;
     private TMP_Text _skipLabel;
     private RectTransform _skipBar;
-    private AudioSource _audio;
     private Texture2D _indicatorTexture;
     private Sprite _indicatorSprite;
     private Coroutine _typing;
@@ -156,6 +152,7 @@ public class TutorialDialogueUI : MonoBehaviour
 
     public IEnumerator Open()
     {
+        FeedbackAudio.Play(FeedbackSounds.Cue.DialogueOpen);
         _open = true;
         _canvas.enabled = true;
         SetContinueVisible(false);
@@ -182,6 +179,7 @@ public class TutorialDialogueUI : MonoBehaviour
 
     public IEnumerator Close()
     {
+        FeedbackAudio.Play(FeedbackSounds.Cue.DialogueClose);
         SetContinueVisible(false);
 
         float hiddenY = -(_panelHeight + 8f);
@@ -316,9 +314,10 @@ public class TutorialDialogueUI : MonoBehaviour
                         pause = punctuationPause;
                     }
 
-                    if (typeSound != null && shown % 2 == 0 && !char.IsWhiteSpace(last))
+                    // Tique da maquina de escrever (sons em FeedbackSounds), com o tom variando um pouco.
+                    if (shown % 2 == 0 && !char.IsWhiteSpace(last))
                     {
-                        _audio.PlayOneShot(typeSound, typeSoundVolume);
+                        FeedbackAudio.Play(FeedbackSounds.Cue.DialogueType, Random.Range(0.92f, 1.08f));
                     }
 
                     lastShown = shown;
@@ -340,10 +339,6 @@ public class TutorialDialogueUI : MonoBehaviour
 
     private void Build()
     {
-        _audio = gameObject.AddComponent<AudioSource>();
-        _audio.playOnAwake = false;
-        _audio.spatialBlend = 0f;
-
         // Canvas (480x270, igual aos outros do jogo).
         var canvasObject = new GameObject("TutorialDialogueCanvas");
         canvasObject.transform.SetParent(transform, false);

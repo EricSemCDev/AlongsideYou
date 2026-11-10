@@ -29,8 +29,12 @@ public class MenuGamepadNavigation : MonoBehaviour
         DontDestroyOnLoad(go);
     }
 
+    private int _knownSelectables = -1;
+
     private void Update()
     {
+        AttachButtonSounds();
+
         EventSystem eventSystem = EventSystem.current;
 
         if (eventSystem == null)
@@ -40,6 +44,28 @@ public class MenuGamepadNavigation : MonoBehaviour
 
         EnsureInputSystemModule(eventSystem);
         EnsureSelection(eventSystem);
+    }
+
+    // Todo botao sem UiButtonHighlight ganha os sons de menu (UiButtonSound). So varre a lista
+    // quando a quantidade de seletaveis muda (um menu abriu ou fechou), nao a cada quadro.
+    private void AttachButtonSounds()
+    {
+        if (Selectable.allSelectableCount == _knownSelectables)
+        {
+            return;
+        }
+
+        _knownSelectables = Selectable.allSelectableCount;
+
+        foreach (Selectable selectable in Selectable.allSelectablesArray)
+        {
+            if (selectable is Button
+                && selectable.GetComponent<UiButtonHighlight>() == null
+                && selectable.GetComponent<UiButtonSound>() == null)
+            {
+                selectable.gameObject.AddComponent<UiButtonSound>();
+            }
+        }
     }
 
     private static void EnsureInputSystemModule(EventSystem eventSystem)
