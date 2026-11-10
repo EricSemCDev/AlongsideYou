@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 332adeaf9cac12f438977baa28669ce1, type: 3}
+  m_Name: FeedbackSounds
+  m_EditorClassIdentifier: 
+  volume: 0.8
+  resultCorrect: {fileID: 0}
+  resultWrong: {fileID: 0}
+  attemptsExhausted: {fileID: 0}
+  blockSnap: {fileID: 0}
+  torchLit: {fileID: 0}
+  barrierOpen: {fileID: 0}
+  victory: {fileID: 0}
+  uiHover: {fileID: 8300000, guid: 9ddd05e0548b24448a83a8065067215c, type: 3}
+  uiClick: {fileID: 8300000, guid: 35c2305d27730544dbd0a982ae841fda, type: 3}
+  uiBack: {fileID: 8300000, guid: 184a8dc3f81e74443b50f20a5858e537, type: 3}
+  pauseOpen: {fileID: 8300000, guid: 2802fd3ad44d22042b90bec8f9a3ad7d, type: 3}
+  pauseClose: {fileID: 8300000, guid: 4133728306d869649b7bfe736f3f21e6, type: 3}
+  dialogueType: {fileID: 8300000, guid: 5d78a182a768f7745995980ef7367d6b, type: 3}
+  dialogueOpen: {fileID: 8300000, guid: 2cda941495bd4f44ca96643767b8ded3, type: 3}
+  dialogueClose: {fileID: 0}
+  dialogueAdvance: {fileID: 8300000, guid: b6b885e5a9f341546a83e279079b7159, type: 3}
+  cameraFocus: {fileID: 8300000, guid: df6975260abdd8c43af4f9fec6612776, type: 3}
+  tutorialSkip: {fileID: 0}
+  blockPickup: {fileID: 0}
+  blockDrop: {fileID: 0}
+  blockRotate: {fileID: 0}
+  operatorCollect: {fileID: 0}
+  wheelOpen: {fileID: 0}
+  wheelHover: {fileID: 0}
+  wheelError: {fileID: 0}
+  torchOut: {fileID: 0}
+  torchRelit: {fileID: 0}
+  leverPull: {fileID: 0}
+  plateDown: {fileID: 0}
+  gateOpen: {fileID: 0}
+  resultCorrectVolume: 1
+  resultWrongVolume: 1
+  attemptsExhaustedVolume: 1
+  blockSnapVolume: 1
+  torchLitVolume: 1
+  barrierOpenVolume: 1
+  victoryVolume: 1
+  uiHoverVolume: 0.5
+  uiClickVolume: 0.5
+  uiBackVolume: 1
+  pauseOpenVolume: 0.2
+  pauseCloseVolume: 0.2
+  dialogueTypeVolume: 0.2
+  dialogueOpenVolume: 0
+  dialogueCloseVolume: 1
+  dialogueAdvanceVolume: 0.5
+  cameraFocusVolume: 0.1
+  tutorialSkipVolume: 1
+  blockPickupVolume: 1
+  blockDropVolume: 1
+  blockRotateVolume: 1
+  operatorCollectVolume: 1
+  wheelOpenVolume: 1
+  wheelHoverVolume: 1
+  wheelErrorVolume: 1
+  torchOutVolume: 1
+  torchRelitVolume: 1
+  leverPullVolume: 1
+  plateDownVolume: 1
+  gateOpenVolume: 1

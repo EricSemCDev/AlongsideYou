@@ -75,13 +75,6 @@ public class PuzzleGenerator : MonoBehaviour
         return (0, 9);
     }
 
-    private bool ShouldGenerateComposite(float difficulty)
-    {
-        if (difficulty < 6) return false;
-        float chance = 0.20f + (difficulty - 6) * 0.15f;
-        return _random.NextDouble() < chance;
-    }
-
     private int GetRmax(float difficulty)
     {
         if (difficulty <= 2) return 10;

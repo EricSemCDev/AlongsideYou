@@ -25,6 +25,7 @@ public class ConfirmationLever : MonoBehaviour
 
     public void Confirm()
     {
+        FeedbackAudio.Play(FeedbackSounds.Cue.LeverPull);
         if (targetStation != null)
         {
             targetStation.ConfirmAttempt();

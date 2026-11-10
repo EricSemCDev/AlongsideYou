@@ -19,6 +19,11 @@ public class GateController : MonoBehaviour
 
         IsOpen = open;
 
+        if (open)
+        {
+            FeedbackAudio.PlayAt(FeedbackSounds.Cue.GateOpen, transform.position);
+        }
+
         if (barrierCollider != null)
         {
             barrierCollider.enabled = !open;

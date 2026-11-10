@@ -79,6 +79,21 @@ public static class GameJuice
         FeedbackAudio.Play(FeedbackSounds.Cue.Victory);
     }
 
+    // Troca de personagem no controle: uma "alma" de luz salta de quem estava ativo para o novo.
+    public static void CharacterSwapped(GamepadActiveCharacter now)
+    {
+        AlMovement al = Object.FindFirstObjectByType<AlMovement>();
+        Transform finn = FinnMovement.FinnTransform;
+
+        if (al == null || finn == null)
+        {
+            return;
+        }
+
+        bool toFinn = now == GamepadActiveCharacter.Finn;
+        Runner.StartCoroutine(SoulRoutine(toFinn ? al.transform : finn, toFinn ? finn : al.transform));
+    }
+
     // --- Ferramentas ---------------------------------------------------------
 
     // Cresce e volta ao tamanho (como um "pulinho"). Usa tempo nao escalado.
@@ -91,7 +106,7 @@ public static class GameJuice
     }
 
     // Explosao unica de particulas, criada por codigo e apagada sozinha.
-    public static void Burst(Vector3 position, Color color, int count, float speed, float lifetime)
+    public static void Burst(Vector3 position, Color color, int count, float speed, float lifetime, float size = 1f)
     {
         var go = new GameObject("JuiceBurst");
         go.transform.position = position;
@@ -107,14 +122,14 @@ public static class GameJuice
         main.simulationSpace = ParticleSystemSimulationSpace.World;
         main.startLifetime = new ParticleSystem.MinMaxCurve(lifetime * 0.6f, lifetime);
         main.startSpeed = new ParticleSystem.MinMaxCurve(speed * 0.4f, speed);
-        main.startSize = new ParticleSystem.MinMaxCurve(0.06f, 0.14f);
+        main.startSize = new ParticleSystem.MinMaxCurve(0.06f * size, 0.14f * size);
         main.startColor = color;
         main.gravityModifier = 0.15f;
         main.maxParticles = count + 4;
 
         var emission = system.emission;
         emission.rateOverTime = 0f;
-        emission.SetBurst(0, new ParticleSystem.Burst(0f, (short)count));
+        emission.SetBursts(new[] { new ParticleSystem.Burst(0f, (short)count) });
 
         var shape = system.shape;
         shape.shapeType = ParticleSystemShapeType.Circle;
@@ -139,6 +154,41 @@ public static class GameJuice
 
         system.Play();
         Object.Destroy(go, lifetime + 1f);
+    }
+
+    // Voa em arco ate o destino deixando uma trilha de faiscas, e estoura ao chegar.
+    private static IEnumerator SoulRoutine(Transform from, Transform to)
+    {
+        const float duration = 0.5f;
+        Vector3 start = from.position;
+        float elapsed = 0f;
+        float nextSpark = 0f;
+
+        Burst(start, Gold, 25, 1.5f, 0.6f, 2.5f);
+
+        while (elapsed < duration && to != null)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float u = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+
+            // Segue o destino se ele se mexer; o seno faz o voo curvar para cima.
+            Vector3 position = Vector3.Lerp(start, to.position, u) + (Vector3.up * (Mathf.Sin(u * Mathf.PI) * 1f));
+
+            if (elapsed >= nextSpark)
+            {
+                Burst(position, Gold, 6, 0.4f, 0.5f, 3f);
+                Burst(position, Color.white, 2, 0.2f, 0.4f, 2f);
+                nextSpark = elapsed + 0.02f;
+            }
+
+            yield return null;
+        }
+
+        if (to != null)
+        {
+            Burst(to.position, Gold, 50, 2.2f, 0.9f, 3f);
+            Burst(to.position, Color.white, 20, 1.5f, 0.7f, 2.5f);
+        }
     }
 
     private static IEnumerator PunchRoutine(Transform target, float peakScale, float duration)
@@ -176,4 +226,5 @@ public static class GameJuice
     }
 
     internal static AudioSource Audio => Runner.Audio;
+    internal static AudioSource Voice => Runner.Voice;
 }

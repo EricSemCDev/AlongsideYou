@@ -95,8 +95,7 @@ public class AmbientTorch : MonoBehaviour
     private void Update()
     {
         // Pausado, no menu ou fim de fase: o tempo da tocha nao corre.
-        if (GameManager.Instance == null
-            || !InputAccessPolicy.CanAcceptInput(GameManager.Instance.CurrentState))
+        if (!GameManager.IsPlaying)
         {
             return;
         }
@@ -170,6 +169,7 @@ public class AmbientTorch : MonoBehaviour
         }
 
         ApplyAnimator();
+        FeedbackAudio.PlayAt(lit ? FeedbackSounds.Cue.TorchRelit : FeedbackSounds.Cue.TorchOut, transform.position);
         OnLitChanged?.Invoke(lit);
     }
 

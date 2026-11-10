@@ -40,7 +40,6 @@ public static class InputPromptResolver
     // Disparado quando o jogador passa de teclado para controle (ou entre tipos de controle).
     public static event Action DeviceChanged;
 
-    public static Device Current => _current;
     public static bool IsGamepad => _current != Device.KeyboardMouse;
 
     public static void SetDevice(Device device)

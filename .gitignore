@@ -49,3 +49,6 @@ ExportedObj/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Estado local de ferramentas de IA (nao faz parte do jogo)
+.omc/
