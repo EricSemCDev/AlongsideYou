@@ -179,7 +179,6 @@ public class TutorialDialogueUI : MonoBehaviour
 
     public IEnumerator Close()
     {
-        FeedbackAudio.Play(FeedbackSounds.Cue.DialogueClose);
         SetContinueVisible(false);
 
         float hiddenY = -(_panelHeight + 8f);

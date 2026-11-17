@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: FeedbackSounds
   m_EditorClassIdentifier: 
   volume: 0.8
-  resultCorrect: {fileID: 0}
-  resultWrong: {fileID: 0}
+  resultCorrect: {fileID: 8300000, guid: 428ee2b6dd8fd8343898cf6eea14b38f, type: 3}
+  resultWrong: {fileID: 8300000, guid: b573b17f0058e794bb180873d9adb070, type: 3}
   attemptsExhausted: {fileID: 0}
-  blockSnap: {fileID: 0}
-  torchLit: {fileID: 0}
+  blockSnap: {fileID: 8300000, guid: 452bf49e5d112d24dbc29d0d4c3b243b, type: 3}
+  torchLit: {fileID: 8300000, guid: df6975260abdd8c43af4f9fec6612776, type: 3}
   barrierOpen: {fileID: 0}
-  victory: {fileID: 0}
+  victory: {fileID: 8300000, guid: 6bb15a5a4fe38e845a4ed669f793116d, type: 3}
+  starEarned: {fileID: 8300000, guid: 9f64e2cd8ab84854f981575e3842ca6a, type: 3}
   uiHover: {fileID: 8300000, guid: 9ddd05e0548b24448a83a8065067215c, type: 3}
   uiClick: {fileID: 8300000, guid: 35c2305d27730544dbd0a982ae841fda, type: 3}
   uiBack: {fileID: 8300000, guid: 184a8dc3f81e74443b50f20a5858e537, type: 3}
@@ -31,25 +32,23 @@ MonoBehaviour:
   dialogueAdvance: {fileID: 8300000, guid: b6b885e5a9f341546a83e279079b7159, type: 3}
   cameraFocus: {fileID: 8300000, guid: df6975260abdd8c43af4f9fec6612776, type: 3}
   tutorialSkip: {fileID: 0}
-  blockPickup: {fileID: 0}
-  blockDrop: {fileID: 0}
-  blockRotate: {fileID: 0}
-  operatorCollect: {fileID: 0}
-  wheelOpen: {fileID: 0}
-  wheelHover: {fileID: 0}
-  wheelError: {fileID: 0}
+  blockPickup: {fileID: 8300000, guid: f76497da3b124a94d9f7fe6601838dc3, type: 3}
+  blockDrop: {fileID: 8300000, guid: c00d7e522576ec4429c041d48f5bec00, type: 3}
+  blockRotate: {fileID: 8300000, guid: e73fcf1a130f86e4cb4f7639033a987c, type: 3}
+  operatorCollect: {fileID: 8300000, guid: cb8b242d75d3e0144837e33ec53757e7, type: 3}
+  wheelOpen: {fileID: 8300000, guid: 2802fd3ad44d22042b90bec8f9a3ad7d, type: 3}
+  wheelHover: {fileID: 8300000, guid: 9ddd05e0548b24448a83a8065067215c, type: 3}
+  wheelError: {fileID: 8300000, guid: 7fb48ef2c4b22cf40a9c790a05e34b0d, type: 3}
   torchOut: {fileID: 0}
   torchRelit: {fileID: 0}
-  leverPull: {fileID: 0}
-  plateDown: {fileID: 0}
-  gateOpen: {fileID: 0}
   resultCorrectVolume: 1
   resultWrongVolume: 1
   attemptsExhaustedVolume: 1
-  blockSnapVolume: 1
-  torchLitVolume: 1
+  blockSnapVolume: 0.05
+  torchLitVolume: 0.5
   barrierOpenVolume: 1
   victoryVolume: 1
+  starEarnedVolume: 1
   uiHoverVolume: 0.5
   uiClickVolume: 0.5
   uiBackVolume: 1
@@ -61,15 +60,12 @@ MonoBehaviour:
   dialogueAdvanceVolume: 0.5
   cameraFocusVolume: 0.1
   tutorialSkipVolume: 1
-  blockPickupVolume: 1
-  blockDropVolume: 1
-  blockRotateVolume: 1
-  operatorCollectVolume: 1
-  wheelOpenVolume: 1
-  wheelHoverVolume: 1
-  wheelErrorVolume: 1
+  blockPickupVolume: 0.02
+  blockDropVolume: 0.05
+  blockRotateVolume: 0.02
+  operatorCollectVolume: 0.1
+  wheelOpenVolume: 0.1
+  wheelHoverVolume: 0.1
+  wheelErrorVolume: 0.1
   torchOutVolume: 1
   torchRelitVolume: 1
-  leverPullVolume: 1
-  plateDownVolume: 1
-  gateOpenVolume: 1

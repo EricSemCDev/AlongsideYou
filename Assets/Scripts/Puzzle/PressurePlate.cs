@@ -15,7 +15,6 @@ public class PressurePlate : MonoBehaviour
     {
         if (Matches(other))
         {
-            FeedbackAudio.PlayAt(FeedbackSounds.Cue.PlateDown, transform.position);
             IsOccupied = true;
         }
     }

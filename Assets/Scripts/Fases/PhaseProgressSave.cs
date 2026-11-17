@@ -1,44 +1,25 @@
 using UnityEngine;
 
-// Persistência simples via PlayerPrefs — guarda o melhor tempo de
-// cada fase e quais fases secretas já foram desbloqueadas. Sobrevive
-// fechar/abrir o jogo (decisão revisada: o GDD original excluía save,
-// isso muda essa decisão — registrar na tabela de Decisões).
+// Persistencia simples via PlayerPrefs: guarda as estrelas (0 a 3) de cada fase.
+// Sobrevive a fechar/abrir o jogo.
 public static class PhaseProgressSave
 {
-    private const string CompletedTimeKeyPrefix = "PhaseCompletedTime_";
-    private const string SecretUnlockedKeyPrefix = "SecretPhaseUnlocked_";
+    private const string StarsKeyPrefix = "PhaseStars_";
 
-    public static void RecordPhaseCompletion(int phaseIndex, float elapsedTime)
+    // Guarda so se for melhor que a nota anterior.
+    public static void RecordPhaseStars(int phaseIndex, int stars)
     {
-        string key = CompletedTimeKeyPrefix + phaseIndex;
-
-        if (!PlayerPrefs.HasKey(key) || elapsedTime < PlayerPrefs.GetFloat(key))
+        if (stars <= GetStars(phaseIndex))
         {
-            PlayerPrefs.SetFloat(key, elapsedTime);
+            return;
         }
 
+        PlayerPrefs.SetInt(StarsKeyPrefix + phaseIndex, stars);
         PlayerPrefs.Save();
     }
 
-    public static bool HasCompletedPhase(int phaseIndex)
+    public static int GetStars(int phaseIndex)
     {
-        return PlayerPrefs.HasKey(CompletedTimeKeyPrefix + phaseIndex);
-    }
-
-    public static float GetBestTime(int phaseIndex)
-    {
-        return PlayerPrefs.GetFloat(CompletedTimeKeyPrefix + phaseIndex, float.MaxValue);
-    }
-
-    public static void UnlockSecretPhase(int secretPhaseId)
-    {
-        PlayerPrefs.SetInt(SecretUnlockedKeyPrefix + secretPhaseId, 1);
-        PlayerPrefs.Save();
-    }
-
-    public static bool IsSecretPhaseUnlocked(int secretPhaseId)
-    {
-        return PlayerPrefs.GetInt(SecretUnlockedKeyPrefix + secretPhaseId, 0) == 1;
+        return PlayerPrefs.GetInt(StarsKeyPrefix + phaseIndex, 0);
     }
 }

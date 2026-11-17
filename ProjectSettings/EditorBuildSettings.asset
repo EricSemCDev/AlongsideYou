@@ -24,6 +24,21 @@ EditorBuildSettings:
     path: Assets/Scenes/Container_4/Fase_04.unity
     guid: 75a15658043303046bb6a5f44755727e
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Scenes/Container_5/Fase_05.unity
+    guid: 9dba9e5d282fba248bfe0167d3d052bf
+  - enabled: 1
+    path: Assets/Scenes/Container_6/Fase_06.unity
+    guid: 6086b0f2396980f4dab3a255be423a7f
+  - enabled: 1
+    path: Assets/Scenes/Container_7/Fase_07.unity
+    guid: 902ea576d481faa4fbb8643fe1de6692
+  - enabled: 1
+    path: Assets/Scenes/Container_8/Fase_08.unity
+    guid: 5e0994b80c7a3bd4ab364b4f3812fed9
+  - enabled: 1
+    path: Assets/Scenes/Container_9/Fase_09.unity
+    guid: 9753c848b30c92c428cb4068502fc006
+  - enabled: 1
+    path: Assets/Scenes/Container_10/Fase_10.unity
+    guid: d544dc672032c664bb5110d41dbbdfc5
   m_configObjects: {}

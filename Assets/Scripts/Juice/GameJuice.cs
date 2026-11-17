@@ -19,7 +19,7 @@ public static class GameJuice
     private static readonly Color Warm = new Color(1f, 0.55f, 0.15f, 1f);
     private static readonly Color Red = new Color(1f, 0.25f, 0.2f, 1f);
     private static readonly Color Magenta = new Color(0.9f, 0.3f, 0.85f, 1f);
-    private static readonly Color Dust = new Color(0.75f, 0.65f, 0.55f, 0.55f);
+    private static readonly Color Dust = new Color(0.95f, 0.88f, 0.75f, 0.9f);
 
     private static JuiceRunner _runner;
 
@@ -44,7 +44,6 @@ public static class GameJuice
     public static void AttemptsExhausted()
     {
         CameraShake.Shake(0.25f, 0.5f);
-        FeedbackAudio.Play(FeedbackSounds.Cue.AttemptsExhausted);
     }
 
     public static void BlockSnapped(Transform block)
@@ -54,8 +53,6 @@ public static class GameJuice
             return;
         }
 
-        Burst(block.position + (Vector3.down * 0.2f), Dust, 7, 0.7f, 0.35f);
-        Punch(block, 1.22f, 0.16f);
         FeedbackAudio.Play(FeedbackSounds.Cue.BlockSnap);
     }
 
@@ -69,7 +66,6 @@ public static class GameJuice
     {
         Burst(position, Magenta, 30, 1.8f, 0.9f);
         CameraShake.Shake(0.12f, 0.3f);
-        FeedbackAudio.Play(FeedbackSounds.Cue.BarrierOpen);
     }
 
     public static void Victory(Vector3 position)

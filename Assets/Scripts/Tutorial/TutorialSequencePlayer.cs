@@ -212,6 +212,7 @@ public class TutorialSequencePlayer : MonoBehaviour
 
         // Fim (ou tutorial pulado): caixa desce e a camera volta para a visao geral.
         Finish:
+        dialogue.CompleteNow(); // pulou durante a digitacao: para o tique da maquina de escrever
         dialogue.SetSkipHint(null, 0f);
         _skipHold = 0f;
 
@@ -255,7 +256,6 @@ public class TutorialSequencePlayer : MonoBehaviour
 
         if (_skipHold >= skipHoldSeconds)
         {
-            FeedbackAudio.Play(FeedbackSounds.Cue.TutorialSkip);
             return true;
         }
 

@@ -14,6 +14,8 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private GameObject mainButtonsPanel;
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject creditsPanel;
+    [Tooltip("Titulo grande do menu. Some enquanto os creditos estao abertos.")]
+    [SerializeField] private GameObject titleObject;
 
     [Header("Escolha de modo (aparece ao clicar em Jogar)")]
     [SerializeField] private Button playButton;
@@ -23,6 +25,9 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private Button coopButton;
     [SerializeField] private Button modeBackButton;
     [SerializeField] private float modeFadeTime = 0.2f;
+
+    // Ligado ao terminar a ultima fase: o menu abre ja com os creditos rodando.
+    public static bool OpenCreditsOnLoad;
 
     private bool _modeOpen;
     private Coroutine _fade;
@@ -59,6 +64,12 @@ public class MainMenuUI : MonoBehaviour
             {
                 ShowMainButtons();
             }
+        }
+
+        if (OpenCreditsOnLoad && shouldShowMenu)
+        {
+            OpenCreditsOnLoad = false;
+            OnCreditosClicked();
         }
     }
 
@@ -199,6 +210,7 @@ public class MainMenuUI : MonoBehaviour
     public void OnCreditosClicked()
     {
         mainButtonsPanel.SetActive(false);
+        SetTitleVisible(false);
         creditsPanel.SetActive(true);
     }
 
@@ -216,10 +228,19 @@ public class MainMenuUI : MonoBehaviour
 #endif
     }
 
+    private void SetTitleVisible(bool visible)
+    {
+        if (titleObject != null)
+        {
+            titleObject.SetActive(visible);
+        }
+    }
+
     private void ShowMainButtons()
     {
         ResetModePanel();
         mainButtonsPanel.SetActive(true);
+        SetTitleVisible(true);
         settingsPanel.SetActive(false);
         creditsPanel.SetActive(false);
     }

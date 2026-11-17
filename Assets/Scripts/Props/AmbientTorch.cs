@@ -169,7 +169,6 @@ public class AmbientTorch : MonoBehaviour
         }
 
         ApplyAnimator();
-        FeedbackAudio.PlayAt(lit ? FeedbackSounds.Cue.TorchRelit : FeedbackSounds.Cue.TorchOut, transform.position);
         OnLitChanged?.Invoke(lit);
     }
 
