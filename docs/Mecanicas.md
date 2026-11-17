@@ -3,133 +3,118 @@
 ## Core Loop
 
 ```
-Explorar → Posicionar Finn (luz) → Coletar blocos-dado (Al)
-→ Girar face do dado → Montar expressão na Estação de Cálculo
-→ Confirmar resultado → Mundo reage → Alcançar a Fagulha de Luz
+Explorar → Al pega blocos-dado e gira as faces → Finn coleta faíscas de operador
+→ Al encaixa os blocos nos espaços numéricos → Finn acende os operadores nas tochas
+→ a estação calcula ao vivo e confirma → conta certa: a barreira de espinhos murcha
+→ Al alcança a Fagulha de Luz → tela de resultado com estrelas
 ```
 
 ---
 
 ## Loops Secundários
 
-### Loop de Energia do Finn
-Finn ilumina → energia drena → busca fonte de recarga (tocha, cristal, runa) → recarrega → volta a iluminar.
+### Ansiedade
+No escuro, a ansiedade de Al sobe de estágio; perto de uma luz segura (Finn ou tocha) ela desce. O jogador planeja a rota pensando nas zonas de luz.
 
-### Loop de Recuperação de Ansiedade
-Tempo passa sem resolver puzzle → ansiedade de Al aumenta de estágio → jogadores resolvem equação → ansiedade alivia → ciclo reinicia.
+### Tochas que apagam
+Em algumas fases, as tochas do cenário queimam por um tempo, diminuem e apagam. O Finn reacende ficando cerca de 3 segundos dentro da área da tocha.
 
-### Loop de Mini Puzzle de Obstáculo
-Al e Finn encontram obstáculo bloqueando um item → montam equação com condição `> X` ou `< X` → obstáculo abre → item acessível → avançam.
-
----
-
-## Al — Jogador 1 (Teclado)
-
-- Movimentação lateral 2D: WASD
-- Carrega blocos-dado e gira as faces (Q/E) enquanto caminha
-- Decide o valor durante o trajeto — chega na estação com o valor escolhido
-- Encaixa blocos nos slots da Estação de Cálculo (Espaço)
-- Não consegue entrar em áreas com luz abaixo do limite mínimo
-- Efeito de pânico: recuo com mão na cabeça, sem input durante a animação
-- Fica mais lento conforme o estágio de ansiedade aumenta
-- Resolver equação alivia o estágio de ansiedade atual
+### Tentativa e ajuste
+Cada combinação completa de blocos e operadores é avaliada uma vez. Se errar, o resultado fica vermelho e o jogador troca peças. Nas fases 9 e 10 só existe uma tentativa: errar reinicia a fase.
 
 ---
 
-## Finn — Jogador 2 (Mouse ou Gamepad)
+## Al
 
-- **Padrão:** segue o cursor do mouse com lerp — movimento fluido com atraso orgânico
-- **Alternativo:** segue o analógico direito do gamepad, com aceleração e desaceleração suaves
-- Colisão física com o cenário: animação de espatifar e se reconstruir
-- Voa — sem gravidade
-- Não é afetado pela escuridão
-- Ilumina o ambiente criando zona segura onde Al pode avançar
-- Reserva de energia que drena enquanto ilumina — recarrega em fontes do mapa
-- Coleta faíscas-operador (`+`, `-`, `×`, `÷`) com clique esquerdo ou botão do gamepad
-- Passa por aberturas pequenas inacessíveis para Al
+- Anda em 8 direções (WASD/setas ou analógico), sem pulo
+- Pega **um bloco por vez**, gira as faces (Q/E ou LB/RB) e encaixa num espaço numérico (Espaço ou A)
+- Pode tirar um bloco do espaço de volta
+- Ao largar no chão, o bloco cai no primeiro ponto livre à frente ou ao redor
+- Fica mais lento conforme a ansiedade sobe
+
+---
+
+## Finn
+
+- Segue um ponto-alvo suavizado (`SmoothDamp`): com o mouse, segurar o clique esquerdo faz o Finn ir até o cursor; no controle, segue o analógico
+- Voa e atravessa os espinhos
+- Coleta faíscas de operador por contato — cada uma vai para o estoque dele
+- Perto de uma tocha da estação, abre a **roda de operadores** (clique direito segurado, ou segurar A/Cruz), aponta o operador e solta para acender. A roda mostra quantos de cada ele tem
+- A luz dele protege o Al da ansiedade e reacende tochas apagadas
 
 ---
 
 ## Blocos-Dado
 
-- Carregados pelo Al, formato visual de dado em pixel art
-- 4 faces nas fases iniciais, 6 faces nas fases avançadas
-- Girados com Q/E enquanto Al caminha — decisão durante o trajeto
-- Faces geradas proceduralmente — pelo menos uma face correta por bloco
-- Blocos no escuro por tempo demais retornam ao ponto de origem
+- Cada bloco tem de 1 a 4 faces, conforme a fase
+- As faces são geradas a cada carregamento da fase; os dígitos da solução ficam espalhados pelos blocos
+- Fases com mais blocos do que espaços têm blocos de isca
+- **Espaço composto:** recebe dois blocos (dezena e unidade) e forma um número de 10 a 99
 
 ---
 
 ## Estação de Cálculo
 
-Composta por elementos do mundo — não é uma interface separada.
+Feita de elementos do mundo, não é uma interface separada.
 
-- **Pedestal de número** — Al encaixa o bloco-dado aqui
-- **Tocha de operador** — Finn acende com a faísca coletada
-- **Plaquinha** — exibe o resultado alvo (fases iniciais) ou apenas `>` / `<` (fases avançadas)
-- Preview do resultado antes de confirmar — sem punição por tentar
-- Cálculo sempre da esquerda para direita, sem prioridade de operações
-- Confirmar dispara reação no mapa: ponte, luz, desbloqueio, passagem
+- **Espaços numéricos** — onde o Al encaixa os blocos, em ordem
+- **Tochas de operador** — onde o Finn acende os operadores, entre os espaços
+- **Painel de resultado** — mostra a conta ao vivo; fica verde ao acertar e vermelho ao errar
+- **Tocha de resultado esperado** — mostra o alvo da conta
+- Confirma sozinha quando todos os espaços e tochas estão preenchidos (uma vez por combinação)
 
----
+### Regras da conta
 
-## Sistema de Puzzle Procedural
-
-A cada carregamento de fase, o sistema gera um puzzle único:
-
-- Resultado alvo gerado aleatoriamente dentro de um range de dificuldade
-- Faces de cada bloco geradas com pelo menos uma que participa de uma solução válida
-- Faíscas-operador selecionadas para garantir ao menos uma combinação que resolve
-- Parâmetros configuráveis via ScriptableObject por fase
-
-> O jogador nunca memoriza a solução — cada repetição exige novo raciocínio matemático.
+- Avaliada **da esquerda para a direita, sem prioridade de operador**: `2 + 3 × 4 = 20` (e não 14)
+- Divisão só aparece quando é exata e diferente de zero
+- Resultados negativos só nas fases de dificuldade 8 ou mais
+- O alvo é sorteado a cada carregamento da fase — decorar a resposta não funciona
 
 ---
 
-## Sistema de Ansiedade como Dificuldade Crescente
+## Puzzle Procedural
 
-A ansiedade **não é condição de derrota direta** — é dificuldade progressiva. No Estágio 5, Al paralisa por alguns segundos. Se Finn iluminar Al nesse momento, ele se recupera e volta ao Estágio 4. Só há derrota se Finn não conseguir chegar a tempo.
-
-> A parceria literalmente salva Al da ansiedade.
-
-| Estágio | Descrição | Efeito Mecânico |
-|---|---|---|
-| 1 — Normal | Estado inicial | Sem penalidades |
-| 2 — Inquieto | Al começa a sentir a pressão | Animações de nervosismo, levemente mais lento |
-| 3 — Ansioso | A ansiedade se manifesta | Al mais lento, raio de Finn começa a diminuir |
-| 4 — Em Pânico | Al está no limite | Al muito lento, blocos somem mais rápido, Finn com raio mínimo |
-| 5 — Paralisado | A ansiedade consumiu Al | Al imóvel. Finn pode salvar iluminando Al. Sem resgate = derrota. |
+A cada carregamento, o `PuzzleGenerator` cria uma equação nova a partir do `PuzzleConfig` da fase (blocos, faces, espaços, espaços compostos, operadores e dificuldade). Como o alvo sempre vem de uma conta que de fato existe, **toda fase tem solução**. Detalhes em [Stack Técnica](Stack-Tecnica).
 
 ---
 
-## Sistema de Estrelas e Progressão
+## Sistema de Ansiedade
 
-| Estrelas | Critério |
+A ansiedade é **dirigida pela luz**: se o Al fica fora do alcance de qualquer luz segura (o Finn ou uma tocha acesa) pelo tempo da fase, sobe um estágio; se fica perto de uma luz pelo tempo de recuperação, desce um. A luz pessoal do Al não conta como segura. Os tempos e as velocidades ficam num `AnxietyConfig` por fase.
+
+| Estágio | Efeito no Al (fases 1 a 5) |
 |---|---|
-| ⭐ | Completou a fase |
-| ⭐⭐ | Completou dentro do tempo médio |
-| ⭐⭐⭐ | Completou dentro do tempo ótimo |
+| 1 — Normal | Velocidade 100%, cor normal |
+| 2 — Inquieto | Velocidade 90%, começa a escurecer, a luz pessoal encolhe e treme mais |
+| 3 — Ansioso | Velocidade 70%, mais escuro |
+| 4 — Em pânico | Velocidade 50%, quase preto |
+| 5 — Paralisado | Movimento travado: derrota, a fase reinicia |
 
-Ao conseguir 3 estrelas em todas as 4 fases de um bloco, a **fase secreta** daquele bioma é desbloqueada. As fases secretas são significativamente mais difíceis e recompensam com **skins exclusivas**: roupa alternativa para Al e cor de chama diferente para Finn.
-
----
-
-## Raio de Distância e Corda de Luz
-
-- Al entra em pânico progressivo se Finn se afastar além do raio máximo
-- Corda de luz visível entre os dois ao se aproximarem do limite
-- Corda fica vermelha quando a distância é crítica
-- Derrota se a separação persistir por tempo demais
-- O raio diminui conforme o estágio de ansiedade aumenta
+> Nas fases 6, 8 e 9 as velocidades caem mais rápido (100% → 70% → 50% → 30% → 0%) e a ansiedade sobe em 1 a 4 segundos no escuro. Na Fase 9 ela não recua: a luz só impede que suba. As demais fases usam a configuração padrão (sobe a cada 8 s no escuro, desce a cada 1 s na luz).
 
 ---
 
-## Escuridão
+## Estrelas e Progressão
 
-- Áreas escuras estáticas — barreiras físicas fixas no mapa
-- Ambiente hostil passivo — pressiona sem perseguir
-- Luz ambiente decai globalmente em todas as fases
-- Checkpoints de luz estabilizam a iluminação ao redor temporariamente
+| Fases | ⭐⭐⭐ | ⭐⭐ | ⭐ |
+|---|---|---|---|
+| Prólogo e fases 1 a 4 | até 30 s | até 60 s | até 90 s |
+| Fases 5 a 10 | até 45 s | até 90 s | até 150 s |
+
+- Acima do tempo de 1 estrela, a fase conta como concluída com 0 estrelas
+- O cronômetro para durante a pausa e o tutorial
+- A melhor nota de cada fase fica salva
+- Na tela de resultado as estrelas enchem uma a uma, com som; depois aparecem **Próxima fase** e **Refazer**
+- As fases seguem em ordem fixa; ao terminar a Fase 10, o jogo abre os créditos
+
+---
+
+## Modos de Jogo
+
+| Modo | Como funciona |
+|---|---|
+| **Solo** | Um jogador. No teclado e mouse, controla o Al pelo teclado e o Finn pelo mouse ao mesmo tempo. No controle, um personagem por vez, trocando com Y/Triângulo (uma "alma de luz" salta de um para o outro). |
+| **Co-op** | Dois jogadores no mesmo PC: teclado (Al) e mouse (Finn), ou controles (o primeiro é do Al e o segundo do Finn). A troca fica desligada. |
 
 ---
 

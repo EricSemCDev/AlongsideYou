@@ -179,8 +179,8 @@
     },
     {
       "path": "Assets/Scripts/Core/Input/InputManager.cs",
-      "accessCount": 4,
-      "lastAccessed": 1794275868854,
+      "accessCount": 5,
+      "lastAccessed": 1794948502556,
       "type": "directory"
     },
     {
@@ -221,8 +221,8 @@
     },
     {
       "path": "Assets/Scripts/Puzzle/CalculationStationDisplay.cs",
-      "accessCount": 2,
-      "lastAccessed": 1794277400023,
+      "accessCount": 3,
+      "lastAccessed": 1794948431955,
       "type": "directory"
     },
     {
@@ -280,6 +280,24 @@
       "type": "directory"
     },
     {
+      "path": "Assets/Scripts/Al/Ansiedade/AnxietySystem.cs",
+      "accessCount": 2,
+      "lastAccessed": 1794948430633,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Fases/PhaseCompletionManager.cs",
+      "accessCount": 2,
+      "lastAccessed": 1794948431250,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Core/Essenciais/GameManager.cs",
+      "accessCount": 2,
+      "lastAccessed": 1794948508922,
+      "type": "file"
+    },
+    {
       "path": "Assets/Scripts/Juice/CameraShake.cs",
       "accessCount": 1,
       "lastAccessed": 1793727940025,
@@ -307,12 +325,6 @@
       "path": "docs/Guia-de-Estudo-do-Codigo.md",
       "accessCount": 1,
       "lastAccessed": 1794084753371,
-      "type": "file"
-    },
-    {
-      "path": "Assets/Scripts/Core/Essenciais/GameManager.cs",
-      "accessCount": 1,
-      "lastAccessed": 1794090373144,
       "type": "file"
     },
     {
@@ -352,12 +364,6 @@
       "type": "directory"
     },
     {
-      "path": "Assets/Scripts/Fases/PhaseCompletionManager.cs",
-      "accessCount": 1,
-      "lastAccessed": 1794277366696,
-      "type": "file"
-    },
-    {
       "path": "Assets/Scripts/Fases/PhaseTitleCard.cs",
       "accessCount": 1,
       "lastAccessed": 1794277380861,
@@ -368,12 +374,6 @@
       "accessCount": 1,
       "lastAccessed": 1794277383262,
       "type": "directory"
-    },
-    {
-      "path": "Assets/Scripts/Al/Ansiedade/AnxietySystem.cs",
-      "accessCount": 1,
-      "lastAccessed": 1794277399162,
-      "type": "file"
     },
     {
       "path": "Assets/Scripts/Fases/SecretPhaseUnlockConfig.cs",

@@ -13159,11 +13159,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6568597286694864571, guid: 19c4426b3fa0efa468d02cb76f123711, type: 3}
       propertyPath: title
-      value: Neblina 1-9
+      value: Neblina 1-10
       objectReference: {fileID: 0}
     - target: {fileID: 6568597286694864571, guid: 19c4426b3fa0efa468d02cb76f123711, type: 3}
       propertyPath: subtitle
-      value: Quato maior pior
+      value: Desafio Final!
       objectReference: {fileID: 0}
     - target: {fileID: 6568597286694864571, guid: 19c4426b3fa0efa468d02cb76f123711, type: 3}
       propertyPath: holdDuration

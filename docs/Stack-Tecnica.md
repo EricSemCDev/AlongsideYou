@@ -4,17 +4,16 @@
 
 | Categoria | Ferramenta |
 |---|---|
-| **Engine** | Unity 2022.3 LTS |
+| **Engine** | Unity 2022.3 LTS, URP 2D, Input System, TextMeshPro |
 | **Linguagem** | C# |
 | **Arte** | Aseprite — pixel art |
-| **Versionamento** | GitHub (repositório público) |
-| **Gestão** | GitHub Projects — Kanban |
+| **Versionamento** | Git + GitHub (issues, milestones e pull requests) |
 | **CI/CD** | GitHub Actions + game-ci |
-| **Documentação** | Wiki do GitHub + /docs |
-| **Testes** | Unity Test Framework (uso pontual, sem TDD obrigatório) |
+| **Documentação** | GDD, Wiki do GitHub e `/docs` |
+| **Testes** | Playtests (testes automatizados removidos com aval dos professores) |
 | **Distribuição** | Itch.io (WebGL) + Windows |
 | **Licença (código)** | MIT |
-| **Licença (assets)** | CC BY-NC-SA |
+| **Licença (assets próprios)** | CC BY-NC-SA |
 
 ---
 
@@ -22,58 +21,62 @@
 
 ### Princípios
 
-- **GameManager central** — coordena estado do jogo, transições de fase e comunicação entre sistemas
-- **GameManager em duas camadas** — `GameStateMachine` (classe C# pura, sem dependência da engine) e `GameManager` (MonoBehaviour singleton que a instancia e expõe às demais cenas)
-- **Sistemas separados por responsabilidade** — cada script tem uma função clara
-- **ScriptableObjects** para configuração de fase — parâmetros configuráveis no editor sem alterar código
-- **Prefabs reutilizáveis** — bloco-dado, faísca-operador, tocha, checkpoint, obstáculos
+- **Gerentes persistentes** (sobrevivem à troca de cena): `GameManager` (estados do jogo), `InputManager` (controles), `PhaseProgressionManager` (sequência de fases), `SceneTransitionManager` (fade entre cenas), menu de pausa e `MusicPlayer`
+- **Comunicação por eventos** — a estação avisa quando a conta é validada, a ansiedade avisa quando muda de estágio, e cada sistema interessado reage sozinho
+- **ScriptableObjects** para configurar sem código — `PuzzleConfig` (puzzle da fase), `AnxietyConfig` (ansiedade da fase), `PhaseSequence` (ordem das fases) e `FeedbackSounds` (sons)
+- **Prefabs reutilizáveis** — Al, Finn, bloco, faísca, espaços, tochas, estação, espinhos, Fagulha, gerador e o kit de fase (`FaseEssencials`)
+- **Feito por código quando possível** — caixa de diálogo, partículas, neblina, sombras e efeitos são criados em tempo de execução
+
+### Estados do Jogo
+
+O `GameManager` guarda o estado atual (`Menu`, `Playing`, `Paused`, `GameOver`, `Complete`) e só aceita trocas permitidas por uma tabela (por exemplo `Playing → Paused`, `Paused → Playing`, `Playing → Complete`). A pausa zera o tempo do jogo. A troca para `Playing` só acontece depois que a cena nova termina de carregar.
 
 ### Sistemas e Interações
 
-Os sistemas se comunicam por eventos — sem acoplamento direto entre scripts.
-
-| Sistema | Responsabilidade | Notifica |
+| Sistema | Responsabilidade | Conversa com |
 |---|---|---|
-| `GameManager` | Estado global, transições de fase, vitória e derrota | Todos os sistemas ao mudar de fase |
-| `PuzzleGenerator` | Gera equações por geração reversa a partir do resultado | `CalculationStation` com a equação gerada |
-| `AnxietySystem` | Controla os 5 estágios de ansiedade e aplica efeitos progressivos | `LightSystem` (diminuir raio no Estágio 3) e `GameManager` (Estágio 5 atingido) |
-| `LightSystem` | Gerencia energia do Finn, decaimento global e checkpoints | `AnxietySystem` quando Finn ilumina Al no Estágio 5 (resgate) |
-| `DistanceRope` | LineRenderer com lógica de cor por distância | `AnxietySystem` (distância crítica) e `GameManager` (separação prolongada = derrota) |
-| `CalculationStation` | Valida expressão montada e dispara reações no mapa | `AnxietySystem` (equação correta alivia estágio) e `GameManager` (resultado válido) |
-| `InputManager` | Gerencia inputs de Al (teclado/gamepad) e Finn (mouse/gamepad), bloqueando input fora do estado Playing | Al e Finn a cada frame, zerados quando pausado ou em menu |
-| `FinnTargetSystem` | Calcula o ponto-alvo que o Finn persegue, unificando mouse (clique + direção) e gamepad (analógico direito) com `Mathf.SmoothDamp` | Movimento do Finn a cada frame |
+| `GameManager` | Estado do jogo e transições válidas | Todos consultam se o jogo está rodando |
+| `InputManager` | Lê teclado, mouse e controles; modos Solo e Co-op; troca de personagem | Al, Finn e menus; suspende a entrada durante o tutorial |
+| `PhaseProgressionManager` + `PhaseSequence` | Fase ativa, próxima fase, reiniciar, voltar ao menu | `SceneTransitionManager`, `PhaseProgressSave`, `MainMenuUI` (créditos no fim) |
+| `PhaseCompletionManager` + `PhaseResultScreen` | Cronômetro, estrelas e tela de resultado | `PhaseProgressionManager` |
+| `PuzzleGenerator` + `PuzzleConfig` | Gera a equação e aplica nos blocos, faíscas e no alvo | `CalculationStationDisplay` |
+| `CalculationStationDisplay` | Lê espaços e tochas, calcula, confirma e conta tentativas | Barreira de espinhos, efeitos e sons (evento de validação) |
+| `ThornBarrier` | Abre de vez quando a conta está certa | Escuta a estação |
+| `AnxietySystem` | Sobe e desce estágios pela luz | Efeitos de cor, velocidade e luz do Al; `AnxietyDefeatTrigger` |
+| `AmbientTorch` | Tocha que queima, apaga e é reacendida pelo Finn | `AnxietySystem` (pelo raio da luz) |
+| `AlBlockCarrier` + `DadoBlock` + `NumericSlot` | Pegar, girar, largar e encaixar blocos | Estação |
+| `FinnMovement` + `FinnOperatorCollector` + `OperatorMenuController` | Movimento do Finn, estoque de operadores e roda | Tochas de operador |
+| Tutorial (`TutorialSequencePlayer`, `TutorialDialogueUI`, `TutorialCameraFocus`, ícones) | Falas, câmera e ícones de botão | `InputManager` e cronômetro (pausa os dois) |
+| Juice (`GameJuice`, `CameraShake`, `FeedbackAudio`) | Faíscas, tremor e sons | Chamado por uma linha onde o evento acontece |
+| Menus e `MusicPlayer` | Menu principal, pausa, créditos e música | `GameManager` e `PhaseProgressionManager` |
 
 ---
 
-## PuzzleGenerator — Algoritmo de Geração Reversa
+## PuzzleGenerator — Como a Equação Nasce
 
-O gerador parte do resultado e constrói a equação de trás para frente, garantindo solução em 100% dos casos:
+O gerador é o algoritmo do [Equation-Generator](https://github.com/EricSemCDev/Equation-Generator) portado para dentro da Unity. Ele roda sozinho quando a fase carrega:
 
-1. Sorteia resultado alvo dentro do range configurado para a fase
-2. Aplica operadores inversos a partir do resultado para encontrar os valores dos blocos
-3. Gera as demais faces de cada bloco com valores aleatórios dentro do range permitido
-4. Seleciona faíscas-operador necessárias para a solução e adiciona extras como distratores
+1. Sorteia os operadores da conta a partir de um estoque com operadores fáceis (`+`, `−`) e difíceis (`×`, `÷`), conforme a dificuldade
+2. Sorteia um número para cada espaço (compostos recebem de 10 a 99) e calcula a conta da esquerda para a direita
+3. Descarta a tentativa se houver divisão com resto, resultado acima do máximo ou negativo onde não pode; repete até 1.000 vezes, trocando os operadores até 30 vezes
+4. Com uma conta válida, o resultado vira o alvo. Cada dígito usado é plantado num bloco, as outras faces recebem números aleatórios e tudo é embaralhado; as faíscas recebem os símbolos do estoque (incluindo iscas)
+5. Se nada der certo, usa uma equação de segurança só com somas e avisa no Console
 
-**Repositório do algoritmo:** [github.com/EricSemCDev/Equation-Generator](https://github.com/EricSemCDev/Equation-Generator)
+Como o alvo sempre vem de uma conta que de fato existe, **toda fase tem solução** — o mesmo efeito da geração reversa sugerida pelo professor. O gerador trabalha numa cópia do `PuzzleConfig` em memória, então o asset nunca é alterado durante o jogo.
 
 ---
 
 ## CI/CD
 
-O pipeline roda automaticamente em todo push para `develop` e em todo PR para `main`.
-
-**Jobs:**
-1. **Run Tests** — Unity Test Framework
-2. **Build WebGL** — build para distribuição no Itch.io
+O workflow `main.yml` (GitHub Actions + game-ci) roda em todo push e pull request e gera o **build WebGL**, publicado como artefato.
 
 **Fluxo de branches:**
 ```
 feature/xxx → develop → main
 ```
 
-- Todo desenvolvimento vai para `develop`
-- Merge para `main` exige PR com review de pelo menos 1 colega do squad
-- CI precisa passar antes do merge
+- Cada mudança entra por pull request
+- `main` é protegida: merge só por pull request revisado
 
 ---
 
