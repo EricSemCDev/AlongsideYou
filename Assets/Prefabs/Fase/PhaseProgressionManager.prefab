@@ -46,4 +46,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   phaseSequence: {fileID: 11400000, guid: 4cc75f589bfaff44aaeec0c578de080f, type: 2}
   mainMenuSceneName: MainMenu
-  secretUnlockConfigs: []

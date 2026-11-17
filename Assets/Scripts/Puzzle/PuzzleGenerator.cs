@@ -75,13 +75,6 @@ public class PuzzleGenerator : MonoBehaviour
         return (0, 9);
     }
 
-    private bool ShouldGenerateComposite(float difficulty)
-    {
-        if (difficulty < 6) return false;
-        float chance = 0.20f + (difficulty - 6) * 0.15f;
-        return _random.NextDouble() < chance;
-    }
-
     private int GetRmax(float difficulty)
     {
         if (difficulty <= 2) return 10;
@@ -105,6 +98,10 @@ public class PuzzleGenerator : MonoBehaviour
         else if (cfg.difficulty <= 7) hardChance = 0.50f;
         else hardChance = 0.80f;
 
+        // Cada operador entra no maximo "maxPerOperator" vezes. Precisa ser grande o bastante para
+        // os 4 operadores somarem operatorCount, senao o laco abaixo nunca terminaria (travava a Unity).
+        int maxPerOperator = Mathf.Max(cfg.operatorSlots, Mathf.CeilToInt(cfg.operatorCount / 4f));
+
         while (pool.Count < cfg.operatorCount)
         {
             char op = _random.NextDouble() < hardChance
@@ -113,7 +110,7 @@ public class PuzzleGenerator : MonoBehaviour
 
             int currentCount = pool.Count(o => o == op);
 
-            if (currentCount < cfg.operatorSlots)
+            if (currentCount < maxPerOperator)
             {
                 pool.Add(op);
             }
@@ -126,7 +123,9 @@ public class PuzzleGenerator : MonoBehaviour
     {
         List<char> selected = new();
 
-        while (true)
+        // shortcut: com pool so de "/" toda escolha e invalida, entao desiste apos 100 sorteios
+        // e devolve a ultima; o Generate() sorteia outro pool ou usa o fallback.
+        for (int attempt = 0; attempt < 100; attempt++)
         {
             selected.Clear();
 
@@ -152,6 +151,8 @@ public class PuzzleGenerator : MonoBehaviour
                 return selected;
             }
         }
+
+        return selected;
     }
 
     // --- Blocos e equação ---
@@ -313,12 +314,15 @@ public class PuzzleGenerator : MonoBehaviour
         List<char> pool = new();
         int opIndex = 0;
 
+        // Aqui so existem 2 operadores (+ e -), entao cada um precisa caber metade do pool.
+        int maxPerOperator = Mathf.Max(cfg.operatorSlots, Mathf.CeilToInt(cfg.operatorCount / 2f));
+
         while (pool.Count < cfg.operatorCount)
         {
             char op = safeOps[opIndex % safeOps.Count];
             int currentCount = pool.Count(o => o == op);
 
-            if (currentCount < cfg.operatorSlots)
+            if (currentCount < maxPerOperator)
             {
                 pool.Add(op);
             }
