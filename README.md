@@ -8,7 +8,7 @@ Um jogo cooperativo onde dois jogadores controlam Al e Finn para usar luz e mate
 ![C#](https://img.shields.io/badge/C%23-239120?logo=csharp&logoColor=white)
 ![License](https://img.shields.io/badge/Código-MIT-blue)
 ![Assets](https://img.shields.io/badge/Assets-CC%20BY--NC--SA-green)
-![CI](https://github.com/EricSemCDev/AlongsideYou/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/EricSemCDev/AlongsideYou/actions/workflows/main.yml/badge.svg)
 
 ---
 
@@ -16,7 +16,7 @@ Um jogo cooperativo onde dois jogadores controlam Al e Finn para usar luz e mate
 
 **Alongside You** é um puzzle cooperativo local com vista lateral 2D flat, desenvolvido como projeto de portfólio para o PAC Extensionista VII — Engenharia de Software — Católica SC.
 
-Dois jogadores no mesmo PC controlam personagens assimétricos:
+Joga-se em **Solo** (um jogador alterna entre os dois personagens) ou em **Co-op local** (dois jogadores no mesmo PC, com teclado, mouse ou controle). Os personagens são assimétricos:
 
 - **Al (Teclado)** — o protagonista com medo do escuro. Carrega blocos-dado, gira as faces durante o trajeto e resolve puzzles matemáticos
 - **Finn (Mouse)** — a luz viva criada pela mente de Al. Ilumina o caminho e coleta operadores matemáticos espalhados pelo mapa
@@ -52,10 +52,10 @@ Explorar → Posicionar Finn (luz) → Coletar blocos-dado (Al)
 → Confirmar resultado → Mundo reage → Alcançar a Fagulha de Luz
 ```
 
-- **20 fases** progressivas agrupadas em 4 biomas
+- **10 fases** progressivas, mais um Prólogo que apresenta as mecânicas
 - **Puzzles procedurais** — cada carregamento de fase gera uma equação diferente
-- **Sistema de ansiedade** — quanto mais tempo sem resolver, mais o Al deteriora
-- **Obstáculos matemáticos** — Memórias de Gelo (`> X`) e Áreas de Lamento (`< X`)
+- **Sistema de ansiedade** — quanto mais tempo no escuro, mais o Al deteriora; a luz o acalma
+- **Barreiras de espinhos** — só o Finn atravessa, e elas abrem quando a equação da Estação de Cálculo está certa
 
 ---
 
@@ -99,8 +99,10 @@ Explorar → Posicionar Finn (luz) → Coletar blocos-dado (Al)
 | [Mecânicas](docs/Mecanicas.md) | Todas as mecânicas do jogo detalhadas |
 | [Controles](docs/Controles.md) | Inputs de Al e Finn |
 | [Obstáculos e Derrota](docs/Obstaculos-e-Derrota.md) | Elementos de fase e condições de derrota |
-| [Estrutura das Fases](docs/Estrutura-das-Fases.md) | 20 fases, biomas e progressão de mecânicas |
+| [Estrutura das Fases](docs/Estrutura-das-Fases.md) | 10 fases e progressão de mecânicas |
+| [Level Design](docs/Level-Design.md) | Princípios e construção dos mapas |
 | [Arte e Som](docs/Arte-e-Som.md) | Direção visual, animações e design de áudio |
+| [Prototipagem e Testes](docs/Prototipagem-e-Testes.md) | Protótipos e planejamento de playtests |
 | [Stack Técnica](docs/Stack-Tecnica.md) | Tecnologias, arquitetura e CI/CD |
 | [Roadmap](docs/Roadmap.md) | Cronograma e marcos de desenvolvimento |
 | [Decisões Importantes](docs/Decisoes-Importantes.md) | Registro de decisões e justificativas |
@@ -119,10 +121,27 @@ Este é um projeto individual com revisão em pares via squad.
 
 ---
 
+## Créditos
+
+Música, sons e fontes de terceiros, usados sob a licença original de cada autor:
+
+| Recurso | Autor | Licença |
+|---|---|---|
+| [Music Loop Bundle](https://tallbeard.itch.io/music-loop-bundle) | Abstraction (Tallbeard Studios) | CC0 |
+| [400+ Sounds Pack](https://ci.itch.io/400-sounds-pack) | Chequered Ink | Uso livre; não revender nem redistribuir |
+| [Cozy UI Sounds](https://aquumgifts.itch.io/cozy-ui-sounds) | Spaceyyy | Uso livre; não revender nem redistribuir |
+| [Interface Sounds](https://kenney.nl/assets/interface-sounds) | Kenney | CC0 |
+| [Input Prompts](https://kenney-assets.itch.io/input-prompts) | Kenney | CC0 |
+| Pixelify Sans | Stefie Justprince | SIL OFL 1.1 |
+| Press Start 2P | CodeMan38 | SIL OFL 1.1 |
+
+---
+
 ## Licença
 
 - Código: [MIT](LICENSE)
-- Assets: CC BY-NC-SA
+- Assets próprios do jogo (arte e conteúdo): CC BY-NC-SA
+- Recursos de terceiros listados em [Créditos](#créditos) mantêm a licença original de cada autor
 
 ---
 

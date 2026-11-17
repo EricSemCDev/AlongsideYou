@@ -2,46 +2,48 @@
 
 ## Pilares do Jogo
 
-Os pilares definem a filosofia do jogo. Toda decisão de design — feature, mecânica, arte, som — deve servir a pelo menos um deles. Se não serve, não entra.
+Os pilares definem a filosofia do jogo. Toda decisão de design — mecânica, arte, som — deve servir a pelo menos um deles. Se não serve, não entra.
 
 ---
 
 ### 1. Parceria como mecânica
 
-Al e Finn têm papéis únicos e momentos individuais, mas o progresso real exige os dois. Nenhuma fase pode ser completada por um só.
+Al e Finn têm papéis diferentes e o progresso exige os dois: só o Al carrega blocos e só o Finn acende operadores e atravessa espinhos. Nenhuma fase é completada com um só personagem.
 
 ---
 
 ### 2. O mundo comunica
 
-Sem HUD, sem texto explicativo. A ansiedade do Al é vista no comportamento dele. A energia do Finn é vista na chama. O perigo é visto no cenário.
+HUD mínimo. A ansiedade aparece no próprio Al (fica mais escuro e mais lento), o resultado da conta aparece na estação do mapa e o alvo aparece numa tocha do cenário.
 
 ---
 
 ### 3. Matemática como superação
 
-Não é obstáculo escolar, é ferramenta narrativa. Resolver a equação alivia a ansiedade. A matemática é o que permite Al avançar dentro da própria mente.
+A conta não é tarefa escolar: é o que abre o caminho. Montar a equação certa derruba a barreira de espinhos e leva Al até a Fagulha de Luz.
 
 ---
 
 ### 4. História sentida, não contada
 
-A narrativa de ansiedade não é explicada por texto ou cutscene. É comunicada pelo gameplay, pela estética e pelos elementos do mundo.
+A ansiedade de Al é comunicada pelo gameplay e pela estética: o escuro pressiona, a luz acalma, e o Finn está sempre por perto.
 
 ---
 
 ## Hipóteses de Design
 
-| Hipótese | Como será testada |
-|---|---|
-| Jogadores entendem que devem girar o dado durante o trajeto, sem tutorial | Playtest observando uso da mecânica sem instrução direta |
-| Assimetria teclado/mouse cria cooperação natural sem frustração ou atrito ergonômico | Playtest com duplas em diferentes configurações (mouse, gamepad) |
-| Tochas comunicam proximidade do resultado sem número na tela | Playtest nas fases avançadas verificando se jogadores entendem |
-| Corda de luz comunica risco de separação sem texto ou ícone | Observar se jogadores reagem à corda vermelha sem instrução |
-| Sistema de ansiedade cria urgência sem sensação de punição injusta | Playtest medindo frustração no Estágio 5 — Al paralisa, Finn salva |
-| Indicador no obstáculo é suficiente para entender condição `>` ou `<` | Playtest nas fases 5 e 9 observando conexão número/equação |
-| Jogadores sem experiência em jogos completam as primeiras 2 fases | Playtest com não-jogadores identificados pelo tema de ansiedade |
-| Sistema de estrelas motiva rejogo sem criar pressão negativa | Playtest medindo se jogadores tentam novamente voluntariamente |
+| Hipótese | Como foi testada | Resultado |
+|---|---|---|
+| O Prólogo guiado pelo Finn ensina pegar, girar e encaixar blocos e acender operadores | Playtest observando o Prólogo e a Fase 1 | **Parcial** — objetivo entendido (4,3/5), mas o giro dos blocos e a luz do Finn passaram despercebidos para alguns, e o tutorial pareceu longo |
+| A assimetria Al (blocos) e Finn (operadores) cria cooperação natural | Playtest com duplas e solo | **Confirmada** — controlar os dois personagens foi citado como ponto alto; mecânicas 4,8/5 |
+| O modo Solo, com troca de personagem, é confortável | Playtest individual | **Confirmada** — alternar personagens foi citado como inovador |
+| O resultado ao vivo na estação ajuda a ajustar a conta | Observar se o jogador corrige pelo número mostrado | **Parcial** — funciona, mas um jogador pediu para ver a expressão inteira |
+| A ansiedade cria urgência sem parecer punição injusta | Perguntar sobre as derrotas por ansiedade | **Em parte** — fugir do escuro foi ponto alto, mas a lentidão do Al incomodou 6 de 10 |
+| A conta da esquerda para a direita (sem precedência) é entendida | Fases com três números ou mais | Sem reclamação direta; um jogador se perdeu com mais de 3 blocos |
+| Não-jogadores passam do começo | Playtest com quem não joga o gênero | **Confirmada** — 8 dos 10 não jogam o gênero e 9 completaram pelo menos uma fase |
+| As estrelas motivam rejogar sem pressão | Observar o uso do Refazer | Não medido pelo formulário |
+
+Detalhes do playtest em [Prototipagem e Testes](Prototipagem-e-Testes).
 
 ---
 

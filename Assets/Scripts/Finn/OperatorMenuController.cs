@@ -81,6 +81,7 @@ public class OperatorMenuController : MonoBehaviour
         gameObject.SetActive(true);
 
         RefreshCounts();
+        FeedbackAudio.Play(FeedbackSounds.Cue.WheelOpen);
     }
 
     private void Update()
@@ -91,7 +92,14 @@ public class OperatorMenuController : MonoBehaviour
         }
 
         UpdatePop();
+        char before = _hoveredOperator;
         UpdateHoveredOperator();
+
+        if (_hoveredOperator != before && _hoveredOperator != '\0')
+        {
+            FeedbackAudio.Play(FeedbackSounds.Cue.WheelHover);
+        }
+
         UpdateSliceVisuals();
 
         if (InputManager.Instance != null && InputManager.Instance.FinnSelectOperatorReleased)
@@ -253,6 +261,10 @@ public class OperatorMenuController : MonoBehaviour
         if (audioSource != null && errorSound != null)
         {
             audioSource.PlayOneShot(errorSound);
+        }
+        else
+        {
+            FeedbackAudio.Play(FeedbackSounds.Cue.WheelError);
         }
     }
 

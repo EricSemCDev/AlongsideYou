@@ -101,12 +101,14 @@ public class DadoBlock : MonoBehaviour
 
     public void RotateFaceLeft()
     {
+        FeedbackAudio.Play(FeedbackSounds.Cue.BlockRotate);
         _currentFaceIndex = (_currentFaceIndex - 1 + faces.Count) % faces.Count;
         UpdateValueLabel();
     }
 
     public void RotateFaceRight()
     {
+        FeedbackAudio.Play(FeedbackSounds.Cue.BlockRotate);
         _currentFaceIndex = (_currentFaceIndex + 1) % faces.Count;
         UpdateValueLabel();
     }
@@ -161,6 +163,7 @@ public class DadoBlock : MonoBehaviour
 
     public void Pickup(Transform holdPoint)
     {
+        FeedbackAudio.Play(FeedbackSounds.Cue.BlockPickup);
         if (CurrentSlot != null)
         {
             CurrentSlot.NotifyBlockRemoved(this);
@@ -184,6 +187,7 @@ public class DadoBlock : MonoBehaviour
 
     public void Drop(Vector3 worldPosition)
     {
+        FeedbackAudio.Play(FeedbackSounds.Cue.BlockDrop);
         IsHeld = false;
         _collider.enabled = true;
         SetInSlotVisual(false);

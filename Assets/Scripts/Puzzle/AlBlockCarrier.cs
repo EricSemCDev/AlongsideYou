@@ -12,6 +12,8 @@ public class AlBlockCarrier : MonoBehaviour
     [SerializeField] private float dropDistance = 0.8f;
     [SerializeField] private float dropCheckRadius = 0.4f;
     [SerializeField] private LayerMask dropObstacleMask;
+    [Tooltip("Se o ponto da frente estiver bloqueado, tenta pontos ao redor do Al e larga no primeiro livre.")]
+    [SerializeField] private bool findNearbySpotWhenBlocked = true;
 
     [Header("Áudio")]
     [SerializeField] private AudioClip errorSound;
@@ -263,11 +265,10 @@ public class AlBlockCarrier : MonoBehaviour
 
     private void TryDropHeldBlock()
     {
-        Vector3 dropPosition = transform.position + (Vector3)(alMovement.FacingDirection * dropDistance);
+        Vector2 facing = alMovement.FacingDirection;
+        Vector3 dropPosition = transform.position + (Vector3)(facing * dropDistance);
 
-        bool isBlocked = Physics2D.OverlapCircle(dropPosition, dropCheckRadius, dropObstacleMask);
-
-        if (isBlocked)
+        if (IsDropBlocked(dropPosition) && !(findNearbySpotWhenBlocked && TryFindFreeSpot(facing, out dropPosition)))
         {
             PlayErrorSound();
             return;
@@ -280,6 +281,36 @@ public class AlBlockCarrier : MonoBehaviour
         // sentido até a próxima vez que Al pegar outro bloco.
         _highlightedSlot?.SetHighlighted(false);
         _highlightedSlot = null;
+    }
+
+    private bool IsDropBlocked(Vector3 position)
+    {
+        return Physics2D.OverlapCircle(position, dropCheckRadius, dropObstacleMask);
+    }
+
+    // Ordem: frente-lados, lados, tras; depois repete mais perto do Al.
+    private static readonly float[] SearchAngles = { 45f, -45f, 90f, -90f, 135f, -135f, 180f };
+
+    private bool TryFindFreeSpot(Vector2 facing, out Vector3 spot)
+    {
+        for (int ring = 0; ring < 2; ring++)
+        {
+            float distance = ring == 0 ? dropDistance : dropDistance * 0.5f;
+
+            foreach (float angle in SearchAngles)
+            {
+                Vector2 direction = Quaternion.Euler(0f, 0f, angle) * facing;
+                spot = transform.position + (Vector3)(direction * distance);
+
+                if (!IsDropBlocked(spot))
+                {
+                    return true;
+                }
+            }
+        }
+
+        spot = default;
+        return false;
     }
 
     private void PlayErrorSound()
