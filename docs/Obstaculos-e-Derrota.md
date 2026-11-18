@@ -1,58 +1,41 @@
 # Obstáculos e Derrota
 
-## Princípio de Design
-
-Os obstáculos **bloqueiam itens do puzzle (blocos-dado ou faíscas-operador), nunca o caminho principal**. O caminho entre ilhas é sempre acessível via pontes fixas — isso garante que ambos os jogadores sempre conseguem avançar juntos até a Fagulha.
-
----
-
 ## Elementos de Fase
 
-### Áreas de Lamento
-Zonas úmidas com goteiras — memórias dolorosas de Al que ele evita revisitar.
+### Barreira de Espinhos
+Fecha o caminho até a Fagulha de Luz. Só o Finn atravessa. Quando a conta da Estação de Cálculo está certa, todos os espinhos murcham juntos e a passagem fica livre para sempre.
 
-- Bloqueiam um item (bloco ou faísca) até a condição ser satisfeita
-- Para liberar: resultado da equação deve ser `< X`
-- Fases avançadas mostram apenas `<` sem o valor numérico
+### Áreas só do Finn
+Espinhos e passagens que guardam faíscas de operador. O Al não chega lá: o Finn busca e traz.
 
-### Memórias de Gelo
-Estruturas de gelo que bloqueiam um item — memórias boas que Al esqueceu.
+### Tochas de Ambiente
+Zonas seguras de luz. Em algumas fases elas queimam por um tempo, diminuem a luz como aviso e apagam. O Finn reacende ficando perto delas por cerca de 3 segundos.
 
-- Derretem quando resultado da equação é `> X`
-- Fases avançadas mostram apenas `>` sem o valor numérico
+| Fase | Tochas apagam? |
+|---|---|
+| 4 | Sim, a cada 5 a 10 s |
+| 6 | Sim, a cada 5 a 15 s |
+| 9 | Sim, a cada 20 a 30 s |
+| Demais fases | Não |
 
-### Checkpoints de Luz
-Totens ou lamparinas espalhados pelo mapa.
+### Escuro
+Todo o espaço fora das luzes. Não bloqueia o caminho, mas faz a ansiedade do Al subir.
 
-- Quando acesos por Finn, estabilizam a iluminação ao redor temporariamente
-
-### Faíscas-Operador em Áreas Escuras
-Operadores posicionados em regiões de maior escuridão — risco vs. recompensa na coleta.
-
-### Aberturas Estreitas
-Passagens que só Finn consegue atravessar. Al encontra rota alternativa enquanto Finn ativa mecanismos do outro lado.
+### Blocos e Faíscas de Isca
+Peças a mais do que a conta precisa. Coletar tudo não resolve: é preciso escolher.
 
 ---
 
 ## Condições de Derrota
 
-O jogo não tem checkpoints — derrota reinicia a fase inteira.
+Não há checkpoints: a derrota reinicia a fase do zero.
 
-| Condição | Descrição |
+| Condição | O que acontece |
 |---|---|
-| **Al no escuro** | Al fica em área totalmente escura por tempo demais |
-| **Separação de Finn** | Finn se afasta além do raio de distância por tempo demais |
-| **Ansiedade — Estágio 5 sem resgate** | Al paralisa no Estágio 5. Se Finn não conseguir iluminá-lo a tempo, é derrota |
+| **Ansiedade no Estágio 5** | O Al trava de pânico e a fase reinicia |
+| **Tentativa esgotada** | Só nas fases 9 e 10 (uma tentativa): errar a conta mostra o erro em vermelho por um instante e reinicia a fase |
 
-> A ansiedade **não é punição direta** — é dificuldade progressiva. A derrota só acontece se a parceria falhar em resgatar Al a tempo. Ver [Mecânicas](Mecanicas) para o sistema completo de estágios.
-
----
-
-## Tela de Game Over
-
-- Animação narrativa: Al se encolhendo no escuro, Finn tentando alcançá-lo sem conseguir
-- Frase aleatória da voz interna do Al
-- Botão: **Tentar Novamente**
+> A ansiedade é dificuldade progressiva: ela só derruba quem fica tempo demais no escuro. A luz do Finn e das tochas sempre ajuda a recuperar. Ver [Mecânicas](Mecanicas).
 
 ---
 

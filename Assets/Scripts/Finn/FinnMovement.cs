@@ -23,18 +23,12 @@ public class FinnMovement : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private float flipVelocityThreshold = 0.05f;
 
-    // Hash do parâmetro em vez de string todo frame — SetFloat("Speed", ...)
-    // faz um lookup por string internamente; StringToHash faz isso uma vez só.
     private static readonly int SpeedParam = Animator.StringToHash("Speed");
 
     private Camera _mainCamera;
     private Rigidbody2D _mainRigidbody;
     private Vector2 _targetOffset;
 
-    // Referência estática simples (não é singleton completo, só existe
-    // um Finn na cena) para outros scripts (ex: ProximityVisibility)
-    // encontrarem a posição dele sem precisar arrastar manualmente em
-    // cada objeto da fase.
     public static Transform FinnTransform { get; private set; }
 
     private void Awake()
@@ -58,8 +52,6 @@ public class FinnMovement : MonoBehaviour
     {
         if (IsOperatorMenuBlockingMovement())
         {
-            // Congela a animação em Idle enquanto o menu de operador
-            // está aberto, já que o Finn não se move nesse estado.
             UpdateAnimatorSpeed(0f);
             return;
         }
@@ -79,8 +71,7 @@ public class FinnMovement : MonoBehaviour
         MoveTowardsTarget();
     }
 
-    // Enquanto o menu de operador está aberto, o Finn fica parado —
-    // isso não afeta o Al, que continua jogando normalmente.
+
     private bool IsOperatorMenuBlockingMovement()
     {
         return OperatorMenuController.Instance != null && OperatorMenuController.Instance.IsOpen;
@@ -147,7 +138,6 @@ public class FinnMovement : MonoBehaviour
         targetIndicator.position = transform.position + (Vector3)_targetOffset;
     }
 
-    // Vetor do Finn ate o ponteiro (nao normalizado). Zero dentro da zona morta.
     private Vector2 CalculatePointerOffset()
     {
         Vector2 pointerScreenPosition = InputManager.Instance.FinnPointerScreenPosition;

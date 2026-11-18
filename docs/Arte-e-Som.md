@@ -2,12 +2,14 @@
 
 ## Direção de Arte
 
-- Pixel art flat — sprites 2D sem perspectiva nos personagens
-- Vista lateral com profundidade de camadas — sorting layers no Unity
-- Sistema de luz 2D do Universal Render Pipeline — luz pontual no Finn
-- Escuridão como camada sobreposta — luz do Finn cria recorte circular
-- Placeholders geométricos durante o desenvolvimento, arte final nas últimas semanas
-- Ferramenta principal: **Aseprite**
+- Pixel art flat, feita no **Aseprite**: sprites próprios do Al, do Finn, árvores, tochas, blocos, espaços, faíscas, espinhos e Fagulha
+- Profundidade por **Y-sorting** (quem está mais embaixo na tela fica na frente) e sombras ovais sob os personagens
+- Objetos à frente ficam translúcidos quando o jogador passa atrás deles
+- Iluminação 2D do URP: luz do Al, luz do Finn e tochas, com tremulação de fogo
+- Neblina em camadas com parallax e pontinhos de luz flutuando no vazio, criados por código
+- Rastro de chamas e de "fantasmas" atrás do Finn quando ele se move rápido
+- Contorno dos objetos interagíveis revelado pela proximidade do jogador
+- Efeitos de "suco": faíscas ao acertar, ao acender a tocha, ao abrir a barreira e ao pegar a Fagulha; tremor curto de câmera ao errar e ao abrir a barreira
 
 ---
 
@@ -15,65 +17,50 @@
 
 | Referência | Inspiração |
 |---|---|
-| South Park: Stick of Truth | Estilo visual flat, sprites 2D laterais, personagens recortados no cenário |
-| Hollow Knight | Atmosfera escura, paleta fria, mundo que comunica emoção sem texto |
-| Celeste | Fluidez de animação, game feel e ansiedade sem punição |
-| Moonleap | Estrutura de puzzle cooperativo — referência mecânica principal |
+| South Park: The Stick of Truth | Visual flat, personagens recortados no cenário |
+| Hollow Knight | Atmosfera escura, paleta fria, emoção sem texto |
+| Celeste | Game feel e ansiedade sem punição |
+| Moonleap | Puzzle cooperativo com papéis assimétricos |
 | The Binding of Isaac | Pixel art expressivo com personagens pequenos e legíveis |
-| Rotom (Pokémon) | Referência de character design para Finn: chama com rosto expressivo |
+| Rotom (Pokémon) | Character design do Finn: chama com rosto expressivo |
 
 ---
 
 ## Animações
 
-### Al
-
-| Animação | Loop | Descrição |
+| Animação | Objeto | Descrição |
 |---|---|---|
-| Idle | Sim | Respiração suave, leve balanço — comunica inquietação mesmo parado |
-| Andar | Sim | Caminhada lateral com bloco ou sem bloco na mão |
-| Pegar bloco | Não | Al se abaixa e levanta com o bloco nas mãos |
-| Girar dado | Não | Mãos giram o bloco, faces mudam visivelmente |
-| Encaixar bloco | Não | Al empurra o bloco no slot do pedestal |
-| Pânico | Não | Recuo com mão na cabeça — sem input disponível durante |
-| Inquieto (estágio 2) | Sim | Movimentos nervosos, olha para os lados |
-| Ansioso (estágio 3) | Sim | Postura curvada, passos mais lentos |
-| Em pânico (estágio 4) | Sim | Tremor visível, movimentação muito lenta |
-| Paralisado (estágio 5) | Não | Al se encolhe no chão — aguardando Finn |
-| Skin alternativa | Sim | Roupa diferente em todas as animações — desbloqueada pelas fases secretas |
-
-### Finn
-
-| Animação | Loop | Descrição |
-|---|---|---|
-| Idle | Sim | Chama oscila suavemente, expressão sorridente |
-| Voar | Sim | Chama inclina levemente na direção do movimento |
-| Coletar faísca | Não | Pulso de luz ao absorver o operador |
-| Colidir com parede | Não | Espatifa e se reconstrói — leve e cômico |
-| Energia baixa | Sim | Chama encolhe, cor muda para azul frio |
-| Recarregando | Não | Pulso de calor ao absorver a fonte de luz |
-| Skin alternativa | Sim | Cor da chama diferente em todas as animações — desbloqueada pelas fases secretas |
+| Idle e andar | Al | Parado e caminhando; o sprite vira conforme a direção |
+| Idle e voar | Finn | Chama oscilando parada e em movimento, com rastro de chamas |
+| Escurecer por ansiedade | Al | Cor vai do normal ao preto entre os estágios 1 e 5 (por código) |
+| Acender e apagar | Tocha de ambiente | A tocha acende, queima e apaga; a luz acompanha |
+| Mais, Menos, Vezes, Dividido | Tocha de operador | Animação do operador acendendo, depois o símbolo flutuando |
+| Vazio e preenchido | Espaço numérico (simples e composto) | Muda o desenho quando o bloco encaixa |
+| Encaixado | Bloco-dado | O cubo vira um quadrado ao entrar no espaço |
+| Murchar | Espinhos | Os espinhos murcham juntos quando a conta está certa |
+| Brilho | Fagulha de Luz | Brilho em loop, flutuando |
+| Balanço | Árvores | Movimento suave de vento |
+| Interface | Telas | Estrelas enchendo com pulinho, botões aparecendo com fade, cartão do nome da fase, roda de operadores com "pop" |
 
 ---
 
 ## Áudio
 
-| Som | Onde usar | Loop | Descrição |
-|---|---|---|---|
-| Trilha — A Névoa | Bioma 1 (fases 1–4) | Sim | Levemente melancólica, etérea, sons de água distante |
-| Trilha — O Labirinto | Bioma 2 (fases 5–8) | Sim | Mais tensa, grave, ecos de pedra |
-| Trilha — O Abismo | Bioma 3 (fases 9–12) | Sim | Minimalista, frequências baixas, desorientador |
-| Trilha — O Centro | Bioma 4 (fases 13–16) | Sim | Etéreo, quase silencioso, bells e pad suave |
-| Progressão de ansiedade | Estágios 2 a 5 | Sim | Camadas de tensão sobre a trilha base |
-| Encaixar bloco-dado | Al encaixa no slot | Não | Clique satisfatório com peso de encaixe |
-| Confirmar equação correta | Resultado validado | Não | Recompensador, leve e positivo |
-| Coletar Fagulha | Fim de fase | Não | Clímax suave, expansivo |
-| Pânico do Al | Efeito de pânico | Não | Som curto e tenso, distorção leve |
-| Finn colidindo | Finn bate na parede | Não | Leve e cômico — reforça personalidade |
-| Recarregar Finn | Finn absorve fonte | Não | Agradável, brilhante, reforço positivo |
-| Game Over | Tela de derrota | Não | Suave e triste — sem punição sonora |
-| Estrelas ganhas | Tela de conclusão | Não | Som progressivo para 1, 2 e 3 estrelas |
-| Fase secreta desbloqueada | Ao completar 3★ em todas do bloco | Não | Som especial, expansivo e recompensador |
+Uma única música em loop toca do menu até o fim do jogo, sem reiniciar entre as fases, com fade de entrada. Os efeitos ficam num asset só (`FeedbackSounds`), com um clipe e um volume por evento; evento sem clipe fica em silêncio.
+
+| Grupo | Eventos com som |
+|---|---|
+| Música | Loop contínuo (Music Loop Bundle, Abstraction) |
+| Menus | Passar o cursor, clicar, voltar, abrir e fechar a pausa |
+| Tutorial | Digitação das letras (com tom variando), abrir a caixa, avançar a fala, foco de câmera |
+| Bloco | Pegar, largar, girar a face, encaixar no espaço |
+| Finn e operadores | Coletar faísca, abrir a roda, passar pelos operadores, erro (operador indisponível), acender a tocha da estação |
+| Conta | Acertou (também cobre a barreira abrindo) e errou |
+| Fim da fase | Coletar a Fagulha (vitória) e cada estrela que enche na tela de resultado |
+
+> Ficaram sem som de propósito: tochas de ambiente apagando e reacendendo (várias ao mesmo tempo poluiriam o som), fechar a caixa de diálogo, pular o tutorial e tentativas esgotadas.
+
+Fontes de música, sons e fontes tipográficas em [Créditos](Creditos).
 
 ---
 

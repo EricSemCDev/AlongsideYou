@@ -85,13 +85,6 @@ public class PhaseTitleCard : MonoBehaviour
         StartCoroutine(Play());
     }
 
-    // Pode ser chamado de fora para repetir a animacao.
-    public void Replay()
-    {
-        StopAllCoroutines();
-        StartCoroutine(Play());
-    }
-
     private IEnumerator Play()
     {
         if (card == null || group == null)

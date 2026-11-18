@@ -180,6 +180,7 @@ public class TutorialSequencePlayer : MonoBehaviour
 
                 if (Time.unscaledTime >= lockUntil && AdvancePressed())
                 {
+                    FeedbackAudio.Play(FeedbackSounds.Cue.DialogueAdvance);
                     dialogue.CompleteNow();
                 }
 
@@ -199,6 +200,7 @@ public class TutorialSequencePlayer : MonoBehaviour
 
                 if (Time.unscaledTime >= lockUntil && AdvancePressed())
                 {
+                    FeedbackAudio.Play(FeedbackSounds.Cue.DialogueAdvance);
                     break;
                 }
 
@@ -210,6 +212,7 @@ public class TutorialSequencePlayer : MonoBehaviour
 
         // Fim (ou tutorial pulado): caixa desce e a camera volta para a visao geral.
         Finish:
+        dialogue.CompleteNow(); // pulou durante a digitacao: para o tique da maquina de escrever
         dialogue.SetSkipHint(null, 0f);
         _skipHold = 0f;
 
@@ -251,7 +254,12 @@ public class TutorialSequencePlayer : MonoBehaviour
         string hint = InputPromptResolver.IsGamepad ? "Segure SELECT para pular" : "Segure TAB para pular";
         dialogue.SetSkipHint(hint, skipHoldSeconds <= 0f ? 1f : _skipHold / skipHoldSeconds);
 
-        return _skipHold >= skipHoldSeconds;
+        if (_skipHold >= skipHoldSeconds)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private static bool SkipHeldNow()

@@ -96,6 +96,11 @@ public class TutorialCameraFocus : MonoBehaviour
         float elapsed = 0f;
         _progress = 0f;
 
+        if (duration > 0f)
+        {
+            FeedbackAudio.Play(FeedbackSounds.Cue.CameraFocus);
+        }
+
         while (elapsed < duration)
         {
             elapsed += Time.unscaledDeltaTime;
