@@ -9327,6 +9327,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4722577481979865679, guid: 19c4426b3fa0efa468d02cb76f123711, type: 3}
+      propertyPath: orthographic size
+      value: 9.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4886024512937767908, guid: 19c4426b3fa0efa468d02cb76f123711, type: 3}
       propertyPath: m_Name
       value: FaseEssencials

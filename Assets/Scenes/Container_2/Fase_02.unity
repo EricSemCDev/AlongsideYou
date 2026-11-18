@@ -10353,11 +10353,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7864942918226018715, guid: 72a3e70ad2c30ce42a7edca996ca4303, type: 3}
+      propertyPath: resultScreen
+      value: 
+      objectReference: {fileID: 1543641188}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72a3e70ad2c30ce42a7edca996ca4303, type: 3}
+--- !u!114 &1543641188 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1253883492546010842, guid: 72a3e70ad2c30ce42a7edca996ca4303, type: 3}
+  m_PrefabInstance: {fileID: 1543641187}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ff4747a380e87f4582438f42d983c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1554135700
 GameObject:
   m_ObjectHideFlags: 0
@@ -12189,6 +12204,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4722577481979865679, guid: 19c4426b3fa0efa468d02cb76f123711, type: 3}
+      propertyPath: orthographic size
+      value: 9.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4886024512937767908, guid: 19c4426b3fa0efa468d02cb76f123711, type: 3}
       propertyPath: m_Name
       value: FaseEssencials

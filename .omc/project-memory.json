@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1794852645952,
+  "lastScanned": 1795023980445,
   "projectRoot": "C:\\Users\\eg3ca\\OneDrive\\Documentos\\GitHub\\AlongsideYou",
   "techStack": {
     "languages": [],
@@ -38,7 +38,7 @@
       "path": "Assets",
       "purpose": "Static assets",
       "fileCount": 15,
-      "lastAccessed": 1794852645910,
+      "lastAccessed": 1795023980393,
       "keyFiles": [
         "Art.meta",
         "Audio.meta",
@@ -50,21 +50,21 @@
     "docs": {
       "path": "docs",
       "purpose": "Documentation",
-      "fileCount": 14,
-      "lastAccessed": 1794852645911,
+      "fileCount": 15,
+      "lastAccessed": 1795023980394,
       "keyFiles": [
         "Arte-e-Som.md",
         "Controles.md",
+        "Creditos.md",
         "Decisoes-Importantes.md",
-        "Estrutura-das-Fases.md",
-        "GDD_AlongsideYou_v7_3.docx"
+        "Estrutura-das-Fases.md"
       ]
     },
     "Library": {
       "path": "Library",
       "purpose": null,
       "fileCount": 25,
-      "lastAccessed": 1794852645912,
+      "lastAccessed": 1795023980394,
       "keyFiles": [
         "AnnotationManager",
         "ArtifactDB",
@@ -76,12 +76,11 @@
     "Logs": {
       "path": "Logs",
       "purpose": null,
-      "fileCount": 4,
-      "lastAccessed": 1794852645913,
+      "fileCount": 3,
+      "lastAccessed": 1795023980395,
       "keyFiles": [
-        "AssetImportWorker0.log",
-        "AssetImportWorker1.log",
-        "shadercompiler-AssetImportWorker0.log",
+        "AssetImportWorker0-prev.log",
+        "AssetImportWorker1-prev.log",
         "shadercompiler-UnityShaderCompiler.exe0.log"
       ]
     },
@@ -89,14 +88,14 @@
       "path": "obj",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1794852645913,
+      "lastAccessed": 1795023980395,
       "keyFiles": []
     },
     "Packages": {
       "path": "Packages",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1794852645914,
+      "lastAccessed": 1795023980396,
       "keyFiles": [
         "manifest.json",
         "packages-lock.json"
@@ -106,7 +105,7 @@
       "path": "ProjectSettings",
       "purpose": null,
       "fileCount": 26,
-      "lastAccessed": 1794852645914,
+      "lastAccessed": 1795023980396,
       "keyFiles": [
         "AudioManager.asset",
         "ClusterInputManager.asset",
@@ -118,12 +117,10 @@
     "Temp": {
       "path": "Temp",
       "purpose": null,
-      "fileCount": 5,
-      "lastAccessed": 1794852645915,
+      "fileCount": 3,
+      "lastAccessed": 1795023980396,
       "keyFiles": [
-        "FSTimeGet-0389771c87a81094ea5e89b01e4c1761",
-        "FSTimeGet-fd2cf209c1fa56743bebb58a00d91b1b",
-        "FSTimeGet-fdd54708d2179da49b87ae762087dae6",
+        "FSTimeGet-8d2b7d36a25b3754fade1dbe1af07562",
         "UnityLockfile",
         "workerlic"
       ]
@@ -132,7 +129,7 @@
       "path": "UserSettings",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1794852645915,
+      "lastAccessed": 1795023980397,
       "keyFiles": [
         "EditorUserSettings.asset",
         "Search.index",
@@ -226,6 +223,12 @@
       "type": "directory"
     },
     {
+      "path": "Assets/Scripts/Puzzle",
+      "accessCount": 3,
+      "lastAccessed": 1795023986971,
+      "type": "directory"
+    },
+    {
       "path": "Assets/Scripts/Fases/PhaseSequence.cs",
       "accessCount": 2,
       "lastAccessed": 1794352362480,
@@ -260,12 +263,6 @@
       "accessCount": 2,
       "lastAccessed": 1794855398898,
       "type": "file"
-    },
-    {
-      "path": "Assets/Scripts/Puzzle",
-      "accessCount": 2,
-      "lastAccessed": 1794937030423,
-      "type": "directory"
     },
     {
       "path": "Assets/Scripts/Juice/BarrierFeedback.cs",
