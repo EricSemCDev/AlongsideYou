@@ -1,6 +1,3 @@
-// Avalia uma expressão estritamente da esquerda pra direita, sem
-// prioridade de operador (2+3*4 = 20, não 14). Classe pura, sem
-// dependência de Unity/cena.
 public static class EquationEvaluator
 {
     public static double Evaluate(double[] values, char[] operators)
@@ -26,7 +23,7 @@ public static class EquationEvaluator
             case '*':
                 return left * right;
             case '/':
-                return right != 0 ? left / right : 0; // evita divisão por zero
+                return right != 0 ? left / right : 0;
             default:
                 return left;
         }

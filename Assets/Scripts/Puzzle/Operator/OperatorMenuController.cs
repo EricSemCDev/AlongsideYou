@@ -7,36 +7,32 @@ public class OperatorMenuController : MonoBehaviour
     public static OperatorMenuController Instance { get; private set; }
 
     [Header("Pedaços (sentido horário desde cima-direita)")]
+
     [SerializeField] private RectTransform slicePlus;
     [SerializeField] private RectTransform sliceMinus;
     [SerializeField] private RectTransform sliceTimes;
     [SerializeField] private RectTransform sliceDivide;
 
     [Header("Rótulos de contagem")]
+
     [SerializeField] private TextMeshProUGUI countLabelPlus;
     [SerializeField] private TextMeshProUGUI countLabelMinus;
     [SerializeField] private TextMeshProUGUI countLabelTimes;
     [SerializeField] private TextMeshProUGUI countLabelDivide;
 
     [Header("Destaque visual")]
+
     [SerializeField] private float highlightScale = 1.15f;
     [SerializeField] private Color dimmedColor = new Color(1f, 1f, 1f, 0.35f);
 
     [Header("Visual da roda")]
-    [Tooltip("Imagem da fatia em repouso.")]
+
     [SerializeField] private Sprite wedgeNormal;
-    [Tooltip("Imagem da fatia apontada pelo mouse / analogico.")]
     [SerializeField] private Sprite wedgeHighlight;
-    [Tooltip("Imagem da fatia de um operador que acabou (quantidade 0).")]
     [SerializeField] private Sprite wedgeEmpty;
     [SerializeField] private Color activeTextColor = new Color(1f, 0.93f, 0.81f, 1f);
-    [Tooltip("Duracao da animacao de abertura (segundos).")]
     [SerializeField] private float popDuration = 0.12f;
     [Range(0.3f, 1f)] [SerializeField] private float popStartScale = 0.7f;
-
-    [Header("Áudio")]
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip errorSound;
 
     private Camera _mainCamera;
     private OperatorSlotMarker _targetSlot;
@@ -46,7 +42,6 @@ public class OperatorMenuController : MonoBehaviour
     private Vector3 _baseScale = Vector3.one;
     private float _popElapsed;
 
-    // Quanto o analogico precisa se afastar do centro para contar como escolha.
     private const float StickSelectThreshold = 0.5f;
 
     public bool IsOpen { get; private set; }
@@ -65,14 +60,12 @@ public class OperatorMenuController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // openedByGamepad: a roda foi aberta pelo botao do controle, entao a escolha
-    // vem do analogico esquerdo (e nao da posicao do mouse).
     public void Show(Vector3 worldPosition, OperatorSlotMarker targetSlot, FinnOperatorCollector collector, bool openedByGamepad = false)
     {
         _targetSlot = targetSlot;
         _collector = collector;
         _gamepadMode = openedByGamepad;
-        _hoveredOperator = '\0'; // nenhum escolhido ate o analogico apontar
+        _hoveredOperator = '\0';
         _popElapsed = 0f;
         transform.localScale = _baseScale * popStartScale;
 
@@ -108,7 +101,6 @@ public class OperatorMenuController : MonoBehaviour
         }
     }
 
-    // A roda "pula" ate o tamanho final ao abrir (tempo nao escalado).
     private void UpdatePop()
     {
         if (_popElapsed >= popDuration)
@@ -126,8 +118,6 @@ public class OperatorMenuController : MonoBehaviour
     {
         if (_gamepadMode)
         {
-            // A escolha fica "grudada": ao soltar o analogico (que volta ao centro
-            // junto com o botao) o ultimo operador apontado continua valendo.
             Vector2 stick = InputManager.Instance.FinnStickInput;
 
             if (stick.magnitude >= StickSelectThreshold)
@@ -199,7 +189,6 @@ public class OperatorMenuController : MonoBehaviour
         int count = _collector.GetCount(symbol);
         char displaySymbol = OperatorSymbolDisplay.ToDisplayChar(symbol);
 
-        // O numero vira um pequeno expoente (ex: +2 com o 2 levantado), com o mesmo tamanho do simbolo.
         label.text = $"{displaySymbol}<voffset=0.5em>{count}</voffset>";
         label.color = count > 0 ? activeTextColor : dimmedColor;
     }
@@ -208,7 +197,6 @@ public class OperatorMenuController : MonoBehaviour
     {
         char selected = _hoveredOperator;
 
-        // Soltou sem apontar o analogico para nenhum operador: cancela.
         if (selected == '\0')
         {
             Hide();
@@ -231,13 +219,15 @@ public class OperatorMenuController : MonoBehaviour
     {
         if (selected == _targetSlot.CurrentSymbol)
         {
-            return; // escolheu o mesmo operador que já estava aceso; sem efeito
+            _collector.Return(selected);
+            _targetSlot.Extinguish();
+            return;
         }
 
         if (_collector.GetCount(selected) <= 0)
         {
-            PlayErrorSound();
-            return; // tocha mantém o operador antigo
+            FeedbackAudio.Play(FeedbackSounds.Cue.WheelError);
+            return;
         }
 
         _collector.Return(_targetSlot.CurrentSymbol);
@@ -249,23 +239,11 @@ public class OperatorMenuController : MonoBehaviour
     {
         if (!_collector.TryConsume(selected))
         {
-            PlayErrorSound();
-            return; // tocha continua apagada
+            FeedbackAudio.Play(FeedbackSounds.Cue.WheelError);
+            return;
         }
 
         _targetSlot.Light(selected);
-    }
-
-    private void PlayErrorSound()
-    {
-        if (audioSource != null && errorSound != null)
-        {
-            audioSource.PlayOneShot(errorSound);
-        }
-        else
-        {
-            FeedbackAudio.Play(FeedbackSounds.Cue.WheelError);
-        }
     }
 
     private void Hide()

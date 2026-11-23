@@ -4,22 +4,22 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PuzzleConfig", menuName = "Alongside You/Puzzle Config")]
 public class PuzzleConfig : ScriptableObject
 {
-    [Header("Blocos (N, F) — preenchidos a partir da cena / definidos aqui")]
+    [Header("Blocos (N, F)")]
     public int blockCount = 2;
     public int facesPerBlock = 4;
 
-    [Header("Equação (S, OS, CS) — preenchidos a partir da cena")]
+    [Header("Equação (S, OS, CS)")]
     public int slotCount = 2;
     public int operatorSlots = 1;
     public List<bool> compositeSlots = new();
 
-    [Header("Operadores (OC) — preenchido a partir da cena")]
+    [Header("Operadores (OC)")]
     public int operatorCount = 1;
 
-    [Header("Dificuldade (D) — decisão manual da fase")]
+    [Header("Dificuldade (D)")]
     [Range(1f, 10f)] public float difficulty = 1f;
 
-    [Header("Resultado-alvo — decisão manual, até o PuzzleGenerator existir")]
+    [Header("Resultado-alvo")]
     public int targetResult;
 
     private void OnValidate()
@@ -27,13 +27,8 @@ public class PuzzleConfig : ScriptableObject
         Validate();
     }
 
-    // Validate() agora é puramente diagnóstico: nunca muda nenhum valor,
-    // só avisa no Console quando a combinação atual não é jogável segundo
-    // as regras do Forge. Quem decide corrigir é sempre o Eric.
     public void Validate()
     {
-        // Mantém a lista do tamanho certo (estrutural, não é correção de
-        // valor) para não dar erro de índice ao ler compositeSlots depois.
         ResizeCompositeSlots();
 
         if (slotCount < 2)

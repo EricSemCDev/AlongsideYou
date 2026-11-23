@@ -3,19 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-// Porta o algoritmo do Forge (repositório Equation-Generator) para
-// dentro da Unity. Roda automaticamente ao carregar a fase, gerando
-// uma equação nova a cada sessão — evita memorização (decisão 10/03).
 public class PuzzleGenerator : MonoBehaviour
 {
     [SerializeField] private PuzzleConfig config;
     [SerializeField] private int maxGenerationAttempts = 1000;
-    [Tooltip("Quantas vezes sortear OUTROS operadores se os atuais nao tiverem solucao (ex: subtracao com slot composto a direita sempre da negativo).")]
     [SerializeField] private int maxOperatorRetries = 30;
 
     private readonly System.Random _random = new();
 
-    // Copia em memoria do config: o resultado sorteado fica nela e nunca e gravado no asset.
     private PuzzleConfig _runtimeConfig;
 
     private void Awake()
@@ -39,10 +34,6 @@ public class PuzzleGenerator : MonoBehaviour
         int result = 0;
         bool success = false;
 
-        // O operador da equacao e sorteado ANTES dos numeros. Alguns operadores nao
-        // tem solucao em certas configuracoes (ex: subtracao com slot composto a
-        // direita da sempre negativo), e as tentativas de numeros nunca resolveriam.
-        // Por isso sorteia outros operadores antes de desistir e usar o fallback.
         for (int operatorTry = 0; operatorTry < maxOperatorRetries && !success; operatorTry++)
         {
             pool = GenerateOperatorPool(cfg);
@@ -98,8 +89,6 @@ public class PuzzleGenerator : MonoBehaviour
         else if (cfg.difficulty <= 7) hardChance = 0.50f;
         else hardChance = 0.80f;
 
-        // Cada operador entra no maximo "maxPerOperator" vezes. Precisa ser grande o bastante para
-        // os 4 operadores somarem operatorCount, senao o laco abaixo nunca terminaria (travava a Unity).
         int maxPerOperator = Mathf.Max(cfg.operatorSlots, Mathf.CeilToInt(cfg.operatorCount / 4f));
 
         while (pool.Count < cfg.operatorCount)
@@ -123,17 +112,17 @@ public class PuzzleGenerator : MonoBehaviour
     {
         List<char> selected = new();
 
-        // shortcut: com pool so de "/" toda escolha e invalida, entao desiste apos 100 sorteios
-        // e devolve a ultima; o Generate() sorteia outro pool ou usa o fallback.
         for (int attempt = 0; attempt < 100; attempt++)
         {
-            selected.Clear();
+            List<char> shuffled = new(pool);
 
-            for (int i = 0; i < cfg.operatorSlots; i++)
+            for (int i = shuffled.Count - 1; i > 0; i--)
             {
-                int index = _random.Next(0, pool.Count);
-                selected.Add(pool[index]);
+                int j = _random.Next(0, i + 1);
+                (shuffled[i], shuffled[j]) = (shuffled[j], shuffled[i]);
             }
+
+            selected = shuffled.GetRange(0, Mathf.Min(cfg.operatorSlots, shuffled.Count));
 
             bool invalid = false;
 
@@ -157,11 +146,7 @@ public class PuzzleGenerator : MonoBehaviour
 
     // --- Blocos e equação ---
 
-    private bool TryGenerateBlocks(
-        PuzzleConfig cfg,
-        List<char> operators,
-        out List<List<int>> blockFaces,
-        out int result)
+    private bool TryGenerateBlocks(PuzzleConfig cfg, List<char> operators, out List<List<int>> blockFaces, out int result)
     {
         int rMax = GetRmax(cfg.difficulty);
         bool canBeNegative = CanBeNegative(cfg.difficulty);
@@ -169,13 +154,13 @@ public class PuzzleGenerator : MonoBehaviour
         for (int attempt = 0; attempt < maxGenerationAttempts; attempt++)
         {
             List<int> slotValues = new();
-            List<int> slotDigits = new(); // dígitos individuais para plantar nos blocos
+            List<int> slotDigits = new();
 
             for (int i = 0; i < cfg.slotCount; i++)
             {
                 if (cfg.compositeSlots[i])
                 {
-                    int d1 = _random.Next(1, 10); // primeiro dígito (1-9, evita 0 na frente)
+                    int d1 = _random.Next(1, 10);
                     int d2 = _random.Next(0, 10);
                     int composite = d1 * 10 + d2;
                     slotValues.Add(composite);
@@ -191,7 +176,6 @@ public class PuzzleGenerator : MonoBehaviour
                 }
             }
 
-            // Avalia a equação da esquerda pra direita, sem prioridade
             float resultado = slotValues[0];
             bool invalid = false;
 
@@ -210,10 +194,6 @@ public class PuzzleGenerator : MonoBehaviour
                         break;
                     case '/':
                     {
-                        // So aceita divisao EXATA e com resultado diferente de zero.
-                        // O jogo calcula a conta sem arredondar (EquationEvaluator), entao
-                        // uma divisao arredondada aqui nunca bateria com o que o jogador
-                        // monta; e resultados como 3 / 47 = 0 sao feios e nada intuitivos.
                         int divisor = slotValues[i + 1];
 
                         if (divisor == 0 || resultado == 0f || resultado % divisor != 0f)
@@ -252,7 +232,6 @@ public class PuzzleGenerator : MonoBehaviour
                 continue;
             }
 
-            // Planta 1 dígito por bloco
             List<List<int>> faces = new();
 
             for (int i = 0; i < cfg.blockCount; i++)
@@ -299,22 +278,12 @@ public class PuzzleGenerator : MonoBehaviour
         }
     }
 
-    // --- Fallback determinístico (mitigação de risco, seção 15) ---
-    //
-    // Se o gerador não encontrar solução válida dentro do limite de
-    // tentativas, cai numa equação fixa e simples: todos os slots com
-    // valor mínimo, todos os operadores '+'. Soma de valores pequenos
-    // nunca é negativa e nunca estoura nenhum Rmax realista, então
-    // sempre é uma solução válida, sem precisar repetir as checagens
-    // de dificuldade que já provaram ser impossíveis de satisfazer.
-
     private List<char> GenerateFallbackOperatorPool(PuzzleConfig cfg)
     {
         List<char> safeOps = new() { '+', '-' };
         List<char> pool = new();
         int opIndex = 0;
 
-        // Aqui so existem 2 operadores (+ e -), entao cada um precisa caber metade do pool.
         int maxPerOperator = Mathf.Max(cfg.operatorSlots, Mathf.CeilToInt(cfg.operatorCount / 2f));
 
         while (pool.Count < cfg.operatorCount)
@@ -365,7 +334,7 @@ public class PuzzleGenerator : MonoBehaviour
             }
         }
 
-        int result = slotValues.Sum(); // todos '+' — soma direta
+        int result = slotValues.Sum();
 
         List<List<int>> blockFaces = new();
 
@@ -421,7 +390,6 @@ public class PuzzleGenerator : MonoBehaviour
 
         cfg.targetResult = result;
 
-        // As estacoes que apontavam para o asset passam a usar a copia (com o resultado sorteado).
         foreach (CalculationStationDisplay station in FindObjectsByType<CalculationStationDisplay>(FindObjectsSortMode.None))
         {
             if (station.Config == config || station.Config == cfg)
@@ -431,8 +399,6 @@ public class PuzzleGenerator : MonoBehaviour
         }
     }
 
-    // Gera sobre uma copia em memoria (o asset fica como configuracao pura, sem o resultado
-    // sorteado, e o Play no Editor deixa de sujar o git).
     private PuzzleConfig CreateRuntimeConfig()
     {
         if (_runtimeConfig != null)

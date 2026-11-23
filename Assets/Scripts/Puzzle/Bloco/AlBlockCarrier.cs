@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class AlBlockCarrier : MonoBehaviour
 {
     [Header("Referências")]
@@ -12,28 +11,18 @@ public class AlBlockCarrier : MonoBehaviour
     [SerializeField] private float dropDistance = 0.8f;
     [SerializeField] private float dropCheckRadius = 0.4f;
     [SerializeField] private LayerMask dropObstacleMask;
-    [Tooltip("Se o ponto da frente estiver bloqueado, tenta pontos ao redor do Al e larga no primeiro livre.")]
     [SerializeField] private bool findNearbySpotWhenBlocked = true;
-
-    [Header("Áudio")]
-    [SerializeField] private AudioClip errorSound;
 
     private readonly HashSet<DadoBlock> _nearbyBlocks = new();
     private readonly HashSet<NumericSlot> _nearbySlots = new();
     private readonly HashSet<ConfirmationLever> _nearbyLevers = new();
     private DadoBlock _highlightedBlock;
-    private NumericSlot _highlightedSlot;
     private ConfirmationLever _highlightedLever;
     private DadoBlock _heldBlock;
-    private AudioSource _audioSource;
-
-    // O bloco que o Al esta segurando agora (null se nenhum).
     public DadoBlock HeldBlock => _heldBlock;
 
     private void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
-
         if (alMovement == null)
         {
             alMovement = GetComponent<AlMovement>();
@@ -49,7 +38,6 @@ public class AlBlockCarrier : MonoBehaviour
         else
         {
             TryRotateHeldBlock();
-            UpdateSlotHighlight();
         }
 
         if (InputManager.Instance == null || !InputManager.Instance.AlInteractPressed)
@@ -134,20 +122,6 @@ public class AlBlockCarrier : MonoBehaviour
         return closest;
     }
 
-    private void UpdateSlotHighlight()
-    {
-        NumericSlot closest = FindClosestEmptySlot();
-
-        if (closest == _highlightedSlot)
-        {
-            return;
-        }
-
-        _highlightedSlot?.SetHighlighted(false);
-        _highlightedSlot = closest;
-        _highlightedSlot?.SetHighlighted(true);
-    }
-
     private void InsertHeldBlockIntoSlot(NumericSlot slot)
     {
         DadoBlock block = _heldBlock;
@@ -156,21 +130,7 @@ public class AlBlockCarrier : MonoBehaviour
         if (inserted)
         {
             _heldBlock = null;
-            slot.SetHighlighted(false);
-            _highlightedSlot = null;
-
-            // Garantia manual: reativar o collider e reposicionar o bloco
-            // no mesmo frame (dentro de PlaceInSlot) pode não disparar um
-            // novo OnTriggerEnter2D de forma confiável. Adicionamos aqui
-            // diretamente, já que para inserir o Al precisa estar por
-            // perto de qualquer forma.
             _nearbyBlocks.Add(block);
-        }
-        else
-        {
-            // Slot ficou ocupado entre a detecção e o clique (raro, mas
-            // possível) — mantém o bloco na mão em vez de perdê-lo.
-            PlayErrorSound();
         }
     }
 
@@ -198,7 +158,7 @@ public class AlBlockCarrier : MonoBehaviour
         if (closestBlock != null)
         {
             SetBlockHighlight(closestBlock);
-            SetLeverHighlight(null); // bloco tem prioridade; nunca destaca os dois ao mesmo tempo
+            SetLeverHighlight(null);
             return;
         }
 
@@ -270,17 +230,11 @@ public class AlBlockCarrier : MonoBehaviour
 
         if (IsDropBlocked(dropPosition) && !(findNearbySpotWhenBlocked && TryFindFreeSpot(facing, out dropPosition)))
         {
-            PlayErrorSound();
             return;
         }
 
         _heldBlock.Drop(dropPosition);
         _heldBlock = null;
-
-        // A mão ficou vazia; qualquer destaque de slot deixa de fazer
-        // sentido até a próxima vez que Al pegar outro bloco.
-        _highlightedSlot?.SetHighlighted(false);
-        _highlightedSlot = null;
     }
 
     private bool IsDropBlocked(Vector3 position)
@@ -288,7 +242,6 @@ public class AlBlockCarrier : MonoBehaviour
         return Physics2D.OverlapCircle(position, dropCheckRadius, dropObstacleMask);
     }
 
-    // Ordem: frente-lados, lados, tras; depois repete mais perto do Al.
     private static readonly float[] SearchAngles = { 45f, -45f, 90f, -90f, 135f, -135f, 180f };
 
     private bool TryFindFreeSpot(Vector2 facing, out Vector3 spot)
@@ -311,14 +264,6 @@ public class AlBlockCarrier : MonoBehaviour
 
         spot = default;
         return false;
-    }
-
-    private void PlayErrorSound()
-    {
-        if (errorSound != null)
-        {
-            _audioSource.PlayOneShot(errorSound);
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -355,12 +300,6 @@ public class AlBlockCarrier : MonoBehaviour
         if (other.TryGetComponent(out NumericSlot slot))
         {
             _nearbySlots.Remove(slot);
-
-            if (slot == _highlightedSlot)
-            {
-                slot.SetHighlighted(false);
-                _highlightedSlot = null;
-            }
         }
 
         if (other.TryGetComponent(out ConfirmationLever lever))
@@ -373,17 +312,5 @@ public class AlBlockCarrier : MonoBehaviour
                 _highlightedLever = null;
             }
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (alMovement == null)
-        {
-            return;
-        }
-
-        Vector3 dropPosition = transform.position + (Vector3)(alMovement.FacingDirection * dropDistance);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(dropPosition, dropCheckRadius);
     }
 }

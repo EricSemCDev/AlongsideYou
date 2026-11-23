@@ -25,18 +25,16 @@ public static class GameJuice
 
     // --- Eventos do jogo -----------------------------------------------------
 
-    public static void ResultCorrect(Vector3 position, Transform label)
+    public static void ResultCorrect(Vector3 position)
     {
         Burst(position, Gold, 26, 1.6f, 0.9f);
         Burst(position, Warm, 12, 0.9f, 0.7f);
-        Punch(label, 1.35f, 0.28f);
         FeedbackAudio.Play(FeedbackSounds.Cue.ResultCorrect);
     }
 
-    public static void ResultWrong(Vector3 position, Transform label)
+    public static void ResultWrong(Vector3 position)
     {
         Burst(position, Red, 14, 1.1f, 0.5f);
-        Punch(label, 1.25f, 0.2f);
         CameraShake.Shake(0.1f, 0.22f);
         FeedbackAudio.Play(FeedbackSounds.Cue.ResultWrong);
     }
