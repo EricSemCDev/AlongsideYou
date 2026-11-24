@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1794003680607,
+  "lastScanned": 1795407915644,
   "projectRoot": "C:\\Users\\eg3ca\\OneDrive\\Documentos\\GitHub\\AlongsideYou",
   "techStack": {
     "languages": [],
@@ -38,7 +38,7 @@
       "path": "Assets",
       "purpose": "Static assets",
       "fileCount": 15,
-      "lastAccessed": 1794003680570,
+      "lastAccessed": 1795407915596,
       "keyFiles": [
         "Art.meta",
         "Audio.meta",
@@ -50,21 +50,21 @@
     "docs": {
       "path": "docs",
       "purpose": "Documentation",
-      "fileCount": 14,
-      "lastAccessed": 1794003680571,
+      "fileCount": 15,
+      "lastAccessed": 1795407915597,
       "keyFiles": [
         "Arte-e-Som.md",
         "Controles.md",
+        "Creditos.md",
         "Decisoes-Importantes.md",
-        "Estrutura-das-Fases.md",
-        "GDD_AlongsideYou_v7_3.docx"
+        "Estrutura-das-Fases.md"
       ]
     },
     "Library": {
       "path": "Library",
       "purpose": null,
-      "fileCount": 24,
-      "lastAccessed": 1794003680572,
+      "fileCount": 25,
+      "lastAccessed": 1795407915598,
       "keyFiles": [
         "AnnotationManager",
         "ArtifactDB",
@@ -76,27 +76,28 @@
     "Logs": {
       "path": "Logs",
       "purpose": null,
-      "fileCount": 4,
-      "lastAccessed": 1794003680573,
+      "fileCount": 6,
+      "lastAccessed": 1795407915598,
       "keyFiles": [
+        "AssetImportWorker0-prev.log",
         "AssetImportWorker0.log",
+        "AssetImportWorker1-prev.log",
         "AssetImportWorker1.log",
-        "shadercompiler-AssetImportWorker0.log",
-        "shadercompiler-UnityShaderCompiler.exe0.log"
+        "shadercompiler-AssetImportWorker0.log"
       ]
     },
     "obj": {
       "path": "obj",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1794003680573,
+      "lastAccessed": 1795407915598,
       "keyFiles": []
     },
     "Packages": {
       "path": "Packages",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1794003680573,
+      "lastAccessed": 1795407915599,
       "keyFiles": [
         "manifest.json",
         "packages-lock.json"
@@ -106,7 +107,7 @@
       "path": "ProjectSettings",
       "purpose": null,
       "fileCount": 26,
-      "lastAccessed": 1794003680574,
+      "lastAccessed": 1795407915599,
       "keyFiles": [
         "AudioManager.asset",
         "ClusterInputManager.asset",
@@ -115,19 +116,201 @@
         "EditorSettings.asset"
       ]
     },
+    "Temp": {
+      "path": "Temp",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1795407915600,
+      "keyFiles": [
+        "FSTimeGet-20ec91bc870dedb4fac510ed11d89c7d",
+        "FSTimeGet-d7a4fa4792957a84a8942472bd73204f",
+        "FSTimeGet-db8b5f130bc8ec3419821fe452e7a85d",
+        "UnityLockfile",
+        "workerlic"
+      ]
+    },
     "UserSettings": {
       "path": "UserSettings",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1794003680574,
+      "lastAccessed": 1795407915600,
       "keyFiles": [
         "EditorUserSettings.asset",
         "Search.index",
         "Search.settings"
       ]
+    },
+    "Temp\\bin": {
+      "path": "Temp\\bin",
+      "purpose": "Executable scripts",
+      "fileCount": 0,
+      "lastAccessed": 1795407915604,
+      "keyFiles": []
     }
   },
   "hotPaths": [
+    {
+      "path": "Assets/Scripts",
+      "accessCount": 23,
+      "lastAccessed": 1795472045238,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Juice/GameJuice.cs",
+      "accessCount": 19,
+      "lastAccessed": 1795412404613,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Tutorial/InputPromptResolver.cs",
+      "accessCount": 11,
+      "lastAccessed": 1794944602897,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Core/Menus/MainMenuUi.cs",
+      "accessCount": 11,
+      "lastAccessed": 1794944974613,
+      "type": "file"
+    },
+    {
+      "path": "Assets",
+      "accessCount": 7,
+      "lastAccessed": 1794945087756,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Fases/PhaseProgressionManager.cs",
+      "accessCount": 5,
+      "lastAccessed": 1794945088176,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Core/Input/InputManager.cs",
+      "accessCount": 5,
+      "lastAccessed": 1794948502556,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scenes/MainMenu.unity",
+      "accessCount": 4,
+      "lastAccessed": 1794940444406,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Fases/PhaseResultScreen.cs",
+      "accessCount": 3,
+      "lastAccessed": 1794364980054,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Prefabs/Puzzle/OperatorSpark 1.prefab",
+      "accessCount": 3,
+      "lastAccessed": 1794609516406,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Props/AmbientTorch.cs",
+      "accessCount": 3,
+      "lastAccessed": 1794937170711,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Tutorial/TutorialDialogueUI.cs",
+      "accessCount": 3,
+      "lastAccessed": 1794943907718,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Fases/PhaseProgressSave.cs",
+      "accessCount": 3,
+      "lastAccessed": 1794945083244,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Puzzle/CalculationStationDisplay.cs",
+      "accessCount": 3,
+      "lastAccessed": 1794948431955,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Puzzle",
+      "accessCount": 3,
+      "lastAccessed": 1795023986971,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Fases/PhaseSequence.cs",
+      "accessCount": 2,
+      "lastAccessed": 1794352362480,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Puzzle/OperatorSpark.cs",
+      "accessCount": 2,
+      "lastAccessed": 1794609861527,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Tutorial/TutorialSequencePlayer.cs",
+      "accessCount": 2,
+      "lastAccessed": 1794852752057,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Core/Essenciais/MusicPlayer.cs",
+      "accessCount": 2,
+      "lastAccessed": 1794853836006,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Puzzle/DadoBlock.cs",
+      "accessCount": 2,
+      "lastAccessed": 1794854265267,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Juice/FeedbackSounds.cs",
+      "accessCount": 2,
+      "lastAccessed": 1794855398898,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Juice/BarrierFeedback.cs",
+      "accessCount": 2,
+      "lastAccessed": 1794938649400,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Finn/OperatorMenuController.cs",
+      "accessCount": 2,
+      "lastAccessed": 1794939518343,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Al/Ansiedade/AnxietySystem.cs",
+      "accessCount": 2,
+      "lastAccessed": 1794948430633,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Fases/PhaseCompletionManager.cs",
+      "accessCount": 2,
+      "lastAccessed": 1794948431250,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Core/Essenciais/GameManager.cs",
+      "accessCount": 2,
+      "lastAccessed": 1794948508922,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Juice/PuzzleFeedback.cs",
+      "accessCount": 2,
+      "lastAccessed": 1795412404074,
+      "type": "file"
+    },
     {
       "path": "Assets/Scripts/Juice/CameraShake.cs",
       "accessCount": 1,
@@ -135,33 +318,135 @@
       "type": "file"
     },
     {
-      "path": "Assets/Scripts/Juice/FeedbackSounds.cs",
-      "accessCount": 1,
-      "lastAccessed": 1793727940537,
-      "type": "file"
-    },
-    {
-      "path": "Assets/Scripts/Juice/GameJuice.cs",
-      "accessCount": 1,
-      "lastAccessed": 1793727941010,
-      "type": "file"
-    },
-    {
-      "path": "Assets/Scripts/Juice/PuzzleFeedback.cs",
-      "accessCount": 1,
-      "lastAccessed": 1793727965067,
-      "type": "file"
-    },
-    {
-      "path": "Assets/Scripts/Juice/BarrierFeedback.cs",
-      "accessCount": 1,
-      "lastAccessed": 1793727965537,
-      "type": "file"
-    },
-    {
       "path": "Assets/Scripts/Editor/JuiceMenu.cs",
       "accessCount": 1,
       "lastAccessed": 1793727966011,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/UI/UiButtonSound.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794079702969,
+      "type": "file"
+    },
+    {
+      "path": "docs/Guia-de-Estudo-do-Codigo.md",
+      "accessCount": 1,
+      "lastAccessed": 1794084753371,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Al/AlMovement.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794100613238,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Finn/FinnMovement.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794197421142,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Finn/FinnTargetOffsetCalculator.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794197421777,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/UI/MenuGamepadNavigation.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794272791441,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Finn/FinnTrailEffect.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794275867714,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Finn/FinnFlameTrail.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794275891465,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Fases/PhaseTitleCard.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794277380861,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Puzzle/OperatorSlotMarker.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794277383262,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Fases/SecretPhaseUnlockConfig.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794352361492,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Core/Menus/PhaseTimerDisplay.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794352362003,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Al/Ansiedade/AnxietyConfig.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794583286694,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Puzzle/ThornBarrier.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794591110723,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Core/Visual/Ambiente/FloatingBob.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794609493549,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Core/Visual/Ordenação/FootShadow.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794609499271,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Core/Visual/Ordenação",
+      "accessCount": 1,
+      "lastAccessed": 1794609860802,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Tutorial",
+      "accessCount": 1,
+      "lastAccessed": 1794852744606,
+      "type": "directory"
+    },
+    {
+      "path": "Assets/Scripts/Puzzle/AlBlockCarrier.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794854266026,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Juice/FeedbackAudio.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794937544746,
+      "type": "file"
+    },
+    {
+      "path": "Assets/Scripts/Al/AlFagulhaCollector.cs",
+      "accessCount": 1,
+      "lastAccessed": 1794938648307,
       "type": "file"
     }
   ],

@@ -1,28 +1,20 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// Gerente persistente da progressão entre fases: qual fase estou,
-// qual é a próxima, o que fazer quando acabam as fases, e checagem
-// de desbloqueio de fases secretas. Separado do GameManager (que só
-// cuida da máquina de estados Menu/Playing/...), mantendo cada
-// gerente com uma responsabilidade só.
+// Gerente persistente da progressao entre fases: qual fase estou, qual e a proxima e o
+// que fazer quando acabam as fases. Separado do GameManager (que so cuida da maquina de
+// estados Menu/Playing/...), mantendo cada gerente com uma responsabilidade so.
 public class PhaseProgressionManager : MonoBehaviour
 {
     public static PhaseProgressionManager Instance { get; private set; }
 
     [SerializeField] private PhaseSequence phaseSequence;
     [SerializeField] private string mainMenuSceneName = "MainMenu";
-    [SerializeField] private List<SecretPhaseUnlockConfig> secretUnlockConfigs = new();
 
     // -1 significa "nenhuma fase em andamento" (ex: ainda no menu)
     public int CurrentPhaseIndex { get; private set; } = -1;
 
-    // Fase secreta em andamento (fica fora da sequencia linear, entao nao tem indice).
-    private string _secretSceneName;
-
-    public bool IsSecretPhase => !string.IsNullOrEmpty(_secretSceneName);
-    public bool CanRestartCurrentPhase => CurrentPhaseIndex >= 0 || IsSecretPhase;
+    public bool CanRestartCurrentPhase => CurrentPhaseIndex >= 0;
 
     private void Awake()
     {
@@ -57,26 +49,6 @@ public class PhaseProgressionManager : MonoBehaviour
         }
 
         CurrentPhaseIndex = index;
-        _secretSceneName = null;
-    }
-
-    // Fases secretas não fazem parte da sequência linear — não usam
-    // índice, usam o nome da cena diretamente.
-    public void StartSecretPhase(SecretPhaseUnlockConfig config)
-    {
-        if (config == null || !PhaseProgressSave.IsSecretPhaseUnlocked(config.secretPhaseId))
-        {
-            Debug.LogWarning("PhaseProgressionManager: fase secreta ainda não desbloqueada.");
-            return;
-        }
-
-        if (!LoadSceneWithTransition(config.secretSceneName, GameState.Playing))
-        {
-            return;
-        }
-
-        CurrentPhaseIndex = -1; // fora da sequência linear
-        _secretSceneName = config.secretSceneName;
     }
 
     // Centraliza o carregamento de cena (com fade). O estado do jogo so muda quando a
@@ -98,80 +70,28 @@ public class PhaseProgressionManager : MonoBehaviour
         GameManager.Instance?.TryTransitionTo(stateAfterLoad);
         return true;
     }
-    // Chamado pelo PhaseCompletionManager ao concluir a fase atual:
-    // registra o tempo, checa se algum bloco foi completado dentro
-    // do limite (desbloqueando fase secreta), e avança.
-    public void CompleteCurrentPhase(float elapsedTime)
+
+    // Chamado pelo PhaseCompletionManager ao concluir a fase atual: guarda as estrelas. Quem avanca
+    // para a proxima fase e a tela de resultado (PhaseResultScreen), pelos botoes.
+    public void CompleteCurrentPhase(int stars)
     {
-        if (IsSecretPhase)
+        if (CurrentPhaseIndex < 0)
         {
-            GoToMainMenu(); // fase secreta nao tem proxima: volta ao menu
-            return;
+            return; // nenhuma fase em andamento
         }
 
-        if (CurrentPhaseIndex >= 0)
-        {
-            PhaseProgressSave.RecordPhaseCompletion(CurrentPhaseIndex, elapsedTime);
-            CheckSecretUnlocks(CurrentPhaseIndex);
-        }
-
-        GoToNextPhase();
-    }
-
-    private void CheckSecretUnlocks(int completedPhaseIndex)
-    {
-        foreach (SecretPhaseUnlockConfig config in secretUnlockConfigs)
-        {
-            if (config == null)
-            {
-                continue;
-            }
-
-            if (completedPhaseIndex < config.blockStartPhaseIndex
-                || completedPhaseIndex > config.blockEndPhaseIndex)
-            {
-                continue; // essa fase não pertence a esse bloco
-            }
-
-            if (IsBlockCompletedWithinLimit(config))
-            {
-                PhaseProgressSave.UnlockSecretPhase(config.secretPhaseId);
-                Debug.Log($"Fase secreta desbloqueada: {config.secretSceneName}");
-            }
-        }
-    }
-
-    private bool IsBlockCompletedWithinLimit(SecretPhaseUnlockConfig config)
-    {
-        for (int i = config.blockStartPhaseIndex; i <= config.blockEndPhaseIndex; i++)
-        {
-            if (!PhaseProgressSave.HasCompletedPhase(i))
-            {
-                return false;
-            }
-
-            if (PhaseProgressSave.GetBestTime(i) > config.timeLimitPerPhase)
-            {
-                return false;
-            }
-        }
-
-        return true;
+        Debug.Log($"Fase {CurrentPhaseIndex}: {stars} estrela(s)");
+        PhaseProgressSave.RecordPhaseStars(CurrentPhaseIndex, stars);
     }
 
     public void GoToNextPhase()
     {
-        if (IsSecretPhase)
-        {
-            GoToMainMenu(); // sem isso o indice -1 mandaria o jogador de volta ao Prologo
-            return;
-        }
-
         int nextIndex = CurrentPhaseIndex + 1;
 
         if (phaseSequence == null || nextIndex >= phaseSequence.phaseSceneNames.Count)
         {
             Debug.Log("PhaseProgressionManager: não há próxima fase configurada. Voltando ao menu.");
+            MainMenuUI.OpenCreditsOnLoad = phaseSequence != null; // acabou a ultima fase: creditos
             GoToMainMenu();
             return;
         }
@@ -181,12 +101,6 @@ public class PhaseProgressionManager : MonoBehaviour
 
     public void RestartCurrentPhase()
     {
-        if (IsSecretPhase)
-        {
-            LoadSceneWithTransition(_secretSceneName, GameState.Playing);
-            return;
-        }
-
         if (CurrentPhaseIndex < 0)
         {
             return;
@@ -203,6 +117,5 @@ public class PhaseProgressionManager : MonoBehaviour
         }
 
         CurrentPhaseIndex = -1;
-        _secretSceneName = null;
     }
 }

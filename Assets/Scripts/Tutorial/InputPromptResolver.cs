@@ -41,6 +41,7 @@ public static class InputPromptResolver
     public static event Action DeviceChanged;
 
     public static Device Current => _current;
+
     public static bool IsGamepad => _current != Device.KeyboardMouse;
 
     public static void SetDevice(Device device)

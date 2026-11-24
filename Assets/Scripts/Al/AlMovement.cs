@@ -10,7 +10,6 @@ public class AlMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private float flipInputThreshold = 0.05f;
-    [Tooltip("Menor velocidade de reproducao da animacao de andar (evita congelar).")]
     [SerializeField] private float minWalkAnimationSpeed = 0.25f;
 
     private static readonly int SpeedParam = Animator.StringToHash("Speed");
@@ -22,8 +21,6 @@ public class AlMovement : MonoBehaviour
     public float SpeedMultiplier { get; set; } = 1f;
     public bool MovementDisabled { get; set; }
 
-    // Sprite do corpo do Al (usado, por exemplo, para o bloco carregado ficar
-    // desenhado na frente dele).
     public SpriteRenderer Visual => spriteRenderer;
 
     private void Awake()
@@ -69,9 +66,6 @@ public class AlMovement : MonoBehaviour
         }
 
         animator.SetFloat(SpeedParam, speed);
-
-        // Andando, a animacao acompanha o SpeedMultiplier (ansiedade deixa o
-        // Al mais lento, e o passo tambem). Parado, o Idle toca na velocidade normal.
         bool isMoving = speed > flipInputThreshold;
         animator.speed = isMoving ? Mathf.Max(SpeedMultiplier, minWalkAnimationSpeed) : 1f;
     }
@@ -83,8 +77,6 @@ public class AlMovement : MonoBehaviour
             return;
         }
 
-        // Zona morta: evita o sprite "tremer" invertendo toda hora quando
-        // o input no eixo X e quase zero (ex: andando so na vertical).
         if (Mathf.Abs(inputX) < flipInputThreshold)
         {
             return;

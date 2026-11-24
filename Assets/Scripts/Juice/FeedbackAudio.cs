@@ -6,7 +6,8 @@ public static class FeedbackAudio
     private static FeedbackSounds _sounds;
     private static bool _loaded;
 
-    public static void Play(FeedbackSounds.Cue cue)
+    // pitch diferente de 1 toca na fonte de tom variado (ex: a digitacao do dialogo).
+    public static void Play(FeedbackSounds.Cue cue, float pitch = 1f, float volumeScale = 1f)
     {
         if (!_loaded)
         {
@@ -23,7 +24,9 @@ public static class FeedbackAudio
 
         if (clip != null)
         {
-            GameJuice.Audio.PlayOneShot(clip, _sounds.volume);
+            AudioSource source = Mathf.Approximately(pitch, 1f) ? GameJuice.Audio : GameJuice.Voice;
+            source.pitch = pitch;
+            source.PlayOneShot(clip, _sounds.GetVolume(cue) * volumeScale);
         }
     }
 }

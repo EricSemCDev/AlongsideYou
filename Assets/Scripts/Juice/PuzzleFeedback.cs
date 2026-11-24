@@ -58,17 +58,13 @@ public class PuzzleFeedback : MonoBehaviour
 
     private void HandleValidated(bool isCorrect)
     {
-        // Os efeitos saem do numero do resultado (se a estacao tiver um), senao da propria estacao.
-        Transform label = _station.ResultLabel != null ? _station.ResultLabel.transform : null;
-        Vector3 position = label != null ? label.position : transform.position;
-
         if (isCorrect)
         {
-            GameJuice.ResultCorrect(position, label);
+            GameJuice.ResultCorrect(transform.position);
         }
         else
         {
-            GameJuice.ResultWrong(position, label);
+            GameJuice.ResultWrong(transform.position);
         }
     }
 

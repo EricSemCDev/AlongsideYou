@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class FinnOperatorCollector : MonoBehaviour
 {
-    // Os 4 operadores sempre existem como categoria, mesmo com 0
-    // coletados — é isso que permite o menu sempre mostrar os 4
-    // quadrantes, só diferenciando visualmente os que estão em 0.
     private readonly Dictionary<char, int> _operatorCounts = new()
     {
         { '+', 0 },
@@ -50,7 +47,7 @@ public class FinnOperatorCollector : MonoBehaviour
 
         if (OperatorMenuController.Instance.IsOpen)
         {
-            return; // já tem um menu aberto, não abre outro por cima
+            return;
         }
 
         UpdateTorchHighlight();
@@ -116,6 +113,7 @@ public class FinnOperatorCollector : MonoBehaviour
                 _operatorCounts[spark.Symbol]++;
             }
 
+            FeedbackAudio.Play(FeedbackSounds.Cue.OperatorCollect);
             Destroy(spark.gameObject);
         }
 
